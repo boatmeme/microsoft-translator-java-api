@@ -4,7 +4,7 @@
 
   <groupId>com.memetix</groupId>
   <artifactId>microsoft-translator-java-api</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
 
   <name>microsoft-translator-java-api</name>
