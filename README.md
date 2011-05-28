@@ -1,3 +1,4 @@
+* * *
 # microsoft-translator-java-api
 * * *
 
