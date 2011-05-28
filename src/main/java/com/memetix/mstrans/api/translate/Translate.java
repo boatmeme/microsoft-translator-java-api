@@ -16,6 +16,8 @@
 package com.memetix.mstrans.api.translate;
 
 import com.memetix.mstrans.api.MicrosoftAPI;
+import java.net.URL;
+import java.net.URLEncoder;
 /**
  * Translate
  * 
@@ -26,5 +28,26 @@ import com.memetix.mstrans.api.MicrosoftAPI;
 public final class Translate extends MicrosoftAPI {
     
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate";
+    
+    /**
+     * Translates text from a given Language to another given Language using Microsoft Translator.
+     * 
+     * @param text The String to translate.
+     * @param from The language code to translate from.
+     * @param to The language code to translate to.
+     * @return The translated String.
+     * @throws Exception on error.
+     */
+    public static String execute(final String text, final String from, final String to) throws Exception {
+        final String params = "?from=" + from + "&to=" + to + "&appId=" + apiKey + "&text=" + text;
+        final URL url = new URL(SERVICE_URL + URLEncoder.encode(params, ENCODING));
+        /*
+    	final String parameters = PARAMETERS.replaceAll("#FROM#", from.toString()).replaceAll("#TO#", to.toString())
+    			+URLEncoder.encode(text, ENCODING) +(key != null ? "&key=" +key : "");
+    	*/
+    	final String json = retrieveJSON(url);
+    	return json;
+    	//return getJSONResponse(json);
+    }
     
 }

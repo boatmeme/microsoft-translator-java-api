@@ -39,6 +39,8 @@ public class TranslateTest extends TestCase {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
+        String apiKey = p.getProperty("microsoft.translator.api.key");
+        Translate.setKey(apiKey);
     }
     
     @Override
@@ -47,8 +49,14 @@ public class TranslateTest extends TestCase {
     }
 
     public void testSetApiKey() {
-        String apiKey = p.getProperty("microsoft.translator.api.key");
-        Translate.setKey(apiKey);
         assert(true);
+    }
+    
+    public void testTranslate_NoSpace() throws Exception {
+        assertEquals("Salut",Translate.execute("Hello", "en", "fr"));
+    }
+    
+    public void testTranslate_EncodeSpace() throws Exception {
+        assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", "en", "fr"));
     }
 }
