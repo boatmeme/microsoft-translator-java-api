@@ -39,6 +39,7 @@
         <plugin>
             <groupId>org.nuiton</groupId>
             <artifactId>maven-license-plugin</artifactId>
+            <version>1.0-beta-2</version>
             <configuration>
                 <licenseName>apache_v2</licenseName>
             </configuration>
