@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memetix.mstrans.api.translate;
+package com.memetix.mst.translate;
 
-import com.memetix.mstrans.api.Language;
+import com.memetix.mst.translate.Translate;
+import com.memetix.mst.Language;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memetix.mstrans.api;
+package com.memetix.mst;
 
 /**
  * Language - an enum of all language codes supported by the Microsoft Translator API

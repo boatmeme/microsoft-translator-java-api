@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package com.memetix.mstrans.api;
+package com.memetix.mst;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

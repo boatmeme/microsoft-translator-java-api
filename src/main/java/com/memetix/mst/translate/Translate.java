@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memetix.mstrans.api.translate;
+package com.memetix.mst.translate;
 
-import com.memetix.mstrans.api.Language;
-import com.memetix.mstrans.api.MicrosoftAPI;
+import com.memetix.mst.Language;
+import com.memetix.mst.MicrosoftAPI;
 import java.net.URL;
 import java.net.URLEncoder;
 /**
