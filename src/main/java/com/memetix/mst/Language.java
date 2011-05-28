@@ -15,6 +15,9 @@
  */
 package com.memetix.mst;
 
+import java.net.URL;
+import java.net.URLEncoder;
+
 /**
  * Language - an enum of all language codes supported by the Microsoft Translator API
  * 
@@ -88,4 +91,37 @@ public enum Language {
 	public String toString() {
 		return language;
 	}
+        
+        public static void setKey(String pKey) {
+            LanguageService.setKey(pKey);
+        }
+        
+        /*
+         * Calls the Language Localization Service
+         */
+        public static String getLanguageName(Language targetCode, Language locale) throws Exception {
+            return LanguageService.execute(targetCode, locale);
+        }
+        private final static class LanguageService extends MicrosoftAPI {
+            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?locale=";
+            /**
+             * Detects the language of a supplied String.
+             * 
+             * @param text The String to detect the language of.
+             * @return A DetectResult object containing the language, confidence and reliability.
+             * @throws Exception on error.
+             */
+            public static String execute(final Language target, final Language locale) throws Exception {
+                    final URL url = new URL(SERVICE_URL 
+                            +URLEncoder.encode(locale.toString(), ENCODING)
+                            +"&languageCodes=" + URLEncoder.encode("[\""+target.toString()+"\"]", ENCODING)
+                            +"&appId="+apiKey);
+                    final String json = retrieveJSON(url);
+                    if(json!=null&&json.length()>0)
+                        return json.substring(1,json.length()-1);
+                    else
+                        return json;
+            }
+
+        }
 }

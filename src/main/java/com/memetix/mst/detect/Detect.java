@@ -26,7 +26,7 @@ import java.net.URLEncoder;
  * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public class Detect extends MicrosoftAPI {
+public final class Detect extends MicrosoftAPI {
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Detect?text=";
     /**
 	 * Detects the language of a supplied String.
@@ -38,7 +38,7 @@ public class Detect extends MicrosoftAPI {
 	public static String execute(final String text) throws Exception {
 		final URL url = new URL(SERVICE_URL 
                         +URLEncoder.encode(text, ENCODING)
-                        +"&appId="+apiKey);
+                        +"&appId="+URLEncoder.encode(apiKey,ENCODING));
 		final String json = retrieveJSON(url);
                 return json;
 	}
