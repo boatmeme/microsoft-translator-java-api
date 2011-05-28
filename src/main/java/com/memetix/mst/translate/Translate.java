@@ -40,8 +40,13 @@ public final class Translate extends MicrosoftAPI {
      * @throws Exception on error.
      */
     public static String execute(final String text, final Language from, final Language to) throws Exception {
-        final String params = "?from=" + from.toString() + "&to=" + to.toString() + "&appId=" + apiKey + "&text=" + text;
-        final URL url = new URL(SERVICE_URL + URLEncoder.encode(params, ENCODING));
+        final String params = 
+                "?from=" + URLEncoder.encode(from.toString(),ENCODING) 
+                + "&to=" + URLEncoder.encode(to.toString(),ENCODING) 
+                + "&appId=" + URLEncoder.encode(apiKey,ENCODING) 
+                + "&text=" + URLEncoder.encode(text,ENCODING);
+        
+        final URL url = new URL(SERVICE_URL + params);
         /*
     	final String parameters = PARAMETERS.replaceAll("#FROM#", from.toString()).replaceAll("#TO#", to.toString())
     			+URLEncoder.encode(text, ENCODING) +(key != null ? "&key=" +key : "");
