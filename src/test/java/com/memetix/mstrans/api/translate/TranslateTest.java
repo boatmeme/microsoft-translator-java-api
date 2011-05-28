@@ -15,6 +15,7 @@
  */
 package com.memetix.mstrans.api.translate;
 
+import com.memetix.mstrans.api.Language;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
@@ -53,10 +54,14 @@ public class TranslateTest extends TestCase {
     }
     
     public void testTranslate_NoSpace() throws Exception {
-        assertEquals("Salut",Translate.execute("Hello", "en", "fr"));
+        assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
     }
     
     public void testTranslate_EncodeSpace() throws Exception {
-        assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", "en", "fr"));
+        assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", Language.ENGLISH, Language.FRENCH));
+    }
+    
+    public void testTranslate_AutoDetectOrigin() throws Exception {
+        assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", Language.AUTO_DETECT, Language.FRENCH));
     }
 }

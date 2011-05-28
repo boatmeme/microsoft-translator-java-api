@@ -15,6 +15,7 @@
  */
 package com.memetix.mstrans.api.translate;
 
+import com.memetix.mstrans.api.Language;
 import com.memetix.mstrans.api.MicrosoftAPI;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -38,8 +39,8 @@ public final class Translate extends MicrosoftAPI {
      * @return The translated String.
      * @throws Exception on error.
      */
-    public static String execute(final String text, final String from, final String to) throws Exception {
-        final String params = "?from=" + from + "&to=" + to + "&appId=" + apiKey + "&text=" + text;
+    public static String execute(final String text, final Language from, final Language to) throws Exception {
+        final String params = "?from=" + from.toString() + "&to=" + to.toString() + "&appId=" + apiKey + "&text=" + text;
         final URL url = new URL(SERVICE_URL + URLEncoder.encode(params, ENCODING));
         /*
     	final String parameters = PARAMETERS.replaceAll("#FROM#", from.toString()).replaceAll("#TO#", to.toString())
