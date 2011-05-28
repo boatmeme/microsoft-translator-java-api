@@ -1,5 +1,5 @@
-microsoft-translator-java-api
-=============================
+# microsoft-translator-java-api
+* * *
 
 Provides a Java wrapper around the Microsoft Translator API. 
 
