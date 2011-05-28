@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.memetix</groupId>
-  <artifactId>microsoft-translator-api</artifactId>
+  <artifactId>microsoft-translator-java-api</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>microsoft-translator-api</name>
+  <name>microsoft-translator-java-api</name>
   <description>A Java wrapper for the Microsoft Translator API</description>
-  <url>http://github.com/boatmeme/microsoft-translator-api</url>
+  <url>http://github.com/boatmeme/microsoft-translator-java-api</url>
 
     <licenses>
       <license>
