@@ -15,6 +15,10 @@
  */
 package com.memetix.mstrans.api.translate;
 
+import java.io.File;
+import java.io.FileReader;
+import java.net.URL;
+import java.util.Properties;
 import junit.framework.TestCase;
 
 /**
@@ -23,6 +27,8 @@ import junit.framework.TestCase;
  */
 public class TranslateTest extends TestCase {
     
+    public Properties p;
+    
     public TranslateTest(String testName) {
         super(testName);
     }
@@ -30,6 +36,9 @@ public class TranslateTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        p = new Properties();
+        URL url = ClassLoader.getSystemResource("META-INF/config.properties");
+        p.load(url.openStream());
     }
     
     @Override
@@ -38,7 +47,8 @@ public class TranslateTest extends TestCase {
     }
 
     public void testSetApiKey() {
-        Translate.setKey("myApiKey");
+        String apiKey = p.getProperty("microsoft.translator.api.key");
+        Translate.setKey(apiKey);
         assert(true);
     }
 }
