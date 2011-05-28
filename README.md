@@ -7,3 +7,23 @@ Created in an attempt to fill the void left by the [deprecation](http://googleco
 In an effort to lessen the impact on Java developers that have previously integrated the Google Translate API into their applications, it
 is my goal to mirror the code structure, naming conventions, functionality, and usage patterns of the excellent and widely used [google-api-translate-java](https://github.com/richmidwinter/google-api-translate-java) by Rich Midwinter.
 
+## Requires
+
+* A Bing Developer API Key - [Sign Up Here](http://www.bing.com/developers/createapp.aspx)
+
+Quickstart:
+===========
+
+    import com.memetix.mst.Language;
+    import com.memetix.mst.translate.Translate;
+
+    public class Main {
+      public static void main(String[] args) throws Exception {
+        // Set the Microsoft Translator API Key - Get yours at http://www.bing.com/developers/createapp.aspx
+        Translate.setKey(/* Enter your API Key here */);
+
+        String translatedText = Translate.execute("Bonjour le monde", Language.FRENCH, Language.ENGLISH);
+
+        System.out.println(translatedText);
+      }
+    }
