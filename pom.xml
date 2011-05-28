@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.memetix</groupId>
+  <artifactId>microsoft-translator-api</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>microsoft-translator-api</name>
+  <description>A Java wrapper for the Microsoft Translator API</description>
+  <url>http://github.com/boatmeme/microsoft-translator-api</url>
+
+    <licenses>
+      <license>
+        <name>Apache 2</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+        <comments>A business-friendly OSS license</comments>
+      </license>
+    </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.inceptionYear>2011</project.inceptionYear>
+    <project.organization.name>Jonathan Griggs</project.organization.name>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.nuiton</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <configuration>
+                <licenseName>apache_v2</licenseName>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
+</project>
