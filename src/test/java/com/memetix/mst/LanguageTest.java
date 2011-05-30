@@ -90,15 +90,36 @@ public class LanguageTest extends TestCase {
         assertEquals(expResult, result);
     }
 
+    
     /**
      * Test of getLanguageName method, of class Language.
      */
-    public void testGetLanguageName() throws Exception {
+    public void testGetNameLocalized() throws Exception {
         System.out.println("getLanguageName");
-        Language targetCode = Language.FRENCH;
         Language locale = Language.ENGLISH;
         String expResult = "French";
-        String result = Language.getLanguageName(targetCode, locale);
+        String result = Language.FRENCH.getName(locale);
         assertEquals(expResult, result);
+        
+        locale = Language.FRENCH;
+        expResult = "Anglais";
+        result = Language.ENGLISH.getName(locale);
+        assertEquals(expResult, result);
+    }
+    
+    public void testGetAllNamesLocalizedCached() throws Exception {
+        long startTime1 = System.currentTimeMillis();
+        for(Language lang : Language.values()) {
+            System.out.println(lang.getName(Language.FRENCH) + " : " + lang.toString());
+        }
+        long totalTime1 = System.currentTimeMillis()-startTime1;
+        
+        long startTime2 = System.currentTimeMillis();
+        for(Language lang : Language.values()) {
+            System.out.println(lang.getName(Language.FRENCH) + " : " + lang.toString());
+        }
+        long totalTime2 = System.currentTimeMillis()-startTime2;
+        System.out.println("Uncached: " + totalTime1 + "ms, Cached: " + totalTime2 + "ms");
+        assert totalTime1 > totalTime2;
     }
 }

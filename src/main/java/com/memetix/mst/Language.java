@@ -17,6 +17,8 @@ package com.memetix.mst;
 
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Language - an enum of all language codes supported by the Microsoft Translator API
@@ -65,6 +67,11 @@ public enum Language {
 	 * Microsoft's String representation of this language.
 	 */
 	private final String language;
+        
+        /**
+         * Internal Localized Name Cache
+         */
+        private Map<Language,String> localizedCache = new ConcurrentHashMap<Language,String>();
 	
 	/**
 	 * Enum constructor.
@@ -96,12 +103,29 @@ public enum Language {
             LanguageService.setKey(pKey);
         }
         
+        public String getName(Language locale) throws Exception {
+            String localizedName;
+            if(this.localizedCache.containsKey(locale)) {
+                localizedName = this.localizedCache.get(locale);
+            } else {
+                if(this==Language.AUTO_DETECT) {
+                    localizedName = "Auto Detect";
+                } else {
+                    localizedName = Language.getLanguageName(this, locale);
+                    this.localizedCache.put(locale,localizedName);
+                }
+            }
+            return localizedName;
+        }
+        
         /*
          * Calls the Language Localization Service
          */
-        public static String getLanguageName(Language targetCode, Language locale) throws Exception {
+        private static String getLanguageName(Language targetCode, Language locale) throws Exception {
             return LanguageService.execute(targetCode, locale);
         }
+        
+        
         private final static class LanguageService extends MicrosoftAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?locale=";
             /**
