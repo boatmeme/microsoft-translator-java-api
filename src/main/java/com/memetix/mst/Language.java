@@ -161,20 +161,12 @@ public enum Language {
                     if(locale==Language.AUTO_DETECT) {
                         return localizedNames;
                     }
-                    StringBuilder targetString = new StringBuilder("\"");
                     
-                    for(Language lang : targets) {
-                        if(lang!=Language.AUTO_DETECT) {
-                            if(targetString.length()>1)
-                                targetString.append(",\"");
-                            targetString.append(lang.toString());
-                            targetString.append("\"");
-                        }
-                    }
+                    final String targetString = buildStringArrayParam(Language.values());
                     
                     final URL url = new URL(SERVICE_URL 
                             +URLEncoder.encode(locale.toString(), ENCODING)
-                            +"&languageCodes=" + URLEncoder.encode("["+targetString.toString()+"]", ENCODING)
+                            +"&languageCodes=" + URLEncoder.encode(targetString, ENCODING)
                             +"&appId="+apiKey);
                     localizedNames = retrieveStringArr(url);
                     return localizedNames;
