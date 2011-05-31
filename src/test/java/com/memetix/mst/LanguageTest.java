@@ -48,19 +48,14 @@ public class LanguageTest extends TestCase {
      * Test of values method, of class Language.
      */
     public void testValues() {
-        System.out.println("values");
         Language[] expResult = null;
         Language[] result = Language.values();
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
      * Test of valueOf method, of class Language.
      */
     public void testValueOf() {
-        System.out.println("valueOf");
         String name = "ENGLISH";
         Language expResult = Language.ENGLISH;
         Language result = Language.valueOf(name);
@@ -72,7 +67,6 @@ public class LanguageTest extends TestCase {
      * Test of fromString method, of class Language.
      */
     public void testFromString() {
-        System.out.println("fromString");
         String pLanguage = "en";
         Language expResult = Language.ENGLISH;
         Language result = Language.fromString(pLanguage);
@@ -83,7 +77,6 @@ public class LanguageTest extends TestCase {
      * Test of toString method, of class Language.
      */
     public void testToString() {
-        System.out.println("toString");
         Language instance = Language.ENGLISH;
         String expResult = "en";
         String result = instance.toString();
@@ -95,7 +88,6 @@ public class LanguageTest extends TestCase {
      * Test of getLanguageName method, of class Language.
      */
     public void testGetNameLocalized() throws Exception {
-        System.out.println("getLanguageName");
         Language locale = Language.ENGLISH;
         String expResult = "French";
         String result = Language.FRENCH.getName(locale);
@@ -108,6 +100,7 @@ public class LanguageTest extends TestCase {
     }
     
     public void testGetAllNamesLocalizedCached() throws Exception {
+        String name;
         //Flush the caches, so we can test for timing
         for(Language lang : Language.values()) {
             lang.flushNameCache();
@@ -115,16 +108,18 @@ public class LanguageTest extends TestCase {
         
         long startTime1 = System.currentTimeMillis();
         for(Language lang : Language.values()) {
-            System.out.println(lang.getName(Language.FRENCH) + " : " + lang.toString());
+            name = lang.getName(Language.FRENCH);
+            //System.out.println(name + " : " + lang.toString());
         }
         long totalTime1 = System.currentTimeMillis()-startTime1;
         
         long startTime2 = System.currentTimeMillis();
         for(Language lang : Language.values()) {
-            System.out.println(lang.getName(Language.FRENCH) + " : " + lang.toString());
+            name = lang.getName(Language.FRENCH);
+            //System.out.println(name + " : " + lang.toString());
         }
         long totalTime2 = System.currentTimeMillis()-startTime2;
-        System.out.println("Uncached: " + totalTime1 + "ms, Cached: " + totalTime2 + "ms");
+        //System.out.println("Uncached: " + totalTime1 + "ms, Cached: " + totalTime2 + "ms");
         assert totalTime1 > totalTime2;
         
         /* Uncomment this block to eyeball and make sure the name localization is working for all languages

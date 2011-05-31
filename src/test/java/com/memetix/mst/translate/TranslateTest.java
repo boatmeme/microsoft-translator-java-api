@@ -44,11 +44,19 @@ public class TranslateTest extends TestCase {
     
     @Override
     protected void tearDown() throws Exception {
+        Translate.setKey(null);
+        Translate.setHttpReferrer(null);
         super.tearDown();
     }
 
     public void testSetApiKey() {
         assert(true);
+    }
+    
+    
+    public void testTranslate_SetReferrer() throws Exception {
+        Translate.setHttpReferrer("http://localhost:8080");
+        assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
     }
     
     public void testTranslate_NoSpace() throws Exception {
@@ -100,8 +108,6 @@ public class TranslateTest extends TestCase {
     }
     
     public void testLarge() throws Exception {
-		System.out.println("testLarge");
-
 		Translate.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "
 				+ "intermediation sector received bonuses worth ¬¨¬£7.6bn. The figure is more than 40pc lower than last"
