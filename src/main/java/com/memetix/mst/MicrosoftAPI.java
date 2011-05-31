@@ -74,6 +74,10 @@ public abstract class MicrosoftAPI {
         uc.setDoOutput(true);
 
         try {
+                final int responseCode = uc.getResponseCode();
+                if(responseCode==414) {
+                    throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator can only handle up to 10240k characters per request");
+                }
                 final String result = inputStreamToString(uc.getInputStream());
                 return result;
         } finally { 
@@ -96,7 +100,7 @@ public abstract class MicrosoftAPI {
     		final String response = retrieveResponse(url);    		
                 return jsonToString(response);
     	} catch (Exception ex) {
-    		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
+    		throw new Exception("[microsoft-translator-api] Error retrieving translation : " + ex.getMessage(), ex);
     	}
     }
     

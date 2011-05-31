@@ -42,7 +42,7 @@ public final class Speak extends MicrosoftAPI {
 	 */
 	public static String execute(final String text, final SpokenDialect language) throws Exception {
                 //Run the basic service validations first
-                validateServiceState();             
+                validateServiceState(text);             
 		final URL url = new URL(SERVICE_URL 
                         +URLEncoder.encode(text, ENCODING)
                         +"&language="+URLEncoder.encode(language.toString(),ENCODING)
@@ -50,5 +50,12 @@ public final class Speak extends MicrosoftAPI {
 		final String response = retrieveString(url);
                 return response;
 	}
+        
+        private static void validateServiceState(final String text) throws Exception {
+            if(text.length()>2000) {
+                throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000k characters per request");
+            }
+            validateServiceState();
+        }
 }
 

@@ -38,7 +38,7 @@ public final class Detect extends MicrosoftAPI {
 	 */
 	public static String execute(final String text) throws Exception {
                 //Run the basic service validations first
-                validateServiceState(); 
+                validateServiceState(text); 
 		final URL url = new URL(SERVICE_URL 
                         +URLEncoder.encode(text, ENCODING)
                         +"&appId="+URLEncoder.encode(apiKey,ENCODING));
@@ -55,7 +55,7 @@ public final class Detect extends MicrosoftAPI {
 	 */
 	public static String[] execute(final String[] texts) throws Exception {
                 //Run the basic service validations first
-                validateServiceState(); 
+                validateServiceState(texts); 
                 final String textArr = buildStringArrayParam(texts);
 		final URL url = new URL(ARRAY_SERVICE_URL 
                         +URLEncoder.encode(textArr, ENCODING)
@@ -63,5 +63,21 @@ public final class Detect extends MicrosoftAPI {
 		final String[] response = retrieveStringArr(url);
                 return response;
 	}
+        
+        private static void validateServiceState(final String text) throws Exception {
+            if(text.length()>10240) {
+                throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
+            }
+            validateServiceState();
+        }
+        
+        private static void validateServiceState(final String[] texts) throws Exception {
+            for(String text : texts) {
+                if(text.length()>10240) {
+                    throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
+                }
+            }
+            validateServiceState();
+        }
 
 }

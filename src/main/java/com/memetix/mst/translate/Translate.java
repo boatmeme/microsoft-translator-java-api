@@ -41,7 +41,7 @@ public final class Translate extends MicrosoftAPI {
      */
     public static String execute(final String text, final Language from, final Language to) throws Exception {
         //Run the basic service validations first
-        validateServiceState(); 
+        validateServiceState(text); 
         final String params = 
                 "?from=" + URLEncoder.encode(from.toString(),ENCODING) 
                 + "&to=" + URLEncoder.encode(to.toString(),ENCODING) 
@@ -65,6 +65,13 @@ public final class Translate extends MicrosoftAPI {
      */
     public static String execute(final String text, final Language to) throws Exception {
         return execute(text,Language.AUTO_DETECT,to);
+    }
+    
+    private static void validateServiceState(final String text) throws Exception {
+        if(text.length()>10240) {
+            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+        }
+        validateServiceState();
     }
     
 }
