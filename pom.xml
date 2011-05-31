@@ -10,6 +10,11 @@
   <name>microsoft-translator-java-api</name>
   <description>A Java wrapper for the Microsoft Translator API</description>
   <url>http://github.com/boatmeme/microsoft-translator-java-api</url>
+  
+   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.inceptionYear>2011</project.inceptionYear>
+  </properties>
 
     <licenses>
       <license>
@@ -20,11 +25,41 @@
       </license>
     </licenses>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.inceptionYear>2011</project.inceptionYear>
-    <project.organization.name>Jonathan Griggs</project.organization.name>
-  </properties>
+  <developers>
+        <developer>
+            <id>boatmeme</id>
+            <name>Jonathan Griggs</name>
+            <email>jonathan.griggs@gmail.com</email>
+            <url>http://memetix.com</url>
+            <roles>
+                <role>lead</role>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-7</timezone>
+        </developer>
+  </developers>
+  
+  <scm>
+    <url>https://github.com/boatmeme/${project.artifactId}</url>
+    <connection>scm:git:git://github.com/boatmeme/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git://github.com/boatmeme/${project.artifactId}.git</developerConnection>
+  </scm>
+  
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/boatmeme/microsoft-translator-java-api/issues</url>
+  </issueManagement>
+  
+    <mailingLists>
+        <mailingList>
+            <name>microsoft-translator-java-api</name>
+            <subscribe>microsoft-translator-java-api-subscribe@googlegroups.com</subscribe>
+            <unsubscribe>microsoft-translator-java-api-unsubscribe@googlegroups.com</unsubscribe>
+            <post>microsoft-translator-java-api@googlegroups.com</post>
+            <archive>http://groups.google.com/group/microsoft-translator-java-api</archive>
+        </mailingList>
+    </mailingLists>
 
   <dependencies>
     <dependency>
@@ -42,6 +77,11 @@
   </dependencies>
   <build>
     <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.1</version>
+        </plugin>
         <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <configuration>
