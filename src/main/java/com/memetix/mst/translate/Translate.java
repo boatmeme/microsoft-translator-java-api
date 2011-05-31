@@ -53,4 +53,18 @@ public final class Translate extends MicrosoftAPI {
     	return response;
     }
     
+    /**
+     * Translates text from a given Language to another given Language using Microsoft Translator.
+     * 
+     * Default the from to AUTO_DETECT
+     * 
+     * @param text The String to translate.
+     * @param to The language code to translate to.
+     * @return The translated String.
+     * @throws Exception on error.
+     */
+    public static String execute(final String text, final Language to) throws Exception {
+        return execute(text,Language.AUTO_DETECT,to);
+    }
+    
 }

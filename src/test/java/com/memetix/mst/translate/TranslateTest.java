@@ -103,6 +103,12 @@ public class TranslateTest extends TestCase {
         assertEquals("Hello world", Translate.execute("전 세계 여러분 안녕하세요", Language.AUTO_DETECT, Language.ENGLISH));
     }
     
+    public void testTranslate_EnglishToKorean_DefaultToAutoDetect() throws Exception {
+        assertEquals("전 세계 여러분 안녕하세요", Translate.execute("Hello world", Language.ENGLISH, Language.KOREAN));
+        assertEquals("Hello world", Translate.execute("전 세계 여러분 안녕하세요", Language.AUTO_DETECT, Language.ENGLISH));
+        assertEquals("Hello world", Translate.execute("전 세계 여러분 안녕하세요", Language.ENGLISH));
+    }
+    
     public void testTranslate_EnglisthToHebrew_Unicode() throws Exception {
         assertEquals("מזהה", Translate.execute("ID", Language.ENGLISH, Language.HEBREW));
     }
