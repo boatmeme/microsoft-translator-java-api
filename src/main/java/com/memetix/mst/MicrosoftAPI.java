@@ -24,7 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
 
 /**
  *
@@ -116,15 +117,13 @@ public abstract class MicrosoftAPI {
     }
     
     private static String jsonToString(final String inputString) throws Exception {
-        ObjectMapper m = new ObjectMapper();
-        String value = m.readValue(inputString, String.class);
-        return value;
+        String json = (String)JSONValue.parse(inputString);
+        return json.toString();
     }
     
     private static String[] jsonToStringArr(final String inputString) throws Exception {
-        ObjectMapper m = new ObjectMapper();
-        String[] value = m.readValue(inputString, String[].class);
-        return value;
+        String[] values = new String[0];
+        return (String[])((JSONArray)JSONValue.parse(inputString)).toArray(values);
     }
     
     /**
