@@ -80,15 +80,6 @@
         <type>jar</type>
     </dependency>
   </dependencies>
-  <profiles>
-   <profile>
-        <!-- Used only when invoking release:perform so as not to re-run tests as part of the deployment-->
-        <id>release</id>
-        <properties>
-          <skipTests>true</skipTests>
-        </properties>
-    </profile>
-  </profiles>
   <build>
     <plugins>
         <plugin>
@@ -123,6 +114,23 @@
               </execution>
             </executions>
       </plugin>
+      <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-release-plugin</artifactId>
+	      <configuration>
+		      <preparationGoals>clean install</preparationGoals>
+		      <goals>deploy -P release</goals>
+	      </configuration>
+	</plugin>
     </plugins>
   </build>
+  <profiles>
+     <profile>
+          <!-- Used only when invoking release:perform so as not to re-run tests as part of the deployment-->
+          <id>release</id>
+          <properties>
+            <skipTests>true</skipTests>
+          </properties>
+      </profile>
+  </profiles>
 </project>
