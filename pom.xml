@@ -11,6 +11,12 @@
   <description>A Java wrapper for the Microsoft Translator API</description>
   <url>http://github.com/boatmeme/microsoft-translator-java-api</url>
   
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+  
    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>
@@ -95,6 +101,20 @@
                 </descriptorRefs>
             </configuration>
         </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.2</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
