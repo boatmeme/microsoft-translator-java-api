@@ -28,11 +28,12 @@ import java.net.URLEncoder;
  */
 public final class Detect extends MicrosoftAPI {
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Detect?text=";
-    /**
+    private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/DetectArray?texts=";
+        /**
 	 * Detects the language of a supplied String.
 	 * 
 	 * @param text The String to detect the language of.
-	 * @return A DetectResult object containing the language, confidence and reliability.
+	 * @return A String containing the language
 	 * @throws Exception on error.
 	 */
 	public static String execute(final String text) throws Exception {
@@ -40,6 +41,22 @@ public final class Detect extends MicrosoftAPI {
                         +URLEncoder.encode(text, ENCODING)
                         +"&appId="+URLEncoder.encode(apiKey,ENCODING));
 		final String response = retrieveString(url);
+                return response;
+	}
+        
+        /**
+	 * Detects the language of all supplied Strings in arrary.
+	 * 
+	 * @param text The Strings to detect the language of.
+	 * @return A String array containing the detected languages
+	 * @throws Exception on error.
+	 */
+	public static String[] execute(final String[] texts) throws Exception {
+                final String textArr = buildStringArrayParam(texts);
+		final URL url = new URL(ARRAY_SERVICE_URL 
+                        +URLEncoder.encode(textArr, ENCODING)
+                        +"&appId="+URLEncoder.encode(apiKey,ENCODING));
+		final String[] response = retrieveStringArr(url);
                 return response;
 	}
 

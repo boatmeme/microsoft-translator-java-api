@@ -57,6 +57,20 @@ public class DetectTest extends TestCase {
         assertEquals(Language.KOREAN.toString(),Detect.execute("전 세계 여러분 안녕하세요"));
     }
     
+    public void testDetectArray() throws Exception {
+         String[] texts = {"Hello world!","Salut tout le monde","전 세계 여러분 안녕하세요"};
+         String[] detections = Detect.execute(texts);
+         assertEquals(Language.ENGLISH.toString(),detections[0]);
+         assertEquals(Language.FRENCH.toString(),detections[1]);
+         assertEquals(Language.KOREAN.toString(),detections[2]);
+    }
+    
+    public void testDetectArraySingle() throws Exception {
+         String[] texts = {"Hello world!"};
+         String[] detections = Detect.execute(texts);
+         assertEquals(Language.ENGLISH.toString(),detections[0]);
+    }
+    
     public void testDetectEnglish_Large() throws Exception {
         assertEquals(Language.ENGLISH.toString(),Detect.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "
