@@ -143,8 +143,14 @@ public enum Language {
         }     
         
         // Flushes the localized name cache for this language
-        public void flushNameCache() {
+        private void flushCache() {
             this.localizedCache.clear();
+        }
+        
+        // Flushes the localized name cache for all languages
+        public static void flushNameCache() {
+            for(Language lang : Language.values())
+                lang.flushCache();
         }
         
         private final static class LanguageService extends MicrosoftAPI {

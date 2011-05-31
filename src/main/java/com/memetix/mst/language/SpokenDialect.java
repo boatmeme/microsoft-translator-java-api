@@ -16,7 +16,6 @@
 package com.memetix.mst.language;
 
 import com.memetix.mst.MicrosoftAPI;
-import com.memetix.mst.language.Language;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -92,7 +91,7 @@ public enum SpokenDialect {
 	}
         
         public static void setKey(String pKey) {
-            LanguageService.setKey(pKey);
+            SpokenDialectService.setKey(pKey);
         }
         
         /**
@@ -117,7 +116,7 @@ public enum SpokenDialect {
             } else {
               
                 //If not in the cache, pre-load all the Language names for this locale
-                String[] names = LanguageService.execute(SpokenDialect.values(), locale);
+                String[] names = SpokenDialectService.execute(SpokenDialect.values(), locale);
                 int i = 0;
                 for(SpokenDialect lang : SpokenDialect.values()) {
                     lang.localizedCache.put(locale,names[i]);
@@ -129,11 +128,18 @@ public enum SpokenDialect {
         }     
         
         // Flushes the localized name cache for this language
-        public void flushNameCache() {
+        private void flushCache() {
             this.localizedCache.clear();
         }
         
-        private final static class LanguageService extends MicrosoftAPI {
+        // Flushes the localized name cache for all languages
+        public static void flushNameCache() {
+            for(SpokenDialect lang : SpokenDialect.values())
+                lang.flushCache();
+        }
+        
+        
+        private final static class SpokenDialectService extends MicrosoftAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?locale=";
             
         /**

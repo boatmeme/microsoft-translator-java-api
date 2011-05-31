@@ -38,12 +38,27 @@ public class SpokenDialectTest extends TestCase {
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
         String apiKey = p.getProperty("microsoft.translator.api.key");
-        Language.setKey(apiKey);
+        SpokenDialect.setKey(apiKey);
     }
     
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+    
+    public void testGetSpokenDialect_NoKey() throws Exception {
+        SpokenDialect.flushNameCache();
+        SpokenDialect.setKey(null);
+        boolean exception = false;
+        Language locale = Language.ENGLISH;
+        
+        try {
+            String result = SpokenDialect.FRENCH_CANADA.getName(locale);
+        }catch(RuntimeException re) {
+            exception = true;
+            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
+        }
+        assertEquals(true, exception);
     }
 
     /**
@@ -83,20 +98,6 @@ public class SpokenDialectTest extends TestCase {
         String expResult = "en-us";
         String result = instance.toString();
         assertEquals(expResult, result);
-    }
-
-    public void testGetSpokenDialect_NoKey() throws Exception {
-        SpokenDialect.setKey(null);
-        boolean exception = false;
-        Language locale = Language.ENGLISH;
-        
-        try {
-            String result = SpokenDialect.FRENCH_CANADA.getName(locale);
-        }catch(RuntimeException re) {
-            exception = true;
-            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
-        }
-        assertEquals(true, exception);
     }
     
     /**

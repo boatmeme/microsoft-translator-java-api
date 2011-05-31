@@ -117,9 +117,8 @@ public class LanguageTest extends TestCase {
     public void testGetAllNamesLocalizedCached() throws Exception {
         String name;
         //Flush the caches, so we can test for timing
-        for(Language lang : Language.values()) {
-            lang.flushNameCache();
-        }
+        Language.flushNameCache();
+        
         
         long startTime1 = System.currentTimeMillis();
         for(Language lang : Language.values()) {
