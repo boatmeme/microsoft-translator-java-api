@@ -108,6 +108,11 @@ public class LanguageTest extends TestCase {
     }
     
     public void testGetAllNamesLocalizedCached() throws Exception {
+        //Flush the caches, so we can test for timing
+        for(Language lang : Language.values()) {
+            lang.flushNameCache();
+        }
+        
         long startTime1 = System.currentTimeMillis();
         for(Language lang : Language.values()) {
             System.out.println(lang.getName(Language.FRENCH) + " : " + lang.toString());
@@ -121,5 +126,11 @@ public class LanguageTest extends TestCase {
         long totalTime2 = System.currentTimeMillis()-startTime2;
         System.out.println("Uncached: " + totalTime1 + "ms, Cached: " + totalTime2 + "ms");
         assert totalTime1 > totalTime2;
+        
+        /* Uncomment this block to eyeball and make sure the name localization is working for all languages
+        for(Language lang : Language.values()) {
+            System.out.println(lang.toString() + " / " + Language.VIETNAMESE.getName(lang));
+        }
+        */
     }
 }

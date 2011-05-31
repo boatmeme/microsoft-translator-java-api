@@ -103,31 +103,52 @@ public enum Language {
             LanguageService.setKey(pKey);
         }
         
+        /**
+         * getName()
+         * 
+	 * Returns the name for this language in the tongue of the specified locale
+         * 
+         * If the name is not cached, then it retrieves the name of ALL languages in this locale.
+         * This is not bad behavior for 2 reasons:
+         * 
+         *      1) We can make a reasonable assumption that the client will request the
+         *         name of another language in the same locale 
+         *      2) The GetLanguageNames service call expects an array and therefore we can 
+         *         retrieve ALL names in the same, single call anyway.
+         * 
+	 * @return The String representation of this language's localized Name.
+	 */
         public String getName(Language locale) throws Exception {
-            String localizedName;
+            String localizedName = null;
             if(this.localizedCache.containsKey(locale)) {
                 localizedName = this.localizedCache.get(locale);
             } else {
-                if(this==Language.AUTO_DETECT) {
+                if(this==Language.AUTO_DETECT||locale==Language.AUTO_DETECT) {
                     localizedName = "Auto Detect";
                 } else {
-                    localizedName = Language.getLanguageName(this, locale);
-                    this.localizedCache.put(locale,localizedName);
+                    //If not in the cache, pre-load all the Language names for this locale
+                    String[] names = LanguageService.execute(Language.values(), locale);
+                    int i = 0;
+                    for(Language lang : Language.values()) {
+                        if(lang!=Language.AUTO_DETECT) {   
+                            lang.localizedCache.put(locale,names[i]);
+                            i++;
+                        }
+                    }
+                    localizedName = this.localizedCache.get(locale);
                 }
             }
             return localizedName;
-        }
+        }     
         
-        /*
-         * Calls the Language Localization Service
-         */
-        private static String getLanguageName(Language targetCode, Language locale) throws Exception {
-            return LanguageService.execute(targetCode, locale);
+        // Flushes the localized name cache for this language
+        public void flushNameCache() {
+            this.localizedCache.clear();
         }
-        
         
         private final static class LanguageService extends MicrosoftAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?locale=";
+            
             /**
              * Detects the language of a supplied String.
              * 
@@ -135,16 +156,28 @@ public enum Language {
              * @return A DetectResult object containing the language, confidence and reliability.
              * @throws Exception on error.
              */
-            public static String execute(final Language target, final Language locale) throws Exception {
+            public static String[] execute(final Language[] targets, final Language locale) throws Exception {
+                    String[] localizedNames = new String[0];
+                    if(locale==Language.AUTO_DETECT) {
+                        return localizedNames;
+                    }
+                    StringBuilder targetString = new StringBuilder("\"");
+                    
+                    for(Language lang : targets) {
+                        if(lang!=Language.AUTO_DETECT) {
+                            if(targetString.length()>1)
+                                targetString.append(",\"");
+                            targetString.append(lang.toString());
+                            targetString.append("\"");
+                        }
+                    }
+                    
                     final URL url = new URL(SERVICE_URL 
                             +URLEncoder.encode(locale.toString(), ENCODING)
-                            +"&languageCodes=" + URLEncoder.encode("[\""+target.toString()+"\"]", ENCODING)
+                            +"&languageCodes=" + URLEncoder.encode("["+targetString.toString()+"]", ENCODING)
                             +"&appId="+apiKey);
-                    final String json = retrieveJSON(url);
-                    if(json!=null&&json.length()>0)
-                        return json.substring(1,json.length()-1);
-                    else
-                        return json;
+                    localizedNames = retrieveStringArr(url);
+                    return localizedNames;
             }
 
         }
