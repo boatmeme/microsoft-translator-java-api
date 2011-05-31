@@ -167,4 +167,22 @@ public abstract class MicrosoftAPI {
         return msTranslateResponse.substring(2,msTranslateResponse.length()-1);
     }
     
+    protected static String buildStringArrayParam(Object[] values) {
+        StringBuilder targetString = new StringBuilder("[\""); 
+        String value;
+        for(Object obj : values) {
+            if(obj!=null) {
+                value = obj.toString();
+                if(!value.isEmpty()) {
+                    if(targetString.length()>2)
+                        targetString.append(",\"");
+                    targetString.append(value);
+                    targetString.append("\"");
+                }
+            }
+        }
+        targetString.append("]");
+        return targetString.toString();
+    }
+    
 }
