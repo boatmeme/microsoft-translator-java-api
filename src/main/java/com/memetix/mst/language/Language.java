@@ -13,46 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memetix.mst;
+package com.memetix.mst.language;
 
+import com.memetix.mst.MicrosoftAPI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * SpokenLanguage - an enum of all spoken language codes supported by the Microsoft Translator API for the Speak Service
+ * Language - an enum of all language codes supported by the Microsoft Translator API
  * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public enum SpokenDialect {
-        CATALAN_SPAIN("ca-es"),
-        DANISH_DENMARK("da-dk"),
-        GERMAN_GERMANY("de-de"),
-        ENGLISH_AUSTRALIA("en-au"),
-        ENGLISH_CANADA("en-ca"),
-        ENGLISH_UNITED_KINGDOM("en-uk"),
-        ENGLISH_INDIA("en-in"),
-        ENGLISH_UNITED_STATES("en-us"),
-        SPANISH_SPAIN("es-es"),
-        SPANISH_MEXICO("es-mx"),
-        FINNISH_FINLAND("fi-fi"),
-        FRENCH_CANADA("fr-ca"),
-        FRENCH_FRANCE("fr-fr"),
-        ITALIAN_ITALY("it-it"),
-        JAPANESE_JAPAN("ja-jp"),
-        KOREAN_KOREA("ko-kr"),
-        NORWEGIAN_NORWAY("nb-no"),
-        DUTCH_NETHERLANDS("nl-nl"),
-        POLISH_POLAND("pl-pl"),
-        PORTUGUESE_BRAZIL("pt-br"),
-        PORTUGUESE_PORTUGAL("pt-pt"),
-        RUSSIAN_RUSSIA("ru-ru"),
-        SWEDISH_SWEDEN("sv-se"),
-        CHINESE_SIMPLIFIED_PEOPLES_REPUBLIC_OF_CHINA("zh-cn"),
-        CHINESE_TRADITIONAL_HONG_KONG_SAR("zh-hk"),
-        CHINESE_TRADITIONAL_TAIWAN("zh-tw");
-
+public enum Language {
+        AUTO_DETECT(""),
+        ARABIC("ar"),
+        BULGARIAN("bg"),
+        CHINESE_SIMPLIFIED("zh-CHS"),
+	CHINESE_TRADITIONAL("zh-CHT"),
+	CZECH("cs"),
+	DANISH("da"),
+	DUTCH("nl"),
+	ENGLISH("en"),
+        ESTONIAN("et"),
+	FINNISH("fi"),
+	FRENCH("fr"),
+	GERMAN("de"),
+	GREEK("el"),
+	HATIAN_CREOLE("ht"),
+        HEBREW("he"),
+	HUNGARIAN("hu"),
+        INDONESIAN("id"),
+        ITALIAN("it"),
+	JAPANESE("ja"),
+	KOREAN("ko"),
+	LATVIAN("lv"),
+	LITHUANIAN("lt"),
+        NORWEGIAN("no"),
+	POLISH("pl"),
+	PORTUGUESE("pt"),
+	ROMANIAN("ro"),
+	RUSSIAN("ru"),
+	SLOVAK("sk"),
+	SLOVENIAN("sl"),
+	SPANISH("es"),
+	SWEDISH("sv"),
+	THAI("th"),
+	TURKISH("tr"),
+	UKRANIAN("uk"),
+	VIETNAMESE("vi");
+	
 	/**
 	 * Microsoft's String representation of this language.
 	 */
@@ -67,12 +78,12 @@ public enum SpokenDialect {
 	 * Enum constructor.
 	 * @param pLanguage The language identifier.
 	 */
-	private SpokenDialect(final String pLanguage) {
+	private Language(final String pLanguage) {
 		language = pLanguage;
 	}
 	
-	public static SpokenDialect fromString(final String pLanguage) {
-		for (SpokenDialect l : values()) {
+	public static Language fromString(final String pLanguage) {
+		for (Language l : values()) {
 			if (l.toString().equals(pLanguage)) {
 				return l;
 			}
@@ -113,15 +124,20 @@ public enum SpokenDialect {
             if(this.localizedCache.containsKey(locale)) {
                 localizedName = this.localizedCache.get(locale);
             } else {
-              
-                //If not in the cache, pre-load all the Language names for this locale
-                String[] names = LanguageService.execute(SpokenDialect.values(), locale);
-                int i = 0;
-                for(SpokenDialect lang : SpokenDialect.values()) {
-                    lang.localizedCache.put(locale,names[i]);
-                    i++;
+                if(this==Language.AUTO_DETECT||locale==Language.AUTO_DETECT) {
+                    localizedName = "Auto Detect";
+                } else {
+                    //If not in the cache, pre-load all the Language names for this locale
+                    String[] names = LanguageService.execute(Language.values(), locale);
+                    int i = 0;
+                    for(Language lang : Language.values()) {
+                        if(lang!=Language.AUTO_DETECT) {   
+                            lang.localizedCache.put(locale,names[i]);
+                            i++;
+                        }
+                    }
+                    localizedName = this.localizedCache.get(locale);
                 }
-                localizedName = this.localizedCache.get(locale);
             }
             return localizedName;
         }     
@@ -134,28 +150,28 @@ public enum SpokenDialect {
         private final static class LanguageService extends MicrosoftAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?locale=";
             
-        /**
-         * Detects the language of a supplied String.
-         * 
-         * @param text The String to detect the language of.
-         * @return A DetectResult object containing the language, confidence and reliability.
-         * @throws Exception on error.
-         */
-        public static String[] execute(final SpokenDialect[] targets, final Language locale) throws Exception {
-                String[] localizedNames = new String[0];
-                if(locale==Language.AUTO_DETECT) {
+            /**
+             * Detects the language of a supplied String.
+             * 
+             * @param text The String to detect the language of.
+             * @return A DetectResult object containing the language, confidence and reliability.
+             * @throws Exception on error.
+             */
+            public static String[] execute(final Language[] targets, final Language locale) throws Exception {
+                    String[] localizedNames = new String[0];
+                    if(locale==Language.AUTO_DETECT) {
+                        return localizedNames;
+                    }
+                    
+                    final String targetString = buildStringArrayParam(Language.values());
+                    
+                    final URL url = new URL(SERVICE_URL 
+                            +URLEncoder.encode(locale.toString(), ENCODING)
+                            +"&languageCodes=" + URLEncoder.encode(targetString, ENCODING)
+                            +"&appId="+apiKey);
+                    localizedNames = retrieveStringArr(url);
                     return localizedNames;
-                }
+            }
 
-                final String targetString = buildStringArrayParam(SpokenDialect.values());
-
-                final URL url = new URL(SERVICE_URL 
-                        +URLEncoder.encode(locale.toString(), ENCODING)
-                        +"&languageCodes=" + URLEncoder.encode(targetString, ENCODING)
-                        +"&appId="+apiKey);
-                localizedNames = retrieveStringArr(url);
-                return localizedNames;
         }
-
-     }
 }

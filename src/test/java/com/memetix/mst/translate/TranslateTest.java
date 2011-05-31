@@ -15,7 +15,7 @@
  */
 package com.memetix.mst.translate;
 
-import com.memetix.mst.Language;
+import com.memetix.mst.language.Language;
 import java.net.URL;
 import java.util.Properties;
 import junit.framework.TestCase;

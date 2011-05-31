@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memetix.mst;
+package com.memetix.mst.language;
 
+import com.memetix.mst.language.Language;
 import java.net.URL;
 import java.util.Properties;
 import junit.framework.TestCase;
@@ -23,9 +24,9 @@ import junit.framework.TestCase;
  *
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public class SpokenDialectTest extends TestCase {
+public class LanguageTest extends TestCase {
     Properties p;
-    public SpokenDialectTest(String testName) {
+    public LanguageTest(String testName) {
         super(testName);
     }
     
@@ -48,17 +49,17 @@ public class SpokenDialectTest extends TestCase {
      * Test of values method, of class Language.
      */
     public void testValues() {
-        SpokenDialect[] expResult = null;
-        SpokenDialect[] result = SpokenDialect.values();
+        Language[] expResult = null;
+        Language[] result = Language.values();
     }
 
     /**
      * Test of valueOf method, of class Language.
      */
     public void testValueOf() {
-        String name = "ENGLISH_UNITED_STATES";
-        SpokenDialect expResult = SpokenDialect.ENGLISH_UNITED_STATES;
-        SpokenDialect result = SpokenDialect.valueOf(name);
+        String name = "ENGLISH";
+        Language expResult = Language.ENGLISH;
+        Language result = Language.valueOf(name);
         assertEquals(expResult, result);
 
     }
@@ -67,9 +68,9 @@ public class SpokenDialectTest extends TestCase {
      * Test of fromString method, of class Language.
      */
     public void testFromString() {
-        String pLanguage = "en-us";
-        SpokenDialect expResult = SpokenDialect.ENGLISH_UNITED_STATES;
-        SpokenDialect result = SpokenDialect.fromString(pLanguage);
+        String pLanguage = "en";
+        Language expResult = Language.ENGLISH;
+        Language result = Language.fromString(pLanguage);
         assertEquals(expResult, result);
     }
 
@@ -77,8 +78,8 @@ public class SpokenDialectTest extends TestCase {
      * Test of toString method, of class Language.
      */
     public void testToString() {
-        SpokenDialect instance = SpokenDialect.ENGLISH_UNITED_STATES;
-        String expResult = "en-us";
+        Language instance = Language.ENGLISH;
+        String expResult = "en";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
@@ -89,13 +90,13 @@ public class SpokenDialectTest extends TestCase {
      */
     public void testGetNameLocalized() throws Exception {
         Language locale = Language.ENGLISH;
-        String expResult = "French (Canada)";
-        String result = SpokenDialect.FRENCH_CANADA.getName(locale);
+        String expResult = "French";
+        String result = Language.FRENCH.getName(locale);
         assertEquals(expResult, result);
         
         locale = Language.FRENCH;
-        expResult = "Anglais (Inde)";
-        result = SpokenDialect.ENGLISH_INDIA.getName(locale);
+        expResult = "Anglais";
+        result = Language.ENGLISH.getName(locale);
         assertEquals(expResult, result);
     }
     
