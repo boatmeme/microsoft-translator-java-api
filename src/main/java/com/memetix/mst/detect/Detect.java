@@ -39,8 +39,8 @@ public final class Detect extends MicrosoftAPI {
 		final URL url = new URL(SERVICE_URL 
                         +URLEncoder.encode(text, ENCODING)
                         +"&appId="+URLEncoder.encode(apiKey,ENCODING));
-		final String json = retrieveJSON(url);
-                return json;
+		final String response = retrieveString(url);
+                return response;
 	}
 
 }

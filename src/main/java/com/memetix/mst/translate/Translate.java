@@ -51,8 +51,8 @@ public final class Translate extends MicrosoftAPI {
     	final String parameters = PARAMETERS.replaceAll("#FROM#", from.toString()).replaceAll("#TO#", to.toString())
     			+URLEncoder.encode(text, ENCODING) +(key != null ? "&key=" +key : "");
     	*/
-    	final String json = retrieveJSON(url);
-    	return json;
+    	final String response = retrieveString(url);
+    	return response;
     	//return getJSONResponse(json);
     }
     
