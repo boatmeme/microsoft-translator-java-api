@@ -80,6 +80,13 @@
         <type>jar</type>
     </dependency>
   </dependencies>
+   <profile>
+        <!-- Used only when invoking release:perform so as not to re-run tests as part of the deployment-->
+        <id>release</id>
+        <properties>
+          <skipTests>true</skipTests>
+        </properties>
+    </profile>
   <build>
     <plugins>
         <plugin>
