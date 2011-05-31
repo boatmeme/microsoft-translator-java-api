@@ -15,7 +15,7 @@ is my goal to mimic the code structure, naming conventions, functionality, and u
 Quickstart:
 ===========
 
-Download the JAR @ https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.2-SNAPSHOT.jar
+Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.3-jar-with-dependencies.jar)
 
     import com.memetix.mst.Language;
     import com.memetix.mst.translate.Translate;
