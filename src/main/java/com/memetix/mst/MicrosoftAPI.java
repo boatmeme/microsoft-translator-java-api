@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -39,7 +40,7 @@ public abstract class MicrosoftAPI {
     protected static final String ENCODING = "UTF-8";
     
     protected static String apiKey;
-    //private static String referrer;
+    private static String referrer;
     
     /**
      * Sets the API key.
@@ -50,32 +51,80 @@ public abstract class MicrosoftAPI {
     }
     
     /**
-     * Forms an HTTP request, sends it using GET method and returns the result of the request as a JSONObject.
+     * Sets the API key.
+     * @param pKey The API key.
+     */
+    public static void setHttpReferrer(final String pReferrer) {
+    	referrer = pReferrer;
+    }
+    
+    /**
+     * Forms an HTTP request, sends it using GET method and returns the result of the request as a String.
      * 
-     * @param url The URL to query for a JSONObject.
+     * @param url The URL to query for a String response.
      * @return The translated String.
      * @throws Exception on error.
      */
-    protected static String retrieveJSON(final URL url) throws Exception {
+    private static String retrieveResponse(final URL url) throws Exception {
+        final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+        if(referrer!=null)
+            uc.setRequestProperty("referer", referrer);
+        uc.setRequestMethod("GET");
+        uc.setDoOutput(true);
+
+        try {
+                final String result = inputStreamToString(uc.getInputStream());
+                return result;
+        } finally { 
+                uc.getInputStream().close();
+                if (uc.getErrorStream() != null) {
+                        uc.getErrorStream().close();
+                }
+        }
+    }
+    
+    /**
+     * Fetches the JSON response, parses the JSON Response, returns the result of the request as a String.
+     * 
+     * @param url The URL to query for a String response.
+     * @return The translated String.
+     * @throws Exception on error.
+     */
+    protected static String retrieveString(final URL url) throws Exception {
     	try {
-    		final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
-    		//uc.setRequestProperty("referer", referrer);
-    		uc.setRequestMethod("GET");
-    		uc.setDoOutput(true);
-    		
-    		try {
-    			final String result = inputStreamToString(uc.getInputStream());
-    			return massageResponse(result.trim());
-    			//return new JSONObject(result);
-    		} finally { 
-    			uc.getInputStream().close();
-    			if (uc.getErrorStream() != null) {
-    				uc.getErrorStream().close();
-    			}
-    		}
+    		final String response = retrieveResponse(url);    		
+                return jsonToString(response);
     	} catch (Exception ex) {
     		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
     	}
+    }
+    
+    /**
+     * Fetches the JSON response, parses the JSON Response, returns the result of the request as a String.
+     * 
+     * @param url The URL to query for a String response.
+     * @return The translated String[].
+     * @throws Exception on error.
+     */
+    protected static String[] retrieveStringArr(final URL url) throws Exception {
+    	try {
+    		final String response = retrieveResponse(url);    		
+                return jsonToStringArr(response);
+    	} catch (Exception ex) {
+    		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
+    	}
+    }
+    
+    private static String jsonToString(final String inputString) throws Exception {
+        ObjectMapper m = new ObjectMapper();
+        String value = m.readValue(inputString, String.class);
+        return value;
+    }
+    
+    private static String[] jsonToStringArr(final String inputString) throws Exception {
+        ObjectMapper m = new ObjectMapper();
+        String[] value = m.readValue(inputString, String[].class);
+        return value;
     }
     
     /**
@@ -93,7 +142,9 @@ public abstract class MicrosoftAPI {
     		if (inputStream != null) {
     			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, ENCODING));
     			while (null != (string = reader.readLine())) {
-    				outputBuilder.append(string).append('\n');
+                            // Need to strip the Unicode Zero-width Non-breaking Space. For some reason, the Microsoft AJAX
+                            // services prepend this to every response
+                            outputBuilder.append(string.replaceAll("\uFEFF", ""));
     			}
     		}
     	} catch (Exception ex) {
