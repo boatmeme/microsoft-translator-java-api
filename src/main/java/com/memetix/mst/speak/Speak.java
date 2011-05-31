@@ -1,0 +1,54 @@
+/*
+ * Copyright 2011 boatmeme.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.memetix.mst.speak;
+
+import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.language.SpokenDialect;
+import java.net.URL;
+import java.net.URLEncoder;
+
+/**
+ * Speak 
+ * 
+ * Provides an interface to the Microsoft Translator Speak service method
+ * 
+ * Returns a string which is a URL to a wave stream of the passed-in text being spoken in the desired language.
+ * 
+ * @author Jonathan Griggs <jonathan.griggs at gmail.com>
+ */
+public final class Speak extends MicrosoftAPI {
+    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Speak?text=";
+
+        /**
+	 * Detects the language of a supplied String.
+	 * 
+	 * @param text The String to generate a WAV for
+         * @param to The language code to translate to
+	 * @return A String containing the URL to a WAV of the spoken text
+	 * @throws Exception on error.
+	 */
+	public static String execute(final String text, final SpokenDialect language) throws Exception {
+                //Run the basic service validations first
+                validateServiceState();             
+		final URL url = new URL(SERVICE_URL 
+                        +URLEncoder.encode(text, ENCODING)
+                        +"&language="+URLEncoder.encode(language.toString(),ENCODING)
+                        +"&appId="+URLEncoder.encode(apiKey,ENCODING));
+		final String response = retrieveString(url);
+                return response;
+	}
+}
+
