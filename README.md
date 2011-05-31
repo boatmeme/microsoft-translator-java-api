@@ -30,3 +30,14 @@ Download the JAR @ https://github.com/downloads/boatmeme/microsoft-translator-ja
         System.out.println(translatedText);
       }
     }
+
+Maven
+=====
+Include the following in your POM.xml:
+
+    <dependency>
+        <groupId>com.memetix</groupId>
+        <artifactId>microsoft-translator-java-api</artifactId>
+        <version>0.3</version>
+        <type>jar</type>
+    </dependency>
