@@ -71,6 +71,32 @@ public class DetectTest extends TestCase {
          assertEquals(Language.ENGLISH.toString(),detections[0]);
     }
     
+    public void testDetect_NoKey() throws Exception {
+        Detect.setKey(null);
+        
+        boolean exception = false;
+        try {
+            Detect.execute("전 세계 여러분 안녕하세요");
+        }catch(RuntimeException re) {
+            exception = true;
+            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
+        }
+        assertEquals(true, exception);
+    }
+    
+    public void testDetectArray_NoKey() throws Exception {
+        Detect.setKey(null);
+        String[] texts = {"Hello world!"};
+        boolean exception = false;
+        try {
+            Detect.execute(texts);
+        }catch(RuntimeException re) {
+            exception = true;
+            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
+        }
+        assertEquals(true, exception);
+    }
+    
     public void testDetectEnglish_Large() throws Exception {
         assertEquals(Language.ENGLISH.toString(),Detect.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "

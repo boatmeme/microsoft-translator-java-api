@@ -85,6 +85,19 @@ public class SpokenDialectTest extends TestCase {
         assertEquals(expResult, result);
     }
 
+    public void testGetSpokenDialect_NoKey() throws Exception {
+        SpokenDialect.setKey(null);
+        boolean exception = false;
+        Language locale = Language.ENGLISH;
+        
+        try {
+            String result = SpokenDialect.FRENCH_CANADA.getName(locale);
+        }catch(RuntimeException re) {
+            exception = true;
+            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
+        }
+        assertEquals(true, exception);
+    }
     
     /**
      * Test of getLanguageName method, of class Language.

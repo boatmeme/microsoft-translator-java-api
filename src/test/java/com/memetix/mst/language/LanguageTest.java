@@ -73,6 +73,20 @@ public class LanguageTest extends TestCase {
         Language result = Language.fromString(pLanguage);
         assertEquals(expResult, result);
     }
+    
+    public void testGetLanguage_NoKey() throws Exception {
+        Language.setKey(null);
+        boolean exception = false;
+        Language locale = Language.ENGLISH;
+        
+        try {
+            String result = Language.FRENCH.getName(locale);
+        }catch(RuntimeException re) {
+            exception = true;
+            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
+        }
+        assertEquals(true, exception);
+    }
 
     /**
      * Test of toString method, of class Language.

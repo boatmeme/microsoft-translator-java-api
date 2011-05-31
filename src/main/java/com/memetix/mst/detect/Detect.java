@@ -37,6 +37,8 @@ public final class Detect extends MicrosoftAPI {
 	 * @throws Exception on error.
 	 */
 	public static String execute(final String text) throws Exception {
+                //Run the basic service validations first
+                validateServiceState(); 
 		final URL url = new URL(SERVICE_URL 
                         +URLEncoder.encode(text, ENCODING)
                         +"&appId="+URLEncoder.encode(apiKey,ENCODING));
@@ -52,6 +54,8 @@ public final class Detect extends MicrosoftAPI {
 	 * @throws Exception on error.
 	 */
 	public static String[] execute(final String[] texts) throws Exception {
+                //Run the basic service validations first
+                validateServiceState(); 
                 final String textArr = buildStringArrayParam(texts);
 		final URL url = new URL(ARRAY_SERVICE_URL 
                         +URLEncoder.encode(textArr, ENCODING)

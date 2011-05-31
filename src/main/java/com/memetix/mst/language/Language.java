@@ -158,6 +158,8 @@ public enum Language {
              * @throws Exception on error.
              */
             public static String[] execute(final Language[] targets, final Language locale) throws Exception {
+                    //Run the basic service validations first
+                    validateServiceState(); 
                     String[] localizedNames = new String[0];
                     if(locale==Language.AUTO_DETECT) {
                         return localizedNames;

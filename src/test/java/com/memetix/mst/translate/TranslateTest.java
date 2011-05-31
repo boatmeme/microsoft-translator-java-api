@@ -107,6 +107,19 @@ public class TranslateTest extends TestCase {
         assertEquals("מזהה", Translate.execute("ID", Language.ENGLISH, Language.HEBREW));
     }
     
+     public void testDetect_NoKey() throws Exception {
+        Translate.setKey(null);
+        
+        boolean exception = false;
+        try {
+            Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
+        }catch(RuntimeException re) {
+            exception = true;
+            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
+        }
+        assertEquals(true, exception);
+    }
+    
     public void testLarge() throws Exception {
 		Translate.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "

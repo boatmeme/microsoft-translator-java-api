@@ -167,6 +167,13 @@ public abstract class MicrosoftAPI {
         return msTranslateResponse.substring(2,msTranslateResponse.length()-1);
     }
     
+    //Check if ready to make request, if not, throw a RuntimeException
+    protected static void validateServiceState() throws Exception {
+        if(apiKey==null||apiKey.isEmpty()||apiKey.length()<16) {
+            throw new RuntimeException("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+        }
+    }
+    
     protected static String buildStringArrayParam(Object[] values) {
         StringBuilder targetString = new StringBuilder("[\""); 
         String value;

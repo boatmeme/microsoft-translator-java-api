@@ -40,6 +40,8 @@ public final class Translate extends MicrosoftAPI {
      * @throws Exception on error.
      */
     public static String execute(final String text, final Language from, final Language to) throws Exception {
+        //Run the basic service validations first
+        validateServiceState(); 
         final String params = 
                 "?from=" + URLEncoder.encode(from.toString(),ENCODING) 
                 + "&to=" + URLEncoder.encode(to.toString(),ENCODING) 
@@ -47,13 +49,8 @@ public final class Translate extends MicrosoftAPI {
                 + "&text=" + URLEncoder.encode(text,ENCODING);
         
         final URL url = new URL(SERVICE_URL + params);
-        /*
-    	final String parameters = PARAMETERS.replaceAll("#FROM#", from.toString()).replaceAll("#TO#", to.toString())
-    			+URLEncoder.encode(text, ENCODING) +(key != null ? "&key=" +key : "");
-    	*/
     	final String response = retrieveString(url);
     	return response;
-    	//return getJSONResponse(json);
     }
     
 }
