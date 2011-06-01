@@ -19,6 +19,7 @@ import com.memetix.mst.MicrosoftAPI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -140,7 +141,32 @@ public enum Language {
                 }
             }
             return localizedName;
-        }     
+        }
+        
+         /**
+         * values(Language locale)
+         * 
+	 * Returns a map of all languages, keyed and sorted by 
+         * the localized name in the tongue of the specified locale
+         * 
+         * It returns a map, sorted alphanumerically by the keys()
+         * 
+         * Key: The localized language name
+         * Value: The Language instance
+         *
+         * @param locale The Language we should localize the Language names with
+	 * @return A Map of all supported languages stored by their localized name.
+	 */
+        public static Map<String,Language> values(Language locale) throws Exception {
+            Map<String,Language>localizedMap = new TreeMap<String,Language>(); 
+            for(Language lang : Language.values()) {
+                if(lang==Language.AUTO_DETECT)
+                    localizedMap.put(Language.AUTO_DETECT.name(), lang);
+                else
+                    localizedMap.put(lang.getName(locale), lang);
+            }
+            return localizedMap;
+        }
         
         // Flushes the localized name cache for this language
         private void flushCache() {

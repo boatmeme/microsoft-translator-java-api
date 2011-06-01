@@ -17,6 +17,7 @@ package com.memetix.mst.language;
 
 import com.memetix.mst.language.Language;
 import java.net.URL;
+import java.util.Map;
 import java.util.Properties;
 import junit.framework.TestCase;
 
@@ -141,5 +142,14 @@ public class LanguageTest extends TestCase {
             System.out.println(lang.toString() + " / " + Language.VIETNAMESE.getName(lang));
         }
         */
+    }
+    
+    public void testGetLocalizedNameMap() throws Exception {
+        Language locale = Language.ENGLISH;
+        Map<String,Language> result = Language.values(locale);
+        for(String langName : result.keySet()) {
+            System.out.println(langName);
+        }
+        assertEquals(36, result.size());
     }
 }
