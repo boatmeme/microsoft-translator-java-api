@@ -12,7 +12,7 @@ is my goal to mimic the code structure, naming conventions, functionality, and u
 
 * A Bing Developer API Key - [Sign Up Here](http://www.bing.com/developers/createapp.aspx)
 
-Quickstart:
+Quickstart
 ===========
 
 Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.3-jar-with-dependencies.jar)
@@ -31,8 +31,8 @@ Download the latest [JAR with Dependencies](https://github.com/downloads/boatmem
       }
     }
 
-More Examples:
-==============
+More Examples
+=============
 
 I've posted some examples to the [SVN repository](http://code.google.com/p/microsoft-translator-java-api/source/browse/#svn%2Ftrunk%2Fmicrosoft-translator-java-examples%2Fsrc%2Fmain%2Fjava%2Fcom%2Fmemetix%2Fmst%2Fexamples) on Google Code. The examples include:
 
