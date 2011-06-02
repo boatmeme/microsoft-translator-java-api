@@ -63,3 +63,30 @@ Or, if you're feeling adventurous, help us test the next version by adding the l
     </dependency>
 
 The snapshot is hosted at the [OSS Sonatype Snapshot](https://oss.sonatype.org/content/repositories/snapshots/) repository
+
+License
+=======
+
+The microsoft-translator-java-api is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+    /*
+     * Copyright 2011 boatmeme.
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+
+Please note that while this license does not distinguish between personal, internal or commercial use, the Microsoft Translator API itself _**does**_ in fact make this distinction.
+
+From Microsoft's Chris Wendt on the [Microsoft Translator Developer Forums](http://social.msdn.microsoft.com/Forums/en-US/microsofttranslator/thread/1ac77bbc-e6d6-48dc-92c6-652509154c02):
+
+>  I want to remind everyone that commercial use of the Microsoft Translator API requires a commercial license. To obtain such >  a license, please send a message with a short description of your application to [mtlic@microsoft.com](mailto:mtlic@microsoft.com)
