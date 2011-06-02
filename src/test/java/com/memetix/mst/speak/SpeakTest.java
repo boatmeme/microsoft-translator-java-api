@@ -73,6 +73,17 @@ public class SpeakTest extends TestCase {
         assertEquals(true, result.contains(expResult));
     }
     
+    /**
+     * Test of execute method, of class Speak.
+     */
+    public void testGetSpeakUrlUk() throws Exception {
+        String text = "Hello World!";
+        SpokenDialect language = SpokenDialect.ENGLISH_UNITED_KINGDOM;
+        String expResult = "http://api.microsofttranslator.com/V2/http.svc/Speak";
+        String result = Speak.execute(text, language);
+        assertEquals(true, result.contains(expResult));
+    }
+    
     public void testLargeTooLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                             + "the five-month period typically regarded as peak bonus season, those working in the financial "

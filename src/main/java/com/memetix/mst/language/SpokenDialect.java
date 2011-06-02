@@ -32,7 +32,7 @@ public enum SpokenDialect {
         GERMAN_GERMANY("de-de"),
         ENGLISH_AUSTRALIA("en-au"),
         ENGLISH_CANADA("en-ca"),
-        ENGLISH_UNITED_KINGDOM("en-uk"),
+        ENGLISH_UNITED_KINGDOM("en-gb"),
         ENGLISH_INDIA("en-in"),
         ENGLISH_UNITED_STATES("en-us"),
         SPANISH_SPAIN("es-es"),
