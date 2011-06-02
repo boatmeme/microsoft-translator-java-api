@@ -44,6 +44,15 @@ public abstract class MicrosoftAPI {
     protected static String apiKey;
     private static String referrer;
     
+    protected static final String PARAM_APP_ID = "appId=",
+                                  PARAM_TO_LANG = "&to=",
+                                  PARAM_FROM_LANG = "&from=",
+                                  PARAM_TEXT_SINGLE = "&text=",
+                                  PARAM_TEXT_ARRAY = "&texts=",
+                                  PARAM_SPOKEN_LANGUAGE = "&language=",
+                                  PARAM_LOCALE = "&locale=",
+                                  PARAM_LANGUAGE_CODES = "&languageCodes=";
+    
     /**
      * Sets the API key.
      * @param pKey The API key.

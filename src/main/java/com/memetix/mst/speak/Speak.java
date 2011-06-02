@@ -30,7 +30,7 @@ import java.net.URLEncoder;
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public final class Speak extends MicrosoftAPI {
-    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Speak?text=";
+    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Speak?";
 
         /**
 	 * Detects the language of a supplied String.
@@ -44,9 +44,9 @@ public final class Speak extends MicrosoftAPI {
                 //Run the basic service validations first
                 validateServiceState(text);             
 		final URL url = new URL(SERVICE_URL 
-                        +URLEncoder.encode(text, ENCODING)
-                        +"&language="+URLEncoder.encode(language.toString(),ENCODING)
-                        +"&appId="+URLEncoder.encode(apiKey,ENCODING));
+                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +PARAM_SPOKEN_LANGUAGE+URLEncoder.encode(language.toString(),ENCODING)
+                        +PARAM_TEXT_SINGLE+URLEncoder.encode(text, ENCODING));
 		final String response = retrieveString(url);
                 return response;
 	}

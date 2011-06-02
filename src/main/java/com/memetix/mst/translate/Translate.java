@@ -28,9 +28,10 @@ import java.net.URLEncoder;
  */
 public final class Translate extends MicrosoftAPI {
     
-    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate";
-    private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray";
+    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?";
+    private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?";
     private static final String ARRAY_JSON_OBJECT_PROPERTY = "TranslatedText";
+    
     /**
      * Translates text from a given Language to another given Language using Microsoft Translator.
      * 
@@ -44,10 +45,10 @@ public final class Translate extends MicrosoftAPI {
         //Run the basic service validations first
         validateServiceState(text); 
         final String params = 
-                "?from=" + URLEncoder.encode(from.toString(),ENCODING) 
-                + "&to=" + URLEncoder.encode(to.toString(),ENCODING) 
-                + "&appId=" + URLEncoder.encode(apiKey,ENCODING) 
-                + "&text=" + URLEncoder.encode(text,ENCODING);
+                PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) 
+                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
+                + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
+                + PARAM_TEXT_SINGLE + URLEncoder.encode(text,ENCODING);
         
         final URL url = new URL(SERVICE_URL + params);
     	final String response = retrieveString(url);
@@ -84,10 +85,10 @@ public final class Translate extends MicrosoftAPI {
         //Run the basic service validations first
         validateServiceState(texts); 
         final String params = 
-                "?from=" + URLEncoder.encode(from.toString(),ENCODING) 
-                + "&to=" + URLEncoder.encode(to.toString(),ENCODING) 
-                + "&appId=" + URLEncoder.encode(apiKey,ENCODING) 
-                + "&texts=" + URLEncoder.encode(buildStringArrayParam(texts),ENCODING);
+                PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) 
+                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
+                + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
+                + PARAM_TEXT_ARRAY + URLEncoder.encode(buildStringArrayParam(texts),ENCODING);
         
         final URL url = new URL(ARRAY_SERVICE_URL + params);
     	final String[] response = retrieveStringArr(url,ARRAY_JSON_OBJECT_PROPERTY);

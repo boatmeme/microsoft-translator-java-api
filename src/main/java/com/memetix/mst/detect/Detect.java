@@ -27,8 +27,8 @@ import java.net.URLEncoder;
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public final class Detect extends MicrosoftAPI {
-    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Detect?text=";
-    private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/DetectArray?texts=";
+    private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Detect?";
+    private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/DetectArray?";
         /**
 	 * Detects the language of a supplied String.
 	 * 
@@ -40,14 +40,15 @@ public final class Detect extends MicrosoftAPI {
                 //Run the basic service validations first
                 validateServiceState(text); 
 		final URL url = new URL(SERVICE_URL 
-                        +URLEncoder.encode(text, ENCODING)
-                        +"&appId="+URLEncoder.encode(apiKey,ENCODING));
+                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +PARAM_TEXT_SINGLE+URLEncoder.encode(text, ENCODING));
+                     
 		final String response = retrieveString(url);
                 return response;
 	}
         
         /**
-	 * Detects the language of all supplied Strings in arrary.
+	 * Detects the language of all supplied Strings in array.
 	 * 
 	 * @param text The Strings to detect the language of.
 	 * @return A String array containing the detected languages
@@ -58,8 +59,8 @@ public final class Detect extends MicrosoftAPI {
                 validateServiceState(texts); 
                 final String textArr = buildStringArrayParam(texts);
 		final URL url = new URL(ARRAY_SERVICE_URL 
-                        +URLEncoder.encode(textArr, ENCODING)
-                        +"&appId="+URLEncoder.encode(apiKey,ENCODING));
+                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +PARAM_TEXT_ARRAY+URLEncoder.encode(textArr, ENCODING));
 		final String[] response = retrieveStringArr(url);
                 return response;
 	}

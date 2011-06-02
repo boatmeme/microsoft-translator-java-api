@@ -140,7 +140,7 @@ public enum SpokenDialect {
         
         
         private final static class SpokenDialectService extends MicrosoftAPI {
-            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?locale=";
+            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?";
             
         /**
          * Detects the language of a supplied String.
@@ -160,9 +160,9 @@ public enum SpokenDialect {
                 final String targetString = buildStringArrayParam(SpokenDialect.values());
 
                 final URL url = new URL(SERVICE_URL 
-                        +URLEncoder.encode(locale.toString(), ENCODING)
-                        +"&languageCodes=" + URLEncoder.encode(targetString, ENCODING)
-                        +"&appId="+apiKey);
+                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
+                        +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
                 localizedNames = retrieveStringArr(url);
                 return localizedNames;
         }
