@@ -275,8 +275,18 @@ public class TranslateTest extends TestCase {
         public void testTranslateArray() throws Exception {
             String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
-            for(String text : translatedTexts) {
-                System.out.println(text);
-            }
+            assertEquals(3,translatedTexts.length);
+            assertEquals("Il s'agit d'une phrase, me traduire.",translatedTexts[0]);
+            assertEquals("J'aimerais être traduit",translatedTexts[1]);
+            assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
+        }
+        
+        public void testTranslateArray_Overloaded() throws Exception {
+            String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
+            String[] translatedTexts = Translate.execute(sourceTexts, Language.FRENCH);
+            assertEquals(3,translatedTexts.length);
+            assertEquals("Il s'agit d'une phrase, me traduire.",translatedTexts[0]);
+            assertEquals("J'aimerais être traduit",translatedTexts[1]);
+            assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
 }

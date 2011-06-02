@@ -30,7 +30,7 @@ public final class Translate extends MicrosoftAPI {
     
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate";
     private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray";
-    
+    private static final String ARRAY_JSON_OBJECT_PROPERTY = "TranslatedText";
     /**
      * Translates text from a given Language to another given Language using Microsoft Translator.
      * 
@@ -72,6 +72,8 @@ public final class Translate extends MicrosoftAPI {
      * Translates an array of texts from a given Language to another given Language using Microsoft Translator's TranslateArray
      * service
      * 
+     * Note that the Microsoft Translator expects all source texts to be of the SAME language. 
+     * 
      * @param texts The Strings Array to translate.
      * @param from The language code to translate from.
      * @param to The language code to translate to.
@@ -88,8 +90,27 @@ public final class Translate extends MicrosoftAPI {
                 + "&texts=" + URLEncoder.encode(buildStringArrayParam(texts),ENCODING);
         
         final URL url = new URL(ARRAY_SERVICE_URL + params);
-    	final String[] response = retrieveStringArr(url);
+    	final String[] response = retrieveStringArr(url,ARRAY_JSON_OBJECT_PROPERTY);
     	return response;
+    }
+    
+    /**
+     * Translates an array of texts from an Automatically detected language to another given Language using Microsoft Translator's TranslateArray
+     * service
+     * 
+     * Note that the Microsoft Translator expects all source texts to be of the SAME language. 
+     * 
+     * This is an overloaded convenience method that passes Language.AUTO_DETECT as fromLang to
+     * execute(texts[],fromLang,toLang)
+     * 
+     * @param texts The Strings Array to translate.
+     * @param from The language code to translate from.
+     * @param to The language code to translate to.
+     * @return The translated Strings Array[].
+     * @throws Exception on error.
+     */
+    public static String[] execute(final String[] texts, final Language to) throws Exception {
+        return execute(texts,Language.AUTO_DETECT,to);
     }
     
     private static void validateServiceState(final String[] texts) throws Exception {

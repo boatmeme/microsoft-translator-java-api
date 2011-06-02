@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 /**
@@ -105,29 +106,67 @@ public abstract class MicrosoftAPI {
     }
     
     /**
-     * Fetches the JSON response, parses the JSON Response, returns the result of the request as a String.
+     * Fetches the JSON response, parses the JSON Response as an Array of JSONObjects,
+     * retrieves the String value of the specified JSON Property, and returns the result of 
+     * the request as a String Array.
+     * 
+     * @param url The URL to query for a String response.
+     * @return The translated String[].
+     * @throws Exception on error.
+     */
+    protected static String[] retrieveStringArr(final URL url, final String jsonProperty) throws Exception {
+    	try {
+    		final String response = retrieveResponse(url);    		
+                return jsonToStringArr(response,jsonProperty);
+    	} catch (Exception ex) {
+    		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
+    	}
+    }
+    
+    /**
+     * Fetches the JSON response, parses the JSON Response as an array of Strings
+     * and returns the result of the request as a String Array.
+     * 
+     * Overloaded to pass null as the JSON Property (assume only Strings instead of JSONObjects)
      * 
      * @param url The URL to query for a String response.
      * @return The translated String[].
      * @throws Exception on error.
      */
     protected static String[] retrieveStringArr(final URL url) throws Exception {
-    	try {
-    		final String response = retrieveResponse(url);    		
-                return jsonToStringArr(response);
-    	} catch (Exception ex) {
-    		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
-    	}
+    	return retrieveStringArr(url,null);
     }
+    
     
     private static String jsonToString(final String inputString) throws Exception {
         String json = (String)JSONValue.parse(inputString);
         return json.toString();
     }
     
+    // Helper method to parse a JSONArray. Reads an array of JSONObjects and returns a String Array
+    // containing the toString() of the desired property. If propertyName is null, just return the String value.
+    private static String[] jsonToStringArr(final String inputString, final String propertyName) throws Exception {
+        final JSONArray jsonArr = (JSONArray)JSONValue.parse(inputString);
+        String[] values = new String[jsonArr.size()];
+        
+        int i = 0;
+        for(Object obj : jsonArr) {
+            if(propertyName!=null&&!propertyName.isEmpty()) {
+                final JSONObject json = (JSONObject)obj;
+                if(json.containsKey("TranslatedText")) {
+                    values[i] = json.get("TranslatedText").toString();
+                }
+            } else {
+                values[i] = obj.toString();
+            }
+            i++;
+        }
+        return values;
+    }
+    
+    // Overloaded helper method. Used if we're dealing with Strings instead of JSONObjects in the JSONArr
     private static String[] jsonToStringArr(final String inputString) throws Exception {
-        String[] values = new String[0];
-        return (String[])((JSONArray)JSONValue.parse(inputString)).toArray(values);
+        return jsonToStringArr(inputString,null);
     }
     
     /**
