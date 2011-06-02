@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 public final class Translate extends MicrosoftAPI {
     
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate";
+    private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray";
     
     /**
      * Translates text from a given Language to another given Language using Microsoft Translator.
@@ -67,11 +68,49 @@ public final class Translate extends MicrosoftAPI {
         return execute(text,Language.AUTO_DETECT,to);
     }
     
+    /**
+     * Translates an array of texts from a given Language to another given Language using Microsoft Translator's TranslateArray
+     * service
+     * 
+     * @param texts The Strings Array to translate.
+     * @param from The language code to translate from.
+     * @param to The language code to translate to.
+     * @return The translated Strings Array[].
+     * @throws Exception on error.
+     */
+    public static String[] execute(final String[] texts, final Language from, final Language to) throws Exception {
+        //Run the basic service validations first
+        validateServiceState(texts); 
+        final String params = 
+                "?from=" + URLEncoder.encode(from.toString(),ENCODING) 
+                + "&to=" + URLEncoder.encode(to.toString(),ENCODING) 
+                + "&appId=" + URLEncoder.encode(apiKey,ENCODING) 
+                + "&texts=" + URLEncoder.encode(buildStringArrayParam(texts),ENCODING);
+        
+        final URL url = new URL(ARRAY_SERVICE_URL + params);
+    	final String[] response = retrieveStringArr(url);
+    	return response;
+    }
+    
+    private static void validateServiceState(final String[] texts) throws Exception {
+        int length = 0;
+        for(String text : texts) {
+            length+=text.length();
+        }
+        if(length>10240) {
+            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+        }
+        validateServiceState();
+    }
+    
+    
     private static void validateServiceState(final String text) throws Exception {
         if(text.length()>10240) {
             throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
         }
         validateServiceState();
     }
+    
+    
     
 }

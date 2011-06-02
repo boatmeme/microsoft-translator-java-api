@@ -271,4 +271,12 @@ public class TranslateTest extends TestCase {
                                 }
                                 assertTrue(exception);
         }
+        
+        public void testTranslateArray() throws Exception {
+            String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
+            String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
+            for(String text : translatedTexts) {
+                System.out.println(text);
+            }
+        }
 }
