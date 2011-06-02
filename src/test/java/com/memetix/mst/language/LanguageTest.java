@@ -147,9 +147,11 @@ public class LanguageTest extends TestCase {
     public void testGetLocalizedNameMap() throws Exception {
         Language locale = Language.ENGLISH;
         Map<String,Language> result = Language.values(locale);
+        /*
         for(String langName : result.keySet()) {
             System.out.println(langName);
         }
+         */
         assertEquals(36, result.size());
     }
 }
