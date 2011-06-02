@@ -89,4 +89,4 @@ Please note that while this license does not distinguish between personal, inter
 
 From Microsoft's Chris Wendt on the [Microsoft Translator Developer Forums](http://social.msdn.microsoft.com/Forums/en-US/microsofttranslator/thread/1ac77bbc-e6d6-48dc-92c6-652509154c02):
 
->  I want to remind everyone that commercial use of the Microsoft Translator API requires a commercial license. To obtain such >  a license, please send a message with a short description of your application to [mtlic@microsoft.com](mailto:mtlic@microsoft.com)
+>  I want to remind everyone that commercial use of the Microsoft Translator API requires a commercial license. To obtain such a license, please send a message with a short description of your application to [mtlic@microsoft.com](mailto:mtlic@microsoft.com)
