@@ -31,9 +31,20 @@ Download the latest [JAR with Dependencies](https://github.com/downloads/boatmem
       }
     }
 
+More Examples:
+==============
+
+I've posted some examples to the [http://code.google.com/p/microsoft-translator-java-api/source/browse/#svn%2Ftrunk%2Fmicrosoft-translator-java-examples%2Fsrc%2Fmain%2Fjava%2Fcom%2Fmemetix%2Fmst%2Fexamples] (SVN repository) on Google Code. The examples include:
+
+  * [http://code.google.com/p/microsoft-translator-java-api/source/browse/trunk/microsoft-translator-java-examples/src/main/java/com/memetix/mst/examples/TranslateExample.java] (Translating text between two languages)
+  * [http://code.google.com/p/microsoft-translator-java-api/source/browse/trunk/microsoft-translator-java-examples/src/main/java/com/memetix/mst/examples/DetectLanguageExample.java] (Detecting the native language of given text)
+  * [http://code.google.com/p/microsoft-translator-java-api/source/browse/trunk/microsoft-translator-java-examples/src/main/java/com/memetix/mst/examples/LanguageLocalizationExamples.java] (Getting a list of supported languages, with localized language names)
+  * [http://code.google.com/p/microsoft-translator-java-api/source/browse/trunk/microsoft-translator-java-examples/src/main/java/com/memetix/mst/examples/SpeakTextExample.java] (Generating and playing a WAV of given text spoken in a chosen dialect)
+
 Maven
 =====
-Include the following in your POM.xml:
+
+For those using Maven 2 to manage their project dependencies, the microsoft-translator-java-api is distributed via the [http://search.maven.org/#browse%7C458759702] (Maven Central) repository. Simply include the following in your POM.xml to use the Microsoft Translator Java API:
 
     <dependency>
         <groupId>com.memetix</groupId>
@@ -41,3 +52,14 @@ Include the following in your POM.xml:
         <version>0.3</version>
         <type>jar</type>
     </dependency>
+
+Or, if you're feeling adventurous, help us test the next version by adding the latest SNAPSHOT to your POM.xml:
+
+    <dependency>
+        <groupId>com.memetix</groupId>
+        <artifactId>microsoft-translator-java-api</artifactId>
+        <version>0.4-SNAPSHOT</version>
+        <type>jar</type>
+    </dependency>
+
+The snapshot is hosted at the [https://oss.sonatype.org/content/repositories/snapshots/](OSS Sonatype Snapshot) repository
