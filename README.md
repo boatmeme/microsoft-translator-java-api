@@ -17,7 +17,7 @@ Quickstart:
 
 Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.3-jar-with-dependencies.jar)
 
-    import com.memetix.mst.Language;
+    import com.memetix.mst.language.Language;
     import com.memetix.mst.translate.Translate;
 
     public class Main {
