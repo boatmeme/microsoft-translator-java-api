@@ -63,7 +63,13 @@ Or, if you're feeling adventurous, help us test the next version by adding the l
         <type>jar</type>
     </dependency>
 
-The snapshot is hosted at the [OSS Sonatype Snapshot](https://oss.sonatype.org/content/repositories/snapshots/) repository
+The SNAPSHOT is hosted at the [Sonatype OSS Snapshot](https://oss.sonatype.org/content/repositories/snapshots/) repository, so if you do not already have it in your repository list, you will need to add this also
+
+    <repository>
+        <id>sonatype-oss-repo</id>
+        <name>Sonatype Open Source maven snapshot repo</name>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
 
 License
 =======
