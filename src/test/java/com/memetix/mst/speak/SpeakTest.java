@@ -36,6 +36,9 @@ public class SpeakTest extends TestCase {
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
         String apiKey = p.getProperty("microsoft.translator.api.key");
+        if(System.getProperty("test.api.key")!=null) {
+            apiKey = System.getProperty("test.api.key");
+        }
         Speak.setKey(apiKey);
         super.setUp();
     }

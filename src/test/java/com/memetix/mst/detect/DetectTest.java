@@ -37,6 +37,9 @@ public class DetectTest extends TestCase {
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
         String apiKey = p.getProperty("microsoft.translator.api.key");
+        if(System.getProperty("test.api.key")!=null) {
+            apiKey = System.getProperty("test.api.key");
+        }
         Detect.setKey(apiKey);
     }
     

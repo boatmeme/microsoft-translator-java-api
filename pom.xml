@@ -118,15 +118,26 @@
               </execution>
             </executions>
       </plugin>
+       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <systemPropertyVariables>
+            <test.api.key>${test.api.key}</test.api.key>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <!--
   <profiles>
      <profile>
-          <!-- Used only when invoking release:perform so as not to re-run tests as part of the deployment-->
           <id>release</id>
           <properties>
             <skipTests>true</skipTests>
           </properties>
       </profile>
   </profiles>
+  -->
 </project>
