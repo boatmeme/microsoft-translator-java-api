@@ -63,7 +63,13 @@ Or, if you're feeling adventurous, help us test the next version by adding the l
         <type>jar</type>
     </dependency>
 
-The snapshot is hosted at the [OSS Sonatype Snapshot](https://oss.sonatype.org/content/repositories/snapshots/) repository
+The SNAPSHOT is hosted at the [Sonatype OSS Snapshot](https://oss.sonatype.org/content/repositories/snapshots/) repository, so if you do not already have it in your repository list, you will need to add this also
+
+    <repository>
+        <id>sonatype-oss-repo</id>
+        <name>Sonatype Open Source maven snapshot repo</name>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
 
 License
 =======
@@ -88,6 +94,4 @@ The microsoft-translator-java-api is licensed under the [Apache License, Version
 
 Please note that while this license does not distinguish between personal, internal or commercial use, the Microsoft Translator API itself _**does**_ in fact make this distinction.
 
-From Microsoft's Chris Wendt on the [Microsoft Translator Developer Forums](http://social.msdn.microsoft.com/Forums/en-US/microsofttranslator/thread/1ac77bbc-e6d6-48dc-92c6-652509154c02):
-
->  I want to remind everyone that commercial use of the Microsoft Translator API requires a commercial license. To obtain such a license, please send a message with a short description of your application to [mtlic@microsoft.com](mailto:mtlic@microsoft.com)
+>  If you intend to use the Microsoft Translator API for commercial or high volume purposes, you would need to sign a commercial license agreement and provide your appID to the Microsoft Translator team. For more details contact [mtlic@microsoft.com](mailto:mtlic@microsoft.com). This allows the Microsoft Translator team to better tune the service to the needs of our many partners, and avoid abuse.
