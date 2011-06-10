@@ -95,3 +95,5 @@ The microsoft-translator-java-api is licensed under the [Apache License, Version
 Please note that while this license does not distinguish between personal, internal or commercial use, the Microsoft Translator API itself _**does**_ in fact make this distinction.
 
 >  If you intend to use the Microsoft Translator API for commercial or high volume purposes, you would need to sign a commercial license agreement and provide your appID to the Microsoft Translator team. For more details contact [mtlic@microsoft.com](mailto:mtlic@microsoft.com). This allows the Microsoft Translator team to better tune the service to the needs of our many partners, and avoid abuse.
+
+
