@@ -173,11 +173,6 @@ public abstract class MicrosoftAPI {
         return values;
     }
     
-    // Overloaded helper method. Used if we're dealing with Strings instead of JSONObjects in the JSONArr
-    private static String[] jsonToStringArr(final String inputString) throws Exception {
-        return jsonToStringArr(inputString,null);
-    }
-    
     /**
      * Reads an InputStream and returns its contents as a String.
      * Also effects rate control.
@@ -203,20 +198,6 @@ public abstract class MicrosoftAPI {
     	}
     	
     	return outputBuilder.toString();
-    }
-    
-    /*
-     * The Microsoft Translator API returns some questionable, non-standard responses (for both the AJAX and HTTP
-     * Services). Broke this into a different method in case the format changes in the future.
-     * 
-     * Currently, just strip the first two and last characters, there is Unicode non-breaking space and quotes
-     * Truly odd.
-     */
-    private static String massageResponse(String msTranslateResponse) {
-        if(msTranslateResponse==null)
-            return msTranslateResponse;
-        
-        return msTranslateResponse.substring(2,msTranslateResponse.length()-1);
     }
     
     //Check if ready to make request, if not, throw a RuntimeException

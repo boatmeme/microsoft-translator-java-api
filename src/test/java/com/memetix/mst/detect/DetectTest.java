@@ -15,24 +15,29 @@
  */
 package com.memetix.mst.detect;
 
+import static org.junit.Assert.*;
+
 import com.memetix.mst.language.Language;
 import java.net.URL;
 import java.util.Properties;
-import junit.framework.TestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 /**
  * Unit Tests for the Detect class
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public class DetectTest extends TestCase {
-    Properties p;
-    public DetectTest(String testName) {
-        super(testName);
-    }
+public class DetectTest {
+    Properties p;    
     
-     @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
+    @Before
+    public void setUp() throws Exception {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
@@ -43,23 +48,24 @@ public class DetectTest extends TestCase {
         Detect.setKey(apiKey);
     }
     
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
+  
     }
 
+    @Test
     public void testDetectEnglish() throws Exception {
         assertEquals(Language.ENGLISH.toString(),Detect.execute("Hello world!"));
     }
-    
+    @Test
     public void testDetectFrench() throws Exception {
         assertEquals(Language.FRENCH.toString(),Detect.execute("Salut tout le monde"));
     }
-    
+    @Test
     public void testDetectKorean() throws Exception {
         assertEquals(Language.KOREAN.toString(),Detect.execute("전 세계 여러분 안녕하세요"));
     }
-    
+    @Test
     public void testDetectArray() throws Exception {
          String[] texts = {"Hello world!","Salut tout le monde","전 세계 여러분 안녕하세요"};
          String[] detections = Detect.execute(texts);
@@ -67,39 +73,31 @@ public class DetectTest extends TestCase {
          assertEquals(Language.FRENCH.toString(),detections[1]);
          assertEquals(Language.KOREAN.toString(),detections[2]);
     }
-    
+    @Test
     public void testDetectArraySingle() throws Exception {
          String[] texts = {"Hello world!"};
          String[] detections = Detect.execute(texts);
          assertEquals(Language.ENGLISH.toString(),detections[0]);
     }
     
+    @Test
     public void testDetect_NoKey() throws Exception {
         Detect.setKey(null);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+        Detect.execute("전 세계 여러분 안녕하세요");
         
-        boolean exception = false;
-        try {
-            Detect.execute("전 세계 여러분 안녕하세요");
-        }catch(RuntimeException re) {
-            exception = true;
-            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
-        }
-        assertEquals(true, exception);
     }
-    
+    @Test
     public void testDetectArray_NoKey() throws Exception {
         Detect.setKey(null);
         String[] texts = {"Hello world!"};
-        boolean exception = false;
-        try {
-            Detect.execute(texts);
-        }catch(RuntimeException re) {
-            exception = true;
-            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
-        }
-        assertEquals(true, exception);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+        Detect.execute(texts);
     }
     
+    @Test
     public void testDetectEnglish_Large() throws Exception {
         assertEquals(Language.ENGLISH.toString(),Detect.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -143,7 +141,7 @@ public class DetectTest extends TestCase {
 				+ "City was entering the credit boom. Barclays and JP Morgan declined to comment."
 				));
     }
-    
+    @Test
     public void testLargeTooLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                             + "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -187,13 +185,9 @@ public class DetectTest extends TestCase {
                             + "City was entering the credit boom. Barclays and JP Morgan declined to comment.";
                             largeText += " " + largeText;
                             largeText += " " + largeText;
-                            boolean exception = false;
-                            try {
-                                Detect.execute(largeText.substring(0,10242));
-                            } catch(Exception e) {
-                                exception = true;
-                                assertEquals("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request",e.getMessage());
-                            }
-                            assertTrue(exception);
+                            exception.expect(RuntimeException.class);
+                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
+                            Detect.execute(largeText.substring(0,10242));
+                            
     }
 }

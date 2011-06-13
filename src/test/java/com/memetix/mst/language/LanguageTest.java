@@ -15,25 +15,32 @@
  */
 package com.memetix.mst.language;
 
+import static org.junit.Assert.*;
+
 import com.memetix.mst.language.Language;
 import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  *
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public class LanguageTest extends TestCase {
+public class LanguageTest {
     Properties p;
-    public LanguageTest(String testName) {
-        super(testName);
-    }
     
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
+    
+    @Before
+    public void setUp() throws Exception {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
@@ -44,22 +51,15 @@ public class LanguageTest extends TestCase {
         Language.setKey(apiKey);
     }
     
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
+    @After
+    public void tearDown() throws Exception {
 
-    /**
-     * Test of values method, of class Language.
-     */
-    public void testValues() {
-        Language[] expResult = null;
-        Language[] result = Language.values();
     }
 
     /**
      * Test of valueOf method, of class Language.
      */
+    @Test
     public void testValueOf() {
         String name = "ENGLISH";
         Language expResult = Language.ENGLISH;
@@ -71,30 +71,27 @@ public class LanguageTest extends TestCase {
     /**
      * Test of fromString method, of class Language.
      */
+    @Test
     public void testFromString() {
         String pLanguage = "en";
         Language expResult = Language.ENGLISH;
         Language result = Language.fromString(pLanguage);
         assertEquals(expResult, result);
     }
-    
+    @Test
     public void testGetLanguage_NoKey() throws Exception {
         Language.setKey(null);
-        boolean exception = false;
         Language locale = Language.ENGLISH;
         
-        try {
-            String result = Language.FRENCH.getName(locale);
-        }catch(RuntimeException re) {
-            exception = true;
-            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
-        }
-        assertEquals(true, exception);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+        Language.FRENCH.getName(locale);
     }
 
     /**
      * Test of toString method, of class Language.
      */
+    @Test
     public void testToString() {
         Language instance = Language.ENGLISH;
         String expResult = "en";
@@ -106,6 +103,7 @@ public class LanguageTest extends TestCase {
     /**
      * Test of getLanguageName method, of class Language.
      */
+    @Test
     public void testGetNameLocalized() throws Exception {
         Language locale = Language.ENGLISH;
         String expResult = "French";
@@ -118,26 +116,24 @@ public class LanguageTest extends TestCase {
         assertEquals(expResult, result);
     }
     
+    @Test
     public void testGetAllNamesLocalizedCached() throws Exception {
-        String name;
         //Flush the caches, so we can test for timing
         Language.flushNameCache();
         
         
         long startTime1 = System.currentTimeMillis();
         for(Language lang : Language.values()) {
-            name = lang.getName(Language.FRENCH);
+            lang.getName(Language.FRENCH);
             //System.out.println(name + " : " + lang.toString());
         }
         long totalTime1 = System.currentTimeMillis()-startTime1;
         
         long startTime2 = System.currentTimeMillis();
         for(Language lang : Language.values()) {
-            name = lang.getName(Language.FRENCH);
-            //System.out.println(name + " : " + lang.toString());
+            lang.getName(Language.FRENCH);
         }
         long totalTime2 = System.currentTimeMillis()-startTime2;
-        //System.out.println("Uncached: " + totalTime1 + "ms, Cached: " + totalTime2 + "ms");
         assert totalTime1 > totalTime2;
         
         /* Uncomment this block to eyeball and make sure the name localization is working for all languages
@@ -147,6 +143,7 @@ public class LanguageTest extends TestCase {
         */
     }
     
+    @Test
     public void testGetLocalizedNameMap() throws Exception {
         Language locale = Language.ENGLISH;
         Map<String,Language> result = Language.values(locale);

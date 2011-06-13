@@ -15,23 +15,30 @@
  */
 package com.memetix.mst.speak;
 
+import static org.junit.Assert.*;
+
 import com.memetix.mst.language.SpokenDialect;
 import java.net.URL;
 import java.util.Properties;
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  *
- * @author boatmeme
+ * @author Jonathan Griggs <jonathan.griggs AT gmail.com>
  */
-public class SpeakTest extends TestCase {
+public class SpeakTest {
     Properties p;
-    public SpeakTest(String testName) {
-        super(testName);
-    }
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
     
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
@@ -40,34 +47,30 @@ public class SpeakTest extends TestCase {
             apiKey = System.getProperty("test.api.key");
         }
         Speak.setKey(apiKey);
-        super.setUp();
     }
     
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
+     
     }
     
     /**
      * Test of execute method, of class Speak.
      */
+    @Test
     public void testGetSpeakUrl_NoKey() throws Exception {
         Speak.setKey(null);
-        boolean exception = false;
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         String text = "Hello World!";
         SpokenDialect language = SpokenDialect.ENGLISH_INDIA;
-        try {
-            String result = Speak.execute(text, language);
-        }catch(RuntimeException re) {
-            exception = true;
-            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
-        }
-        assertEquals(true, exception);
+        Speak.execute(text, language);
     }
 
     /**
      * Test of execute method, of class Speak.
      */
+    @Test
     public void testGetSpeakUrl() throws Exception {
         String text = "Hello World!";
         SpokenDialect language = SpokenDialect.ENGLISH_INDIA;
@@ -79,6 +82,7 @@ public class SpeakTest extends TestCase {
     /**
      * Test of execute method, of class Speak.
      */
+    @Test
     public void testGetSpeakUrlUk() throws Exception {
         String text = "Hello World!";
         SpokenDialect language = SpokenDialect.ENGLISH_UNITED_KINGDOM;
@@ -87,6 +91,7 @@ public class SpeakTest extends TestCase {
         assertEquals(true, result.contains(expResult));
     }
     
+    @Test
     public void testLargeTooLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                             + "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -130,13 +135,9 @@ public class SpeakTest extends TestCase {
                             + "City was entering the credit boom. Barclays and JP Morgan declined to comment.";
                             largeText += " " + largeText;
                             largeText += " " + largeText;
-                            boolean exception = false;
-                            try {
-                                Speak.execute(largeText.substring(0,10242),SpokenDialect.ENGLISH_INDIA);
-                            } catch(Exception e) {
-                                exception = true;
-                                assertEquals("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000k characters per request",e.getMessage());
-                            }
-                            assertTrue(exception);
+                            exception.expect(RuntimeException.class);
+                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000k characters per request");
+                            Speak.execute(largeText.substring(0,10242),SpokenDialect.ENGLISH_INDIA);
+                            
     }
 }

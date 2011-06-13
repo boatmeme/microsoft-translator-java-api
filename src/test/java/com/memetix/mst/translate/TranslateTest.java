@@ -15,26 +15,32 @@
  */
 package com.memetix.mst.translate;
 
+import static org.junit.Assert.*;
+
 import com.memetix.mst.language.Language;
 import java.net.URL;
 import java.util.Properties;
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  *
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public class TranslateTest extends TestCase {
+public class TranslateTest{
     
     public Properties p;
     
-    public TranslateTest(String testName) {
-        super(testName);
-    }
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
     
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
@@ -45,90 +51,83 @@ public class TranslateTest extends TestCase {
         Translate.setKey(apiKey);
     }
     
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         Translate.setKey(null);
         Translate.setHttpReferrer(null);
-        super.tearDown();
     }
 
     public void testSetApiKey() {
         assert(true);
     }
     
-    
+    @Test
     public void testTranslate_SetReferrer() throws Exception {
         Translate.setHttpReferrer("http://localhost:8080");
         assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
     }
-    
+    @Test
     public void testTranslate_NoSpace() throws Exception {
         assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
     }
-    
+    @Test
     public void testTranslate_EncodeSpace() throws Exception {
         assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", Language.ENGLISH, Language.FRENCH));
     }
-    
+    @Test
     public void testTranslate_AutoDetectOrigin() throws Exception {
         assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", Language.AUTO_DETECT, Language.FRENCH));
     }
-    
+    @Test
     public void testTranslate_AutoDetectOrigin_French() throws Exception {
         assertEquals("Salut tout le monde", Translate.execute("Hallo welt", Language.AUTO_DETECT, Language.FRENCH));
     }
-    
+    @Test
     public void testTranslate_ItalianToGerman_AndBack() throws Exception {
         assertEquals("Salve, mondo", Translate.execute("Hallo welt", Language.GERMAN, Language.ITALIAN));
         assertEquals("Hallo welt".toLowerCase(), Translate.execute("Salve, mondo", Language.ITALIAN, Language.GERMAN).toLowerCase());
     }
-    
+    @Test
     public void testTranslate_EnglishToArabic_Unicode() throws Exception {
         assertEquals("هذا هو بلدي الترجمة للعربية",Translate.execute("This is my translation intended for Arabic", Language.ENGLISH, Language.ARABIC));
     }
-    
+    @Test
     public void testTranslate_EnglishToTurkish_Unicode() throws Exception {
         assertEquals("Merhaba Dünya", Translate.execute("Hello world", Language.ENGLISH, Language.TURKISH));
         assertEquals("Hello world", Translate.execute("Merhaba Dünya", Language.TURKISH, Language.ENGLISH));
     }
-    
+    @Test
     public void testTranslate_RussianToSpanish_Unicode() throws Exception {
         assertEquals("Hola mundo", Translate.execute("Привет мир", Language.RUSSIAN, Language.SPANISH));
     }
-    
+    @Test
     public void testTranslate_EnglishToJapanese_Unicode() throws Exception {
         assertEquals("ハローワールド", Translate.execute("Hello world", Language.ENGLISH, Language.JAPANESE));
         assertEquals("Hello world", Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH));
     }
-    
+    @Test
     public void testTranslate_EnglishToKorean_Unicode() throws Exception {
         assertEquals("전 세계 여러분 안녕하세요", Translate.execute("Hello world", Language.ENGLISH, Language.KOREAN));
         assertEquals("Hello world", Translate.execute("전 세계 여러분 안녕하세요", Language.AUTO_DETECT, Language.ENGLISH));
     }
-    
+    @Test
     public void testTranslate_EnglishToKorean_DefaultToAutoDetect() throws Exception {
         assertEquals("전 세계 여러분 안녕하세요", Translate.execute("Hello world", Language.ENGLISH, Language.KOREAN));
         assertEquals("Hello world", Translate.execute("전 세계 여러분 안녕하세요", Language.AUTO_DETECT, Language.ENGLISH));
         assertEquals("Hello world", Translate.execute("전 세계 여러분 안녕하세요", Language.ENGLISH));
     }
-    
+    @Test
     public void testTranslate_EnglisthToHebrew_Unicode() throws Exception {
         assertEquals("מזהה", Translate.execute("ID", Language.ENGLISH, Language.HEBREW));
     }
-    
+    @Test
      public void testDetect_NoKey() throws Exception {
         Translate.setKey(null);
-        
-        boolean exception = false;
-        try {
-            Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
-        }catch(RuntimeException re) {
-            exception = true;
-            assertEquals("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key",re.getMessage());
-        }
-        assertEquals(true, exception);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+        Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
     }
-     
+    @Test
      public void testLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -173,7 +172,7 @@ public class TranslateTest extends TestCase {
 		Translate.execute(largeText,
 				Language.ENGLISH, Language.FRENCH);
 	}
-        /*
+        @Ignore("Sometimes Fails, not sure why")
         public void testLargeLimit() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                                 + "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -220,7 +219,9 @@ public class TranslateTest extends TestCase {
                                 Translate.execute(largeText.substring(0,10240),
                                                 Language.ENGLISH, Language.FRENCH);
         }
-        */
+        
+    
+       @Test
         public void testLargeTooLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                                 + "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -264,17 +265,12 @@ public class TranslateTest extends TestCase {
                                 + "City was entering the credit boom. Barclays and JP Morgan declined to comment.";
                                 largeText += " " + largeText;
                                 largeText += " " + largeText;
-                                boolean exception = false;
-                                try {
-                                    Translate.execute(largeText.substring(0,10242),
-                                                    Language.ENGLISH, Language.FRENCH);
-                                } catch(Exception e) {
-                                    exception = true;
-                                    assertEquals("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request",e.getMessage());
-                                }
-                                assertTrue(exception);
+                                exception.expect(RuntimeException.class);
+                                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+                                Translate.execute(largeText.substring(0,10242), Language.ENGLISH, Language.FRENCH);
+                                
         }
-        
+       @Test
         public void testTranslateArray() throws Exception {
             String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
@@ -283,7 +279,7 @@ public class TranslateTest extends TestCase {
             assertEquals("J'aimerais être traduit",translatedTexts[1]);
             assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
-        
+       @Test
         public void testTranslateArray_Overloaded() throws Exception {
             String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.FRENCH);
