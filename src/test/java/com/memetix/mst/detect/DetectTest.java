@@ -55,15 +55,15 @@ public class DetectTest {
 
     @Test
     public void testDetectEnglish() throws Exception {
-        assertEquals(Language.ENGLISH.toString(),Detect.execute("Hello world!"));
+        assertEquals(Language.ENGLISH,Detect.execute("Hello world!"));
     }
     @Test
     public void testDetectFrench() throws Exception {
-        assertEquals(Language.FRENCH.toString(),Detect.execute("Salut tout le monde"));
+        assertEquals(Language.FRENCH,Detect.execute("Salut tout le monde"));
     }
     @Test
     public void testDetectKorean() throws Exception {
-        assertEquals(Language.KOREAN.toString(),Detect.execute("전 세계 여러분 안녕하세요"));
+        assertEquals(Language.KOREAN,Detect.execute("전 세계 여러분 안녕하세요"));
     }
     @Test
     public void testDetectArray() throws Exception {
@@ -96,10 +96,10 @@ public class DetectTest {
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         Detect.execute(texts);
     }
-    
+
     @Test
     public void testDetectEnglish_Large() throws Exception {
-        assertEquals(Language.ENGLISH.toString(),Detect.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
+        assertEquals(Language.ENGLISH,Detect.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "
 				+ "intermediation sector received bonuses worth ¬¨¬£7.6bn. The figure is more than 40pc lower than last"
 				+ "year's total of ¬¨¬£13.2bn, but the fact that it came during a period where the banking system owed its"

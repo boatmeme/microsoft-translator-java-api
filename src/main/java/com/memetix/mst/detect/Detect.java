@@ -16,6 +16,8 @@
 package com.memetix.mst.detect;
 
 import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.language.Language;
+
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -36,15 +38,15 @@ public final class Detect extends MicrosoftAPI {
 	 * @return A String containing the language
 	 * @throws Exception on error.
 	 */
-	public static String execute(final String text) throws Exception {
-                //Run the basic service validations first
-                validateServiceState(text); 
+	public static Language execute(final String text) throws Exception {
+        //Run the basic service validations first
+        validateServiceState(text); 
 		final URL url = new URL(SERVICE_URL 
                         +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
                         +PARAM_TEXT_SINGLE+URLEncoder.encode(text, ENCODING));
                      
 		final String response = retrieveString(url);
-                return response;
+        return Language.fromString(response);
 	}
         
         /**
@@ -55,9 +57,9 @@ public final class Detect extends MicrosoftAPI {
 	 * @throws Exception on error.
 	 */
 	public static String[] execute(final String[] texts) throws Exception {
-                //Run the basic service validations first
-                validateServiceState(texts); 
-                final String textArr = buildStringArrayParam(texts);
+        //Run the basic service validations first
+        validateServiceState(texts); 
+        final String textArr = buildStringArrayParam(texts);
 		final URL url = new URL(ARRAY_SERVICE_URL 
                         +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
                         +PARAM_TEXT_ARRAY+URLEncoder.encode(textArr, ENCODING));
@@ -65,20 +67,20 @@ public final class Detect extends MicrosoftAPI {
                 return response;
 	}
         
-        private static void validateServiceState(final String text) throws Exception {
+    private static void validateServiceState(final String text) throws Exception {
+        if(text.length()>10240) {
+            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
+        }
+        validateServiceState();
+    }
+        
+    private static void validateServiceState(final String[] texts) throws Exception {
+        for(String text : texts) {
             if(text.length()>10240) {
                 throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
             }
-            validateServiceState();
         }
-        
-        private static void validateServiceState(final String[] texts) throws Exception {
-            for(String text : texts) {
-                if(text.length()>10240) {
-                    throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
-                }
-            }
-            validateServiceState();
-        }
+        validateServiceState();
+    }
 
 }
