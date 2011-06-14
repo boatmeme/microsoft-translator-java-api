@@ -32,11 +32,13 @@ import java.net.URLEncoder;
 public final class Speak extends MicrosoftAPI {
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Speak?";
 
-        /**
+     //prevent instantiation
+     private Speak() {};
+     /**
 	 * Detects the language of a supplied String.
 	 * 
 	 * @param text The String to generate a WAV for
-         * @param to The language code to translate to
+     * @param to The language code to translate to
 	 * @return A String containing the URL to a WAV of the spoken text
 	 * @throws Exception on error.
 	 */

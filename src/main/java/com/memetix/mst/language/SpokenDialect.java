@@ -59,10 +59,10 @@ public enum SpokenDialect {
 	 */
 	private final String language;
         
-        /**
-         * Internal Localized Name Cache
-         */
-        private Map<Language,String> localizedCache = new ConcurrentHashMap<Language,String>();
+    /**
+     * Internal Localized Name Cache
+     */
+    private Map<Language,String> localizedCache = new ConcurrentHashMap<Language,String>();
 	
 	/**
 	 * Enum constructor.
@@ -94,19 +94,19 @@ public enum SpokenDialect {
             SpokenDialectService.setKey(pKey);
         }
         
-        /**
-         * getName()
-         * 
-	 * Returns the name for this language in the tongue of the specified locale
-         * 
-         * If the name is not cached, then it retrieves the name of ALL languages in this locale.
-         * This is not bad behavior for 2 reasons:
-         * 
-         *      1) We can make a reasonable assumption that the client will request the
-         *         name of another language in the same locale 
-         *      2) The GetLanguageNames service call expects an array and therefore we can 
-         *         retrieve ALL names in the same, single call anyway.
-         * 
+    /**
+     * getName()
+     * 
+     * Returns the name for this language in the tongue of the specified locale
+     * 
+     * If the name is not cached, then it retrieves the name of ALL languages in this locale.
+     * This is not bad behavior for 2 reasons:
+     * 
+     *      1) We can make a reasonable assumption that the client will request the
+     *         name of another language in the same locale 
+     *      2) The GetLanguageNames service call expects an array and therefore we can 
+     *         retrieve ALL names in the same, single call anyway.
+     * 
 	 * @return The String representation of this language's localized Name.
 	 */
         public String getName(Language locale) throws Exception {
@@ -142,30 +142,30 @@ public enum SpokenDialect {
         private final static class SpokenDialectService extends MicrosoftAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?";
             
-        /**
-         * Detects the language of a supplied String.
-         * 
-         * @param text The String to detect the language of.
-         * @return A DetectResult object containing the language, confidence and reliability.
-         * @throws Exception on error.
-         */
-        public static String[] execute(final SpokenDialect[] targets, final Language locale) throws Exception {
-                //Run the basic service validations first
-                validateServiceState(); 
-                String[] localizedNames = new String[0];
-                if(locale==Language.AUTO_DETECT) {
-                    return localizedNames;
-                }
-
-                final String targetString = buildStringArrayParam(SpokenDialect.values());
-
-                final URL url = new URL(SERVICE_URL 
-                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
-                        +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
-                        +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
-                localizedNames = retrieveStringArr(url);
-                return localizedNames;
-        }
+	        /**
+	         * Detects the language of a supplied String.
+	         * 
+	         * @param text The String to detect the language of.
+	         * @return A DetectResult object containing the language, confidence and reliability.
+	         * @throws Exception on error.
+	         */
+	        public static String[] execute(final SpokenDialect[] targets, final Language locale) throws Exception {
+	                //Run the basic service validations first
+	                validateServiceState(); 
+	                String[] localizedNames = new String[0];
+	                if(locale==Language.AUTO_DETECT) {
+	                    return localizedNames;
+	                }
+	
+	                final String targetString = buildStringArrayParam(SpokenDialect.values());
+	
+	                final URL url = new URL(SERVICE_URL 
+	                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+	                        +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
+	                        +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
+	                localizedNames = retrieveStringArr(url);
+	                return localizedNames;
+	        }
 
      }
 }

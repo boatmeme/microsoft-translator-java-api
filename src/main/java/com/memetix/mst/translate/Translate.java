@@ -32,6 +32,9 @@ public final class Translate extends MicrosoftAPI {
     private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?";
     private static final String ARRAY_JSON_OBJECT_PROPERTY = "TranslatedText";
     
+    //prevent instantiation
+    private Translate(){};
+    
     /**
      * Translates text from a given Language to another given Language using Microsoft Translator.
      * 

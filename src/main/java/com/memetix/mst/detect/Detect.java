@@ -31,7 +31,10 @@ import java.net.URLEncoder;
 public final class Detect extends MicrosoftAPI {
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Detect?";
     private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/DetectArray?";
-        /**
+    
+    // prevent instantiation
+    private Detect(){};
+    /**
 	 * Detects the language of a supplied String.
 	 * 
 	 * @param text The String to detect the language of.
@@ -49,7 +52,7 @@ public final class Detect extends MicrosoftAPI {
         return Language.fromString(response);
 	}
         
-        /**
+     /**
 	 * Detects the language of all supplied Strings in array.
 	 * 
 	 * @param text The Strings to detect the language of.
