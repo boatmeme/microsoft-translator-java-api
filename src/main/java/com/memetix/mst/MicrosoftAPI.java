@@ -50,6 +50,7 @@ public abstract class MicrosoftAPI {
                                   PARAM_TEXT_SINGLE = "&text=",
                                   PARAM_TEXT_ARRAY = "&texts=",
                                   PARAM_SPOKEN_LANGUAGE = "&language=",
+                                  PARAM_SENTENCES_LANGUAGE = "&language=",
                                   PARAM_LOCALE = "&locale=",
                                   PARAM_LANGUAGE_CODES = "&languageCodes=";
     
@@ -108,7 +109,7 @@ public abstract class MicrosoftAPI {
     protected static String retrieveString(final URL url) throws Exception {
     	try {
     		final String response = retrieveResponse(url);    		
-                return jsonToString(response);
+            return jsonToString(response);
     	} catch (Exception ex) {
     		throw new Exception("[microsoft-translator-api] Error retrieving translation : " + ex.getMessage(), ex);
     	}
@@ -126,7 +127,7 @@ public abstract class MicrosoftAPI {
     protected static String[] retrieveStringArr(final URL url, final String jsonProperty) throws Exception {
     	try {
     		final String response = retrieveResponse(url);    		
-                return jsonToStringArr(response,jsonProperty);
+            return jsonToStringArr(response,jsonProperty);
     	} catch (Exception ex) {
     		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
     	}
@@ -146,6 +147,32 @@ public abstract class MicrosoftAPI {
     	return retrieveStringArr(url,null);
     }
     
+    /**
+     * Fetches the JSON response, parses the JSON Response, returns the result of the request as an array of integers.
+     * 
+     * @param url The URL to query for a String response.
+     * @return The translated String.
+     * @throws Exception on error.
+     */
+    protected static Integer[] retrieveIntArray(final URL url) throws Exception {
+    	try {
+    		final String response = retrieveResponse(url);    		
+            return jsonToIntArr(response);
+    	} catch (Exception ex) {
+    		throw new Exception("[microsoft-translator-api] Error retrieving translation : " + ex.getMessage(), ex);
+    	}
+    }
+    
+    private static Integer[] jsonToIntArr(final String inputString) throws Exception {
+    	final JSONArray jsonArr = (JSONArray)JSONValue.parse(inputString);
+        Integer[] intArr = new Integer[jsonArr.size()];
+        int i = 0;
+        for(Object obj : jsonArr) {
+        	intArr[i] = ((Long)obj).intValue();
+        	i++;
+        }
+        return intArr;
+    }
     
     private static String jsonToString(final String inputString) throws Exception {
         String json = (String)JSONValue.parse(inputString);
@@ -162,8 +189,8 @@ public abstract class MicrosoftAPI {
         for(Object obj : jsonArr) {
             if(propertyName!=null&&!propertyName.isEmpty()) {
                 final JSONObject json = (JSONObject)obj;
-                if(json.containsKey("TranslatedText")) {
-                    values[i] = json.get("TranslatedText").toString();
+                if(json.containsKey(propertyName)) {
+                    values[i] = json.get(propertyName).toString();
                 }
             } else {
                 values[i] = obj.toString();
