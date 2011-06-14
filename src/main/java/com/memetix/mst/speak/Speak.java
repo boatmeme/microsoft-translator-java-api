@@ -15,7 +15,7 @@
  */
 package com.memetix.mst.speak;
 
-import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.MicrosoftTranslatorAPI;
 import com.memetix.mst.language.SpokenDialect;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -29,7 +29,7 @@ import java.net.URLEncoder;
  * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public final class Speak extends MicrosoftAPI {
+public final class Speak extends MicrosoftTranslatorAPI {
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Speak?";
 
      //prevent instantiation

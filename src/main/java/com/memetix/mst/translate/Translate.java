@@ -16,7 +16,7 @@
 package com.memetix.mst.translate;
 
 import com.memetix.mst.language.Language;
-import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.MicrosoftTranslatorAPI;
 import java.net.URL;
 import java.net.URLEncoder;
 /**
@@ -26,7 +26,7 @@ import java.net.URLEncoder;
  * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public final class Translate extends MicrosoftAPI {
+public final class Translate extends MicrosoftTranslatorAPI {
     
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?";
     private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?";

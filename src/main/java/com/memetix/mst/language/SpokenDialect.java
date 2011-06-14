@@ -15,7 +15,7 @@
  */
 package com.memetix.mst.language;
 
-import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.MicrosoftTranslatorAPI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -139,7 +139,7 @@ public enum SpokenDialect {
         }
         
         
-        private final static class SpokenDialectService extends MicrosoftAPI {
+        private final static class SpokenDialectService extends MicrosoftTranslatorAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?";
             
 	        /**

@@ -15,7 +15,7 @@
  */
 package com.memetix.mst.detect;
 
-import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.MicrosoftTranslatorAPI;
 import com.memetix.mst.language.Language;
 
 import java.net.URL;
@@ -28,7 +28,7 @@ import java.net.URLEncoder;
  * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public final class Detect extends MicrosoftAPI {
+public final class Detect extends MicrosoftTranslatorAPI {
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Detect?";
     private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/DetectArray?";
     

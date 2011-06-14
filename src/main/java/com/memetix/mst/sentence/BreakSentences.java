@@ -3,7 +3,7 @@ package com.memetix.mst.sentence;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import com.memetix.mst.MicrosoftAPI;
+import com.memetix.mst.MicrosoftTranslatorAPI;
 import com.memetix.mst.language.Language;
 
 /**
@@ -16,7 +16,7 @@ import com.memetix.mst.language.Language;
  * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
-public final class BreakSentences extends MicrosoftAPI {
+public final class BreakSentences extends MicrosoftTranslatorAPI {
 
 	private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/BreakSentences?";
 

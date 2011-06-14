@@ -37,7 +37,7 @@ import org.json.simple.JSONValue;
  * 
  * @author Jonathan Griggs
  */
-public abstract class MicrosoftAPI {
+public abstract class MicrosoftTranslatorAPI {
     //Encoding type
     protected static final String ENCODING = "UTF-8";
     
