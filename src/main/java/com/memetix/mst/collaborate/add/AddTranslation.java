@@ -1,4 +1,4 @@
-package com.memetix.mst.collaborate;
+package com.memetix.mst.collaborate.add;
 
 import com.memetix.mst.MicrosoftTranslatorAPI;
 
