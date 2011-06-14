@@ -8,6 +8,8 @@ import com.memetix.mst.MicrosoftTranslatorAPI;
  * Provides an interface to the Microsoft Translator Add Translation service
  * This is part of the Collaborative Translation functionality
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512393.aspx
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  * @since 0.4
  * @since 06/13/2011

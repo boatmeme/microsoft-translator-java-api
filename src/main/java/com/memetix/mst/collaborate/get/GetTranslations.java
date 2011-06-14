@@ -9,6 +9,8 @@ import com.memetix.mst.MicrosoftTranslatorAPI;
  * This is part of the Collaborative Translations functionality and not to be
  * confused with the Translate service.
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512402.aspx
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  * @since 0.4
  * @since 06/13/2011
