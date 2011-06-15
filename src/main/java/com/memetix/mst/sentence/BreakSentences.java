@@ -31,6 +31,8 @@ import com.memetix.mst.language.Language;
  * This service is basically a utility for determining how Microsoft Translator is
  * interpreting sentence breaks within a given string of text
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512395.aspx
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public final class BreakSentences extends MicrosoftTranslatorAPI {

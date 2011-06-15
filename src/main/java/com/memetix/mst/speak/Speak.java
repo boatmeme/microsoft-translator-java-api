@@ -29,6 +29,8 @@ import java.net.URLEncoder;
  * 
  * Returns a string which is a URL to a wave stream of the passed-in text being spoken in the desired language.
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512405.aspx
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public final class Speak extends MicrosoftTranslatorAPI {

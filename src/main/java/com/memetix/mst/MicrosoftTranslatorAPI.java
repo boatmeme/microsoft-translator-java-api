@@ -33,6 +33,8 @@ import org.json.simple.JSONValue;
  * Makes the generic Microsoft Translator API calls. Different service classes then
  * extend this to make the specific service calls.
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512404.aspx
+ * 
  * @author Jonathan Griggs
  */
 public abstract class MicrosoftTranslatorAPI {

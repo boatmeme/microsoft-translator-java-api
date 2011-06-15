@@ -26,6 +26,8 @@ import java.net.URLEncoder;
  * 
  * Makes calls to the Microsoft Translator API /Translate service
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512406.aspx
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public final class Translate extends MicrosoftTranslatorAPI {

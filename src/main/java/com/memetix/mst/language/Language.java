@@ -27,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Language - an enum of all language codes supported by the Microsoft Translator API
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512399.aspx
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public enum Language {

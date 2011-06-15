@@ -28,6 +28,8 @@ import java.net.URLEncoder;
  * 
  * Provides an interface to the Microsoft Translator Detect service method
  * 
+ * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512396.aspx 
+ * 
  * @author Jonathan Griggs <jonathan.griggs at gmail.com>
  */
 public final class Detect extends MicrosoftTranslatorAPI {
