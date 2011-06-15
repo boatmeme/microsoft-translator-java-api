@@ -1,4 +1,6 @@
 /*
+ * microsoft-translator-java-api
+ * 
  * Copyright 2011 Jonathan Griggs <jonathan.griggs at gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
