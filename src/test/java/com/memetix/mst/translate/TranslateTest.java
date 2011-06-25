@@ -290,4 +290,38 @@ public class TranslateTest{
             assertEquals("J'aimerais être traduit",translatedTexts[1]);
             assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
+       
+        @Test
+        public void testLargeLimitArray() throws Exception {
+                String[] sourceTexts = new String[42];
+                String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
+                                + "the five-month period typically regarded as peak bonus season, those working in the financial "
+                                + "intermediation sector received bonuses worth ¬¨¬£7.6bn.";
+                //System.out.println(largeText.length()*sourceTexts.length);
+                                
+                for(int i = 0;i<sourceTexts.length;i++)
+                    sourceTexts[i] = largeText;
+
+                String[] results = Translate.execute(sourceTexts,
+                                Language.ENGLISH, Language.FRENCH);
+
+                assertEquals(sourceTexts.length,results.length);
+        }
+        
+        @Test
+        public void testLargeLimitArrayException() throws Exception {
+                String[] sourceTexts = new String[43];
+                String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
+                                + "the five-month period typically regarded as peak bonus season, those working in the financial "
+                                + "intermediation sector received bonuses worth ¬¨¬£7.6bn.";
+               // System.out.println(largeText.length()*sourceTexts.length);
+                                
+                for(int i = 0;i<sourceTexts.length;i++)
+                    sourceTexts[i] = largeText;
+
+                exception.expect(RuntimeException.class);
+                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+                Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
+        }
+       
 }
