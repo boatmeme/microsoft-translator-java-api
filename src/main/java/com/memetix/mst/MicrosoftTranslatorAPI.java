@@ -126,7 +126,7 @@ public abstract class MicrosoftTranslatorAPI {
      */
     protected static String[] retrieveStringArr(final URL url, final String jsonProperty) throws Exception {
     	try {
-    		final String response = retrieveResponse(url);    		
+    	    final String response = retrieveResponse(url);    		
             return jsonToStringArr(response,jsonProperty);
     	} catch (Exception ex) {
     		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
