@@ -62,8 +62,9 @@ public final class BreakSentences extends MicrosoftTranslatorAPI {
 	}
 	
 	private static void validateServiceState(final String text, final Language fromLang) throws Exception {
-        if(text.length()>10240) {
-            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (BreakSentences) can handle up to 10240k characters per request");
+		final int byteLength = text.getBytes(ENCODING).length;
+        if(byteLength>10240) {
+            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (BreakSentences) can handle up to 10,240 bytes per request");
         }
         if(Language.AUTO_DETECT.equals(fromLang)) {
         	throw new RuntimeException("BreakSentences does not support AUTO_DETECT Langauge. Please specify the origin language");

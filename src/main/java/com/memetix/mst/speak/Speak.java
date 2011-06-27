@@ -58,8 +58,9 @@ public final class Speak extends MicrosoftTranslatorAPI {
 	}
         
         private static void validateServiceState(final String text) throws Exception {
-            if(text.length()>2000) {
-                throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000k characters per request");
+        	final int byteLength = text.getBytes(ENCODING).length;
+            if(byteLength>2000) {
+                throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000 bytes per request");
             }
             validateServiceState();
         }

@@ -168,7 +168,7 @@ public class BreakSentencesTest {
                             largeText += " " + largeText;
                             largeText += " " + largeText;
                             exception.expect(RuntimeException.class);
-                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (BreakSentences) can handle up to 10240k characters per request");
+                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (BreakSentences) can handle up to 10,240 bytes per request");
                             BreakSentences.execute(largeText.substring(0,10242),Language.ENGLISH);
                             
     }

@@ -138,7 +138,7 @@ public class SpeakTest {
                             largeText += " " + largeText;
                             largeText += " " + largeText;
                             exception.expect(RuntimeException.class);
-                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000k characters per request");
+                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Speak) can handle up to 2000 bytes per request");
                             Speak.execute(largeText.substring(0,10242),SpokenDialect.ENGLISH_INDIA);
                             
     }

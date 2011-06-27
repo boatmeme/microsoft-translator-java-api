@@ -223,7 +223,7 @@ public class TranslateTest{
         }
         
     
-       @Test
+        @Test
         public void testLargeTooLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                                 + "the five-month period typically regarded as peak bonus season, those working in the financial "
@@ -268,7 +268,7 @@ public class TranslateTest{
                                 largeText += " " + largeText;
                                 largeText += " " + largeText;
                                 exception.expect(RuntimeException.class);
-                                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+                                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10,240 bytes per request");
                                 Translate.execute(largeText.substring(0,10242), Language.ENGLISH, Language.FRENCH);
                                 
         }
@@ -293,11 +293,10 @@ public class TranslateTest{
        
         @Test
         public void testLargeLimitArray() throws Exception {
-                String[] sourceTexts = new String[42];
+                String[] sourceTexts = new String[30];
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                                 + "the five-month period typically regarded as peak bonus season, those working in the financial "
-                                + "intermediation sector received bonuses worth ¬¨¬£7.6bn.";
-                //System.out.println(largeText.length()*sourceTexts.length);
+                                + "intermediation sector received bonuses worth £7.6bn.";
                                 
                 for(int i = 0;i<sourceTexts.length;i++)
                     sourceTexts[i] = largeText;
@@ -314,14 +313,24 @@ public class TranslateTest{
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
                                 + "the five-month period typically regarded as peak bonus season, those working in the financial "
                                 + "intermediation sector received bonuses worth ¬¨¬£7.6bn.";
-               // System.out.println(largeText.length()*sourceTexts.length);
                                 
                 for(int i = 0;i<sourceTexts.length;i++)
                     sourceTexts[i] = largeText;
 
                 exception.expect(RuntimeException.class);
-                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10,240 bytes per request");
                 Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
+        }
+        
+        @Test
+        public void testLargeChinese() throws Exception {
+                String largeText = "据了解，深圳2011年保障性住房已全部开工。深圳一官员表示，政府部门这次是“动真格的”，今年深圳的1万套保障房竣工目标已经成为必须完成的 “硬任务”。如今，深圳保障房和商品房“双轨并行”发展，属于不同的市场需求。截至5月，深圳全市已有6个项目、约1.5万套保障房开工，完成年度计划的 20%。根据项目进度预安排，全市要确保今年6月底之前开工建设3万套以上保障性住房，9月底以前再开工建设4万套以上保障性住房，为确保今年开工任务完成提供有力保证。  www.6park.com 据业内人士透露，其他一些保障房项目也正在陆续开工。目前年内要竣工的1万套房源虽然还没有明确落实到底是哪些项目，但他分析认为，1万套指的是综合起来的一个数量，各个项目年内竣工套数加起来的一个总量，有些项目是2012年、2013年全部交付，但今年可能首期会竣工一部分。 前不久，深圳今年首次通过了“双限”方式出让保障房用地。此次出让地块应在今年10月底前开工，预计两年左右交房，销售均价相当于周边商品房一半。 据了解，深圳2011年保障性住房已全部开工。深圳一官员表示，政府部门这次是“动真格的”，今年深圳的1万套保障房竣工目标已经成为必须完成的 “硬任务”。如今，深圳保障房和商品房“双轨并行”发展，属于不同的市场需求。截至5月，深圳全市已有6个项目、约1.5万套保障房开工，完成年度计划的 20%。根据项目进度预安排，全市要确保今年6月底之前开工建设3万套以上保障性住房，9月底以前再开工建设4万套以上保障性住房，为确保今年开工任务完成提供有力保证。  www.6park.com 据业内人士透露，其他一些保障房项目也正在陆续开工。目前年内要竣工的1万套房源虽然还没有明确落实到底是哪些项目，但他分析认为，1万套指的是综合起来的一个数量，各个项目年内竣工套数加起来的一个总量，有些项目是2012年、2013年全部交付，但今年可能首期会竣工一部分。 据了解，深圳2011年保障性住房已全部开工。深圳一官员表示，政府部门这次是“动真格的”，今年深圳的1万套保障房竣工目标已经成为必须完成的 “硬任务”。如今，深圳保障房和商品房“双轨并行”发展，属于不同的市场需求。截至5月，深圳全市已有6个项目、约1.5万套保障房开工，完成年度计划的 20%。根据项目进度预安排，全市要确保今年6月底之前开工建设3万套以上保障性住房，9月底以前再开工建设4万套以上保障性住房，为确保今年开工任务完成提供有力保证。  www.6park.com 据业内人士透露，其他一些保障房项目也正在陆续开工。目前年内要竣工的1万套房源虽然还没有明确落实到底是哪些项目，但他分析认为，1万套指的是综合起来的一个数量，各个项目年内竣工套数加起来的一个总量，有些项目是2012年、2013年全部交付，但今年可能首期会竣工一部分。 前不久，深圳今年首次通过了“双限”方式出让保障房用地。此次出让地块应在今年10月底前开工，预计两年左右交房，销售均价相当于周边商品房一半。 据了解，深圳2011年保障性住房已全部开工。深圳一官员表示，政府部门这次是“动真格的”，今年深圳的1万套保障房竣工目标已经成为必须完成的 “硬任务”。如今，深圳保障房和商品房“双轨并行”发展，属于不同的市场需求。截至5月，深圳全市已有6个项目、约1.5万套保障房开工，完成年度计划的 20%。根据项目进度预安排，全市要确保今年6月底之前开工建设3万套以上保障性住房，9月底以前再开工建设4万套以上保障性住房，为确保今年开工任务完成提供有力保证。  www.6park.com 据业内人士透露，其他一些保障房项目也正在陆续开工。目前年内要竣工的1万套房源虽然还没有明确落实到底是哪些项目，但他分析认为，1万套指的是综合起来的一个数量，各个项目年内竣工套数加起来的一个总量，有些项目是2012年、2013年全部交付，但今年可能首期会竣工一部分。据了解，深圳2011年保障性住房已全部开工。深圳一官员表示，政府部门这次是“动真格的”，今年深圳的1万套保障房竣工目标已经成为必须完成的 “硬任务”。如今，深圳保障房和商品房“双轨并行”发展，属于不同的市场需求。截至5月，深圳全市已有6个项目、约1.5万套保障房开工，完成年度计划的 20%。根据项目进度预安排，全市要确保今年6月底之前开工建设3万套以上保障性住房，9月底以前再开工建设4万套以上保障性住房，为确保今年开工任务完成提供有力保证。  www.6park.com 据业内人士透露，其他一些保障房项目也正在陆续开工。目前年内要竣工的1万套房源虽然还没有明确落实到底是哪些项目，但他分析认为，1万套指的是综合起来的一个数量，各个项目年内竣工套数加起来的一个总量，有些项目是2012年、2013年全部交付，但今年可能首期会竣工一部分。 但他分析认为，1万套指的是综合起来的一个数量，各个项目年内竣工套数加起来的一个总量，有些项目是2012年、2013年全部交付，但今年可能首期会竣工一部分。 ";
+                largeText += " " + largeText;
+                largeText += " " + largeText;
+                exception.expect(RuntimeException.class);
+                exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10,240 bytes per request");
+                Translate.execute(largeText, Language.AUTO_DETECT, Language.ENGLISH);
+                                
         }
        
 }

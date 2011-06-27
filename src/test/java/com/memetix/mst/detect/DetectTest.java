@@ -188,7 +188,7 @@ public class DetectTest {
                             largeText += " " + largeText;
                             largeText += " " + largeText;
                             exception.expect(RuntimeException.class);
-                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10240k characters per request");
+                            exception.expectMessage("TEXT_TOO_LARGE - Microsoft Translator (Detect) can handle up to 10,240 bytes per request");
                             Detect.execute(largeText.substring(0,10242));
                             
     }

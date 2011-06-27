@@ -81,13 +81,15 @@ public abstract class MicrosoftTranslatorAPI {
         final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
         if(referrer!=null)
             uc.setRequestProperty("referer", referrer);
+        uc.setRequestProperty("Content-Type","text/plain; charset=" + ENCODING);
+        uc.setRequestProperty("Accept-Charset",ENCODING);
         uc.setRequestMethod("GET");
         uc.setDoOutput(true);
 
         try {
                 final int responseCode = uc.getResponseCode();
                 if(responseCode==414) {
-                    throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator can only handle up to 10240k characters per request");
+                    throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator can only handle up to 10,240 bytes per request");
                 }
                 final String result = inputStreamToString(uc.getInputStream());
                 return result;

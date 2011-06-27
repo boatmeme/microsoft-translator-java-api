@@ -124,18 +124,19 @@ public final class Translate extends MicrosoftTranslatorAPI {
     private static void validateServiceState(final String[] texts) throws Exception {
         int length = 0;
         for(String text : texts) {
-            length+=text.length();
+            length+=text.getBytes(ENCODING).length;
         }
         if(length>10240) {
-            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10,240 bytes per request");
         }
         validateServiceState();
     }
     
     
     private static void validateServiceState(final String text) throws Exception {
-        if(text.length()>10240) {
-            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10240k characters per request");
+    	final int byteLength = text.getBytes(ENCODING).length;
+        if(byteLength>10240) {
+            throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator (Translate) can handle up to 10,240 bytes per request");
         }
         validateServiceState();
     }
