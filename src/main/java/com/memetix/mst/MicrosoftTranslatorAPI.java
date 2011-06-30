@@ -88,10 +88,10 @@ public abstract class MicrosoftTranslatorAPI {
 
         try {
                 final int responseCode = uc.getResponseCode();
-                if(responseCode==414) {
-                    throw new RuntimeException("TEXT_TOO_LARGE - Microsoft Translator can only handle up to 10,240 bytes per request");
-                }
                 final String result = inputStreamToString(uc.getInputStream());
+                if(responseCode!=200) {
+                    throw new Exception("Error from Microsoft Translator API: " + result);
+                }
                 return result;
         } finally { 
                 uc.getInputStream().close();
