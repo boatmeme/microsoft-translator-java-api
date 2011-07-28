@@ -189,7 +189,7 @@ public abstract class MicrosoftTranslatorAPI {
         
         int i = 0;
         for(Object obj : jsonArr) {
-            if(propertyName!=null&&!propertyName.isEmpty()) {
+            if(propertyName!=null&&propertyName.length()!=0) {
                 final JSONObject json = (JSONObject)obj;
                 if(json.containsKey(propertyName)) {
                     values[i] = json.get(propertyName).toString();
@@ -231,7 +231,7 @@ public abstract class MicrosoftTranslatorAPI {
     
     //Check if ready to make request, if not, throw a RuntimeException
     protected static void validateServiceState() throws Exception {
-        if(apiKey==null||apiKey.isEmpty()||apiKey.length()<16) {
+        if(apiKey==null||apiKey.length()<16) {
             throw new RuntimeException("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         }
     }
@@ -242,7 +242,7 @@ public abstract class MicrosoftTranslatorAPI {
         for(Object obj : values) {
             if(obj!=null) {
                 value = obj.toString();
-                if(!value.isEmpty()) {
+                if(value.length()!=0) {
                     if(targetString.length()>2)
                         targetString.append(",\"");
                     targetString.append(value);
