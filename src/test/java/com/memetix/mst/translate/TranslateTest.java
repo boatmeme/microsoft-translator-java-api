@@ -123,12 +123,21 @@ public class TranslateTest{
         assertEquals("מזהה", Translate.execute("ID", Language.ENGLISH, Language.HEBREW));
     }
     @Test
-     public void testDetect_NoKey() throws Exception {
+     public void testTranslate_NoKey() throws Exception {
         Translate.setKey(null);
         exception.expect(RuntimeException.class);
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
     }
+    /*
+    @Test
+    public void testTranslate_Exception() throws Exception {
+       exception.expect(Exception.class);
+       //exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+       String result = Translate.execute("\"test\" red", Language.AUTO_DETECT, Language.ENGLISH);
+       System.out.println(result);
+   }
+    */
     @Test
      public void testLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "
@@ -277,7 +286,7 @@ public class TranslateTest{
             String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
-            assertEquals("Il s'agit d'une sentence, me traduire.",translatedTexts[0]);
+            assertEquals("Il s'agit d'une phrase, me traduire.",translatedTexts[0]);
             assertEquals("J'aimerais être traduit",translatedTexts[1]);
             assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
@@ -286,7 +295,7 @@ public class TranslateTest{
             String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
-            assertEquals("Il s'agit d'une sentence, me traduire.",translatedTexts[0]);
+            assertEquals("Il s'agit d'une phrase, me traduire.",translatedTexts[0]);
             assertEquals("J'aimerais être traduit",translatedTexts[1]);
             assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
