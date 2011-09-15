@@ -88,7 +88,7 @@
             <version>2.1</version>
             <configuration>
                   <preparationGoals>clean install</preparationGoals>
-                  <arguments>-Dtest.api.key=${test.api.key}</arguments>
+                  <arguments>-Dtest.api.key=${test.api.key}</arguments> 
                   <goals>deploy -P release</goals>
             </configuration>
         </plugin>
