@@ -50,7 +50,7 @@ For those using Maven 2 to manage their project dependencies, the microsoft-tran
     <dependency>
         <groupId>com.memetix</groupId>
         <artifactId>microsoft-translator-java-api</artifactId>
-        <version>0.3</version>
+        <version>0.4</version>
         <type>jar</type>
     </dependency>
 
@@ -59,7 +59,7 @@ Or, if you're feeling adventurous, help us test the next version by adding the l
     <dependency>
         <groupId>com.memetix</groupId>
         <artifactId>microsoft-translator-java-api</artifactId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.5-SNAPSHOT</version>
         <type>jar</type>
     </dependency>
 
