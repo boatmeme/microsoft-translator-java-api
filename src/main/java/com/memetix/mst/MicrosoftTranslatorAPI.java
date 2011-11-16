@@ -94,10 +94,9 @@ public abstract class MicrosoftTranslatorAPI {
                 }
                 return result;
         } finally { 
-                uc.getInputStream().close();
-                if (uc.getErrorStream() != null) {
-                        uc.getErrorStream().close();
-                }
+        	if(uc!=null) {
+    			uc.disconnect();
+    		}
         }
     }
     
