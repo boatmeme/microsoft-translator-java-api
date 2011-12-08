@@ -10,6 +10,7 @@ is my goal to mimic the code structure, naming conventions, functionality, and u
 
 ## Requires
 
+* Java 1.5 or greater
 * A Bing Developer API Key - [Sign Up Here](http://www.bing.com/developers/createapp.aspx)
 
 Quickstart
