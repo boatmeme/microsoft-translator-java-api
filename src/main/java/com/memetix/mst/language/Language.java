@@ -35,44 +35,46 @@ public enum Language {
     AUTO_DETECT(""),
     ARABIC("ar"),
     BULGARIAN("bg"),
+    CATALAN("ca"),
     CHINESE_SIMPLIFIED("zh-CHS"),
-	CHINESE_TRADITIONAL("zh-CHT"),
-	CZECH("cs"),
-	DANISH("da"),
-	DUTCH("nl"),
-	ENGLISH("en"),
+    CHINESE_TRADITIONAL("zh-CHT"),
+    CZECH("cs"),
+    DANISH("da"),
+    DUTCH("nl"),
+    ENGLISH("en"),
     ESTONIAN("et"),
-	FINNISH("fi"),
-	FRENCH("fr"),
-	GERMAN("de"),
-	GREEK("el"),
-	HATIAN_CREOLE("ht"),
+    FINNISH("fi"),
+    FRENCH("fr"),
+    GERMAN("de"),
+    GREEK("el"),
+    HATIAN_CREOLE("ht"),
     HEBREW("he"),
-	HUNGARIAN("hu"),
+    HINDI("hi"),
+    HUNGARIAN("hu"),
     INDONESIAN("id"),
     ITALIAN("it"),
-	JAPANESE("ja"),
-	KOREAN("ko"),
-	LATVIAN("lv"),
-	LITHUANIAN("lt"),
+    JAPANESE("ja"),
+    KOREAN("ko"),
+    LATVIAN("lv"),
+    LITHUANIAN("lt"),
     NORWEGIAN("no"),
-	POLISH("pl"),
-	PORTUGUESE("pt"),
-	ROMANIAN("ro"),
-	RUSSIAN("ru"),
-	SLOVAK("sk"),
-	SLOVENIAN("sl"),
-	SPANISH("es"),
-	SWEDISH("sv"),
-	THAI("th"),
-	TURKISH("tr"),
-	UKRANIAN("uk"),
-	VIETNAMESE("vi");
+    POLISH("pl"),
+    PORTUGUESE("pt"),
+    ROMANIAN("ro"),
+    RUSSIAN("ru"),
+    SLOVAK("sk"),
+    SLOVENIAN("sl"),
+    SPANISH("es"),
+    SWEDISH("sv"),
+    THAI("th"),
+    TURKISH("tr"),
+    UKRANIAN("uk"),
+    VIETNAMESE("vi");
 	
-	/**
-	 * Microsoft's String representation of this language.
-	 */
-	private final String language;
+    /**
+     * Microsoft's String representation of this language.
+     */
+    private final String language;
         
     /**
      * Internal Localized Name Cache

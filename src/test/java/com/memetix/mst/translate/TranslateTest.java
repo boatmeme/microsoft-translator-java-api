@@ -99,6 +99,16 @@ public class TranslateTest{
         assertEquals("Hello world", Translate.execute("Merhaba Dünya", Language.TURKISH, Language.ENGLISH));
     }
     @Test
+    public void testTranslate_EnglishToHindi_Unicode() throws Exception {
+        assertEquals("हैलो वर्ल्ड", Translate.execute("Hello World", Language.ENGLISH, Language.HINDI));
+        assertEquals("Hello World", Translate.execute("हैलो वर्ल्ड", Language.HINDI, Language.ENGLISH));
+    }
+    @Test
+    public void testTranslate_EnglishToCatalan_Unicode() throws Exception {
+        assertEquals("Hola món", Translate.execute("Hello World", Language.ENGLISH, Language.CATALAN));
+        assertEquals("Hello World", Translate.execute("Hola món", Language.CATALAN, Language.ENGLISH));
+    }
+    @Test
     public void testTranslate_RussianToSpanish_Unicode() throws Exception {
         assertEquals("Hola mundo", Translate.execute("Привет мир", Language.RUSSIAN, Language.SPANISH));
     }
