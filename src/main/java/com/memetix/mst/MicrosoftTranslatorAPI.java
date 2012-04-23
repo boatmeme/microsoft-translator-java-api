@@ -49,6 +49,7 @@ public abstract class MicrosoftTranslatorAPI {
     private static String clientId;
     private static String clientSecret;
     private static String token;
+    private static long tokenExpiration = 0;
     
     protected static final String PARAM_APP_ID = "appId=",
                                   PARAM_TO_LANG = "&to=",
@@ -143,8 +144,10 @@ public abstract class MicrosoftTranslatorAPI {
      * @throws Exception on error.
      */
     private static String retrieveResponse(final URL url) throws Exception {
-        if(token==null&&clientId!=null&&clientSecret!=null) {
+        if(clientId!=null&&clientSecret!=null&&System.currentTimeMillis()>tokenExpiration) {
            String tokenJson = getToken(clientId,clientSecret);
+           Integer expiresIn = Integer.parseInt((String)((JSONObject)JSONValue.parse(tokenJson)).get("expires_in"));
+           tokenExpiration = System.currentTimeMillis()+((expiresIn*1000)-1);
            token = "Bearer " + (String)((JSONObject)JSONValue.parse(tokenJson)).get("access_token");
         }
         final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
