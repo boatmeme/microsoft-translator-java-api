@@ -47,9 +47,10 @@ public enum Language {
     FRENCH("fr"),
     GERMAN("de"),
     GREEK("el"),
-    HATIAN_CREOLE("ht"),
+    HAITIAN_CREOLE("ht"),
     HEBREW("he"),
     HINDI("hi"),
+    HMONG_DAW("mww"),
     HUNGARIAN("hu"),
     INDONESIAN("id"),
     ITALIAN("it"),
@@ -68,7 +69,7 @@ public enum Language {
     SWEDISH("sv"),
     THAI("th"),
     TURKISH("tr"),
-    UKRANIAN("uk"),
+    UKRAINIAN("uk"),
     VIETNAMESE("vi");
 	
     /**

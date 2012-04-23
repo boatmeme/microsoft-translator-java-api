@@ -184,6 +184,6 @@ public class LanguageTest {
             System.out.println(langName);
         }
          */
-        assertEquals(38, result.size());
+        assertEquals(39, result.size());
     }
 }
