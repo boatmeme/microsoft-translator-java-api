@@ -323,19 +323,19 @@ public class TranslateTest{
         }
        @Test
         public void testTranslateArray() throws Exception {
-            String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
+            String[] sourceTexts = {"Hello","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
-            assertEquals("Il s'agit d'une phrase, me traduire.",translatedTexts[0]);
+            assertEquals("Salut",translatedTexts[0]);
             assertEquals("J'aimerais être traduit",translatedTexts[1]);
             assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
        @Test
         public void testTranslateArray_Overloaded() throws Exception {
-            String[] sourceTexts = {"This is a sentence, translate me.","I would like to be translated","How are you doing today?"};
+            String[] sourceTexts = {"Hello","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
-            assertEquals("Il s'agit d'une phrase, me traduire.",translatedTexts[0]);
+            assertEquals("Salut",translatedTexts[0]);
             assertEquals("J'aimerais être traduit",translatedTexts[1]);
             assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
         }
