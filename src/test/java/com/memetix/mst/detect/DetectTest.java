@@ -45,8 +45,18 @@ public class DetectTest {
         p.load(url.openStream());
         String apiKey = p.getProperty("microsoft.translator.api.key");
         if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key");
+            apiKey = System.getProperty("test.api.key").split(",")[0];
         }
+        String clientId = p.getProperty("microsoft.translator.api.clientId");
+        if(System.getProperty("test.api.key")!=null) {
+            clientId = System.getProperty("test.api.key").split(",")[1];
+        }
+        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
+        if(System.getProperty("test.api.key")!=null) {
+            clientSecret = System.getProperty("test.api.key").split(",")[2];
+        }
+        Detect.setClientId(clientId);
+        Detect.setClientSecret(clientSecret);
         Detect.setKey(apiKey);
     }
     
@@ -61,6 +71,12 @@ public class DetectTest {
     }
     @Test
     public void testDetectFrench() throws Exception {
+        assertEquals(Language.FRENCH,Detect.execute("Salut tout le monde"));
+    }
+    
+    @Test
+    public void testDetectFrench_ClientIdOnly() throws Exception {
+        Language.setKey(null);
         assertEquals(Language.FRENCH,Detect.execute("Salut tout le monde"));
     }
     @Test
@@ -82,17 +98,38 @@ public class DetectTest {
          assertEquals(Language.ENGLISH.toString(),detections[0]);
     }
     
+    
     @Test
-    public void testDetect_NoKey() throws Exception {
-        Detect.setKey(null);
+    public void testDetect_WrongKey() throws Exception {
+        Detect.setKey("wrong_key");
+        Detect.setClientId(null);
         exception.expect(RuntimeException.class);
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         Detect.execute("전 세계 여러분 안녕하세요");
-        
+    }
+    
+    @Test
+    public void testDetect_NoKey() throws Exception {
+        Detect.setKey(null);
+        Detect.setClientId(null);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        Detect.execute("전 세계 여러분 안녕하세요");
     }
     @Test
     public void testDetectArray_NoKey() throws Exception {
         Detect.setKey(null);
+        Detect.setClientId(null);
+        String[] texts = {"Hello world!"};
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        Detect.execute(texts);
+    }
+    
+    @Test
+    public void testDetectArray_WrongKey() throws Exception {
+        Detect.setKey("wrong_key");
+        Detect.setClientId(null);
         String[] texts = {"Hello world!"};
         exception.expect(RuntimeException.class);
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");

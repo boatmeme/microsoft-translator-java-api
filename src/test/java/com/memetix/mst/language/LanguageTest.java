@@ -48,8 +48,18 @@ public class LanguageTest {
         p.load(url.openStream());
         String apiKey = p.getProperty("microsoft.translator.api.key");
         if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key");
+            apiKey = System.getProperty("test.api.key").split(",")[0];
         }
+        String clientId = p.getProperty("microsoft.translator.api.clientId");
+        if(System.getProperty("test.api.key")!=null) {
+            clientId = System.getProperty("test.api.key").split(",")[1];
+        }
+        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
+        if(System.getProperty("test.api.key")!=null) {
+            clientSecret = System.getProperty("test.api.key").split(",")[2];
+        }
+        Language.setClientId(clientId);
+        Language.setClientSecret(clientSecret);
         Language.setKey(apiKey);
     }
     
@@ -80,9 +90,29 @@ public class LanguageTest {
         Language result = Language.fromString(pLanguage);
         assertEquals(expResult, result);
     }
+    
+    @Test
+    public void testFromString_ClientIdOnly() {
+        String pLanguage = "en";
+        Language.setKey(null);
+        Language expResult = Language.ENGLISH;
+        Language result = Language.fromString(pLanguage);
+        assertEquals(expResult, result);
+    }
     @Test
     public void testGetLanguage_NoKey() throws Exception {
         Language.setKey(null);
+        Language.setClientId(null);
+        Language locale = Language.ENGLISH;
+        
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        Language.FRENCH.getName(locale);
+    }
+    
+    @Test
+    public void testGetLanguage_WrongKey() throws Exception {
+        Language.setKey("wrong_key");
         Language locale = Language.ENGLISH;
         
         exception.expect(RuntimeException.class);

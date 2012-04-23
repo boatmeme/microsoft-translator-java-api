@@ -98,6 +98,14 @@ public enum SpokenDialect {
             SpokenDialectService.setKey(pKey);
         }
         
+        public static void setClientId(String pId) {
+            SpokenDialectService.setClientId(pId);
+        }
+        
+        public static void setClientSecret(String pSecret) {
+            SpokenDialectService.setClientSecret(pSecret);
+        }
+        
     /**
      * getName()
      * 
@@ -164,7 +172,7 @@ public enum SpokenDialect {
 	                final String targetString = buildStringArrayParam(SpokenDialect.values());
 	
 	                final URL url = new URL(SERVICE_URL 
-	                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+	                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
 	                        +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
 	                        +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
 	                localizedNames = retrieveStringArr(url);

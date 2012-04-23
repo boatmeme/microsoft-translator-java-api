@@ -48,14 +48,26 @@ public class TranslateTest{
         p.load(url.openStream());
         String apiKey = p.getProperty("microsoft.translator.api.key");
         if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key");
+            apiKey = System.getProperty("test.api.key").split(",")[0];
+        }
+        String clientId = p.getProperty("microsoft.translator.api.clientId");
+        if(System.getProperty("test.api.key")!=null) {
+            clientId = System.getProperty("test.api.key").split(",")[1];
+        }
+        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
+        if(System.getProperty("test.api.key")!=null) {
+            clientSecret = System.getProperty("test.api.key").split(",")[2];
         }
         Translate.setKey(apiKey);
+        Translate.setClientSecret(clientSecret);
+        Translate.setClientId(clientId);
     }
     
     @After
     public void tearDown() throws Exception {
         Translate.setKey(null);
+        Translate.setClientId(null);
+        Translate.setClientSecret(null);
         Translate.setHttpReferrer(null);
     }
 
@@ -66,6 +78,13 @@ public class TranslateTest{
     @Test
     public void testTranslate_SetReferrer() throws Exception {
         Translate.setHttpReferrer("http://localhost:8080");
+        assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
+    }
+    
+    @Test
+    public void testTranslate_NoApiKey() throws Exception {
+        Translate.setHttpReferrer("http://localhost:8080");
+        Translate.setKey(null);
         assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
     }
     @Test
@@ -135,6 +154,17 @@ public class TranslateTest{
     @Test
      public void testTranslate_NoKey() throws Exception {
         Translate.setKey(null);
+        Translate.setClientId(null);
+        Translate.setClientSecret(null);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
+    }
+    @Test
+     public void testTranslate_WrongKey() throws Exception {
+        Translate.setKey("lessthan16");
+        Translate.setClientId(null);
+        Translate.setClientSecret(null);
         exception.expect(RuntimeException.class);
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);

@@ -49,7 +49,7 @@ public final class Detect extends MicrosoftTranslatorAPI {
         //Run the basic service validations first
         validateServiceState(text); 
 		final URL url = new URL(SERVICE_URL 
-                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
                         +PARAM_TEXT_SINGLE+URLEncoder.encode(text, ENCODING));
                      
 		final String response = retrieveString(url);
@@ -68,7 +68,7 @@ public final class Detect extends MicrosoftTranslatorAPI {
         validateServiceState(texts); 
         final String textArr = buildStringArrayParam(texts);
 		final URL url = new URL(ARRAY_SERVICE_URL 
-                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
                         +PARAM_TEXT_ARRAY+URLEncoder.encode(textArr, ENCODING));
 		final String[] response = retrieveStringArr(url);
                 return response;

@@ -53,7 +53,7 @@ public final class BreakSentences extends MicrosoftTranslatorAPI {
         //Run the basic service validations first
         validateServiceState(text,fromLang); 
 		final URL url = new URL(SERVICE_URL 
-                        +PARAM_APP_ID+URLEncoder.encode(apiKey,ENCODING)
+                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
                         +PARAM_SENTENCES_LANGUAGE+URLEncoder.encode(fromLang.toString(), ENCODING)
                         +PARAM_TEXT_SINGLE+URLEncoder.encode(text, ENCODING));
                      
