@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 import com.memetix.mst.language.Language;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -173,6 +174,15 @@ public class LanguageTest {
             System.out.println(lang.toString() + " / " + Language.VIETNAMESE.getName(lang));
         }
         */
+    }
+    
+    @Test
+    public void testGetAllLanguageCodes() throws Exception {
+        //Flush the caches, so we can test for timing
+        Language.flushNameCache();
+        
+        List<String> languageCodes = Language.getLanguageCodesForTranslation();
+        assert languageCodes.size() > 0;
     }
     
     @Test

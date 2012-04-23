@@ -20,8 +20,7 @@ package com.memetix.mst.language;
 import com.memetix.mst.MicrosoftTranslatorAPI;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -157,6 +156,11 @@ public enum Language {
             return localizedName;
         }
         
+     public static List<String> getLanguageCodesForTranslation() throws Exception {
+            String[] codes = GetLanguagesForTranslateService.execute();
+            return Arrays.asList(codes);
+        }
+        
      /**
      * values(Language locale)
      * 
@@ -193,7 +197,7 @@ public enum Language {
                 lang.flushCache();
         }
         
-        private final static class LanguageService extends MicrosoftTranslatorAPI {
+      private final static class LanguageService extends MicrosoftTranslatorAPI {
             private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?";
             
         /**
@@ -219,6 +223,28 @@ public enum Language {
                         +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
                 localizedNames = retrieveStringArr(url);
                 return localizedNames;
+        }
+
+    }
+        
+    private final static class GetLanguagesForTranslateService extends MicrosoftTranslatorAPI {
+            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguagesForTranslate?";
+            
+        /**
+         * Detects the language of a supplied String.
+         * 
+         * @param text The String to detect the language of.
+         * @return A DetectResult object containing the language, confidence and reliability.
+         * @throws Exception on error.
+         */
+        public static String[] execute() throws Exception {
+                //Run the basic service validations first
+                validateServiceState(); 
+                String[] codes = new String[0];
+                
+                final URL url = new URL(SERVICE_URL +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : ""));
+                codes = retrieveStringArr(url);
+                return codes;
         }
 
     }
