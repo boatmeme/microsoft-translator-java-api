@@ -11,20 +11,23 @@ is my goal to mimic the code structure, naming conventions, functionality, and u
 ## Requires
 
 * Java 1.5 or greater
-* A Bing Developer API Key - [Sign Up Here](http://www.bing.com/developers/createapp.aspx)
+* A Windows Azure Marketplace Client ID and Client Secret - [Documentation](http://msdn.microsoft.com/en-us/library/hh454950.aspx)
+                                                          
+_Please note: If you signed up for a Bing Developer Key after March 31, 2012, you will not be able to use your App Id with this API. Please visit the aforementioned documentation link_
 
 Quickstart
 ===========
 
-Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.4-SNAPSHOT-jar-with-dependencies.jar)
+Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.6-jar-with-dependencies.jar)
 
     import com.memetix.mst.language.Language;
     import com.memetix.mst.translate.Translate;
 
     public class Main {
       public static void main(String[] args) throws Exception {
-        // Set the Microsoft Translator API Key - Get yours at http://www.bing.com/developers/createapp.aspx
-        Translate.setKey(/* Enter your API Key here */);
+        // Set your Windows Azure Marketplace client info - See http://msdn.microsoft.com/en-us/library/hh454950.aspx
+        Translate.setClientId(/* Enter your Windows Azure Client Id here */);
+        Translate.setClientSecret(/* Enter your Windows Azure Client Secret here */);
 
         String translatedText = Translate.execute("Bonjour le monde", Language.FRENCH, Language.ENGLISH);
 
@@ -51,7 +54,7 @@ For those using Maven 2 to manage their project dependencies, the microsoft-tran
     <dependency>
         <groupId>com.memetix</groupId>
         <artifactId>microsoft-translator-java-api</artifactId>
-        <version>0.5</version>
+        <version>0.6</version>
         <type>jar</type>
     </dependency>
 
@@ -60,7 +63,7 @@ Or, if you're feeling adventurous, help us test the next version by adding the l
     <dependency>
         <groupId>com.memetix</groupId>
         <artifactId>microsoft-translator-java-api</artifactId>
-        <version>0.6-SNAPSHOT</version>
+        <version>0.7-SNAPSHOT</version>
         <type>jar</type>
     </dependency>
 
