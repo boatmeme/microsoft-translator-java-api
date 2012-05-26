@@ -50,6 +50,7 @@ public abstract class MicrosoftTranslatorAPI {
     private static String clientSecret;
     private static String token;
     private static long tokenExpiration = 0;
+    private static String contentType = "text/plain";
     
     protected static final String PARAM_APP_ID = "appId=",
                                   PARAM_TO_LANG = "&to=",
@@ -70,6 +71,17 @@ public abstract class MicrosoftTranslatorAPI {
      */
     public static void setKey(final String pKey) {
     	apiKey = pKey;
+    }
+    
+    /**
+     * Sets the API key.
+     * 
+     * Note: Should ONLY be used with API Keys generated prior to March 31, 2012. All new applications should obtain a ClientId and Client Secret by following 
+     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
+     * @param pKey The API key.
+     */
+    public static void setContentType(final String pKey) {
+    	contentType = pKey;
     }
     
     /**
@@ -153,7 +165,7 @@ public abstract class MicrosoftTranslatorAPI {
         final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
         if(referrer!=null)
             uc.setRequestProperty("referer", referrer);
-        uc.setRequestProperty("Content-Type","text/plain; charset=" + ENCODING);
+        uc.setRequestProperty("Content-Type",contentType + "; charset=" + ENCODING);
         uc.setRequestProperty("Accept-Charset",ENCODING);
         if(token!=null) {
             uc.setRequestProperty("Authorization",token);
@@ -307,7 +319,7 @@ public abstract class MicrosoftTranslatorAPI {
     protected static void validateServiceState() throws Exception {
         if(apiKey!=null&&apiKey.length()<16) {
             throw new RuntimeException("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-        } else if (clientId==null||clientSecret==null) {
+        } else if (apiKey==null&&(clientId==null||clientSecret==null)) {
             throw new RuntimeException("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
         }
     }

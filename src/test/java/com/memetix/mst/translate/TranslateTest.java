@@ -66,6 +66,7 @@ public class TranslateTest{
     @After
     public void tearDown() throws Exception {
         Translate.setKey(null);
+        Translate.setContentType("text/plain");
         Translate.setClientId(null);
         Translate.setClientSecret(null);
         Translate.setHttpReferrer(null);
@@ -98,6 +99,12 @@ public class TranslateTest{
     @Test
     public void testTranslate_AutoDetectOrigin() throws Exception {
         assertEquals("Bonjour, mon nom est",Translate.execute("Hello, my name is", Language.AUTO_DETECT, Language.FRENCH));
+    }
+    
+    @Test
+    public void testTranslate_HTMLContentType() throws Exception {
+        Translate.setContentType("text/html");
+        assertEquals("<hello>Bonjour, mon nom est</hello>",Translate.execute("<hello>Hello, my name is</hello>", Language.AUTO_DETECT, Language.FRENCH));
     }
     @Test
     public void testTranslate_AutoDetectOrigin_French() throws Exception {
@@ -168,6 +175,14 @@ public class TranslateTest{
         exception.expect(RuntimeException.class);
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
         Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
+    }
+    
+    @Test
+     public void testTranslate_SetKeyNoClientIdAndSecret() throws Exception {
+        Translate.setClientId(null);
+        Translate.setClientSecret(null);
+        String translate = Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
+        assertNotNull(translate);
     }
     /*
     @Test
