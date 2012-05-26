@@ -54,7 +54,7 @@ For those using Maven 2 to manage their project dependencies, the microsoft-tran
     <dependency>
         <groupId>com.memetix</groupId>
         <artifactId>microsoft-translator-java-api</artifactId>
-        <version>0.6</version>
+        <version>0.6.1</version>
         <type>jar</type>
     </dependency>
 
