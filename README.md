@@ -19,7 +19,7 @@ _Please note: If you signed up for a Bing Developer Key after March 31, 2012, yo
 Quickstart
 ===========
 
-Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.6.1-jar-with-dependencies.jar)
+Download the latest [JAR with Dependencies](https://github.com/downloads/boatmeme/microsoft-translator-java-api/microsoft-translator-java-api-0.6.2-jar-with-dependencies.jar)
 
     import com.memetix.mst.language.Language;
     import com.memetix.mst.translate.Translate;
