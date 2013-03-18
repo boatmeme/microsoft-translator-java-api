@@ -57,7 +57,9 @@ public enum Language {
     KOREAN("ko"),
     LATVIAN("lv"),
     LITHUANIAN("lt"),
+    MALAY("ms"),
     NORWEGIAN("no"),
+    PERSIAN("fa"),
     POLISH("pl"),
     PORTUGUESE("pt"),
     ROMANIAN("ro"),
@@ -69,6 +71,7 @@ public enum Language {
     THAI("th"),
     TURKISH("tr"),
     UKRAINIAN("uk"),
+    URDU("ur"),
     VIETNAMESE("vi");
 	
     /**

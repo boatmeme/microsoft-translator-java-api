@@ -158,6 +158,7 @@ public class TranslateTest{
     public void testTranslate_EnglisthToHebrew_Unicode() throws Exception {
         assertEquals("מזהה", Translate.execute("ID", Language.ENGLISH, Language.HEBREW));
     }
+    
     @Test
      public void testTranslate_NoKey() throws Exception {
         Translate.setKey(null);
@@ -342,8 +343,8 @@ public class TranslateTest{
             String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
             assertEquals("Salut",translatedTexts[0]);
-            assertEquals("J'aimerais être traduit",translatedTexts[1]);
-            assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
+            assertEquals("Je tiens à être traduit",translatedTexts[1]);
+            assertEquals("Comment allez-vous faire aujourd'hui ?",translatedTexts[2]);
         }
        @Test
         public void testTranslateArray_Overloaded() throws Exception {
@@ -351,8 +352,8 @@ public class TranslateTest{
             String[] translatedTexts = Translate.execute(sourceTexts, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
             assertEquals("Salut",translatedTexts[0]);
-            assertEquals("J'aimerais être traduit",translatedTexts[1]);
-            assertEquals("Comment faites-vous aujourd'hui ?",translatedTexts[2]);
+            assertEquals("Je tiens à être traduit",translatedTexts[1]);
+            assertEquals("Comment allez-vous faire aujourd'hui ?",translatedTexts[2]);
         }
        
         @Test

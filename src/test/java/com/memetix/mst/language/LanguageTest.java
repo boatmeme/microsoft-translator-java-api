@@ -104,7 +104,7 @@ public class LanguageTest {
     public void testGetLanguage_NoKey() throws Exception {
         Language.setKey(null);
         Language.setClientId(null);
-        Language locale = Language.ENGLISH;
+        Language locale = Language.PERSIAN;
         
         exception.expect(RuntimeException.class);
         exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
@@ -114,7 +114,7 @@ public class LanguageTest {
     @Test
     public void testGetLanguage_WrongKey() throws Exception {
         Language.setKey("wrong_key");
-        Language locale = Language.ENGLISH;
+        Language locale = Language.PERSIAN;
         
         exception.expect(RuntimeException.class);
         exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
@@ -194,6 +194,6 @@ public class LanguageTest {
             System.out.println(langName);
         }
          */
-        assertEquals(39, result.size());
+        assertEquals(42, result.size());
     }
 }
