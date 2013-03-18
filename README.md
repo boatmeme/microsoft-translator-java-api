@@ -55,7 +55,7 @@ For those using Maven 2 to manage their project dependencies, the microsoft-tran
     <dependency>
         <groupId>com.memetix</groupId>
         <artifactId>microsoft-translator-java-api</artifactId>
-        <version>0.6.1</version>
+        <version>0.6.2</version>
         <type>jar</type>
     </dependency>
 
@@ -82,7 +82,7 @@ License
 The microsoft-translator-java-api is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
     /*
-     * Copyright 2012 Jonathan Griggs.
+     * Copyright 2013 Jonathan Griggs.
      *
      * Licensed under the Apache License, Version 2.0 (the "License");
      * you may not use this file except in compliance with the License.
