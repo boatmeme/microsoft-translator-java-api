@@ -1,4 +1,5 @@
-#microsoft-translator-java-api
+#microsoft-translator-java-api 
+[![endorse](http://api.coderwall.com/boatmeme/endorsecount.png)](http://coderwall.com/boatmeme)
 * * *
 
 Provides a Java wrapper around the Microsoft Translator API aka Bing Translator. 
