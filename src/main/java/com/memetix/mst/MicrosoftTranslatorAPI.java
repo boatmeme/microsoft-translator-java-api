@@ -44,7 +44,8 @@ public abstract class MicrosoftTranslatorAPI {
     protected static final String ENCODING = "UTF-8";
     
     protected static String apiKey;
-    private static String DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+    private static String DatamarketAccessUri =
+            "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
     private static String referrer;
     private static String clientId;
     private static String clientSecret;
@@ -61,6 +62,10 @@ public abstract class MicrosoftTranslatorAPI {
                                   PARAM_SENTENCES_LANGUAGE = "&language=",
                                   PARAM_LOCALE = "&locale=",
                                   PARAM_LANGUAGE_CODES = "&languageCodes=";
+
+    protected static final String MAX_TRANSLATIONS_PARAMETER =
+            "&maxTranslations=";
+    protected static final int DEFAULT_MAX_TRANSLATIONS = 10;
     
     /**
      * Sets the API key.
@@ -214,13 +219,31 @@ public abstract class MicrosoftTranslatorAPI {
      */
     protected static String[] retrieveStringArr(final URL url, final String jsonProperty) throws Exception {
     	try {
-    	    final String response = retrieveResponse(url);    		
-            return jsonToStringArr(response,jsonProperty);
+            final String response = retrieveResponse(url);
+            return jsonToStringArr(response, jsonProperty);
     	} catch (Exception ex) {
     		throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
     	}
     }
     
+    /**
+     * Fetches the JSON response, parses the JSON Response as an Array of JSONObjects,
+     * retrieves the String value of the specified JSON Property, and returns the result of
+     * the request as a String Array.
+     *
+     * @param url The URL to query for a String response.
+     * @return The translated String[].
+     * @throws Exception on error.
+     */
+    protected static String[] retrieveManyStringArr(final URL url, final String jsonManyProperty, final String jsonProperty) throws Exception {
+        try {
+            final String response = retrieveResponse(url);
+            return jsonToManyStringArr(response, jsonManyProperty, jsonProperty);
+        } catch (Exception ex) {
+            throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
+        }
+    }
+
     /**
      * Fetches the JSON response, parses the JSON Response as an array of Strings
      * and returns the result of the request as a String Array.
@@ -288,6 +311,30 @@ public abstract class MicrosoftTranslatorAPI {
         return values;
     }
     
+    // Helper method to parse a JSONArray. Reads an array of JSONObjects and returns a String Array
+    // containing the toString() of the desired property. If propertyName is null, just return the String value.
+    private static String[] jsonToManyStringArr(final String inputString, final String jsonPropertyName, final String propertyName) throws Exception {
+        final JSONObject jSONObject = (JSONObject) JSONValue.parse(inputString);
+        final JSONArray jsonArr = (JSONArray) jSONObject.get(jsonPropertyName);
+        if (jsonArr == null || jsonArr.size() == 0) {
+            return null;
+        }
+        String[] values = new String[jsonArr.size()];
+        int i = 0;
+        for(Object obj : jsonArr) {
+            if(propertyName != null && propertyName.length() != 0) {
+                final JSONObject json = (JSONObject) obj;
+                if(json.containsKey(propertyName)) {
+                    values[i] = json.get(propertyName).toString();
+                }
+            } else {
+                values[i] = obj.toString();
+            }
+            i++;
+        }
+        return values;
+    }
+
     /**
      * Reads an InputStream and returns its contents as a String.
      * Also effects rate control.
