@@ -122,7 +122,7 @@ public class TranslateTest{
     @Test
     public void testTranslate_EnglishToTurkish_Unicode() throws Exception {
         assertEquals("Merhaba Dünya", Translate.execute("Hello world", Language.ENGLISH, Language.TURKISH));
-        assertEquals("Hello world", Translate.execute("Merhaba Dünya", Language.TURKISH, Language.ENGLISH));
+        assertEquals("Hello World", Translate.execute("Merhaba Dünya", Language.TURKISH, Language.ENGLISH));
     }
     @Test
     public void testTranslate_EnglishToHindi_Unicode() throws Exception {
@@ -182,6 +182,8 @@ public class TranslateTest{
      public void testTranslate_SetKeyNoClientIdAndSecret() throws Exception {
         Translate.setClientId(null);
         Translate.setClientSecret(null);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
         String translate = Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
         assertNotNull(translate);
     }
@@ -343,16 +345,25 @@ public class TranslateTest{
             String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
             assertEquals("Salut",translatedTexts[0]);
-            assertEquals("Je tiens à être traduit",translatedTexts[1]);
+            assertEquals("Je voudrais être traduit",translatedTexts[1]);
             assertEquals("Comment allez-vous faire aujourd'hui ?",translatedTexts[2]);
         }
+       @Test
+       public void testTranslateArrayWithQuotes() throws Exception {
+           String[] sourceTexts = {"Hello","I would like to be \"translated\"","How are you doing today?"};
+           String[] translatedTexts = Translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
+           assertEquals(3,translatedTexts.length);
+           assertEquals("Salut",translatedTexts[0]);
+           assertEquals("Je tiens à être « traduit »",translatedTexts[1]);
+           assertEquals("Comment allez-vous faire aujourd'hui ?",translatedTexts[2]);
+       }
        @Test
         public void testTranslateArray_Overloaded() throws Exception {
             String[] sourceTexts = {"Hello","I would like to be translated","How are you doing today?"};
             String[] translatedTexts = Translate.execute(sourceTexts, Language.FRENCH);
             assertEquals(3,translatedTexts.length);
             assertEquals("Salut",translatedTexts[0]);
-            assertEquals("Je tiens à être traduit",translatedTexts[1]);
+            assertEquals("Je voudrais être traduit",translatedTexts[1]);
             assertEquals("Comment allez-vous faire aujourd'hui ?",translatedTexts[2]);
         }
        
