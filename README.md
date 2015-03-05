@@ -1,5 +1,4 @@
 #microsoft-translator-java-api 
-[![endorse](http://api.coderwall.com/boatmeme/endorsecount.png)](http://coderwall.com/boatmeme)
 * * *
 
 Provides a Java wrapper around the Microsoft Translator API aka Bing Translator. 
@@ -82,7 +81,7 @@ License
 The microsoft-translator-java-api is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
     /*
-     * Copyright 2013 Jonathan Griggs.
+     * Copyright 2011-2015 Jonathan Griggs.
      *
      * Licensed under the Apache License, Version 2.0 (the "License");
      * you may not use this file except in compliance with the License.
