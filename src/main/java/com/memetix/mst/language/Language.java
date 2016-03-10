@@ -17,10 +17,7 @@
  */
 package com.memetix.mst.language;
 
-import com.memetix.mst.MicrosoftTranslatorAPI;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -110,145 +107,146 @@ public enum Language {
 		return language;
 	}
         
-        public static void setKey(String pKey) {
-            LanguageService.setKey(pKey);
-        }
-        
-        public static void setClientId(String pId) {
-            LanguageService.setClientId(pId);
-        }
-        public static void setClientSecret(String pSecret) {
-            LanguageService.setClientSecret(pSecret);
-        }
-        
-		/**
-		 * getName()
-		 * 
-		 * Returns the name for this language in the tongue of the specified locale
-		 * 
-		 * If the name is not cached, then it retrieves the name of ALL languages in this locale.
-		 * This is not bad behavior for 2 reasons:
-		 * 
-		 *      1) We can make a reasonable assumption that the client will request the
-		 *         name of another language in the same locale 
-		 *      2) The GetLanguageNames service call expects an array and therefore we can 
-		 *         retrieve ALL names in the same, single call anyway.
-		 * 
-		 * @return The String representation of this language's localized Name.
-		 */
-        public String getName(Language locale) throws Exception {
-            String localizedName = null;
-            if(this.localizedCache.containsKey(locale)) {
-                localizedName = this.localizedCache.get(locale);
-            } else {
-                if(this==Language.AUTO_DETECT||locale==Language.AUTO_DETECT) {
-                    localizedName = "Auto Detect";
-                } else {
-                    //If not in the cache, pre-load all the Language names for this locale
-                    String[] names = LanguageService.execute(Language.values(), locale);
-                    int i = 0;
-                    for(Language lang : Language.values()) {
-                        if(lang!=Language.AUTO_DETECT) {   
-                            lang.localizedCache.put(locale,names[i]);
-                            i++;
-                        }
-                    }
-                    localizedName = this.localizedCache.get(locale);
-                }
-            }
-            return localizedName;
-        }
-        
-     public static List<String> getLanguageCodesForTranslation() throws Exception {
-            String[] codes = GetLanguagesForTranslateService.execute();
-            return Arrays.asList(codes);
-        }
-        
-     /**
-     * values(Language locale)
-     * 
-	 * Returns a map of all languages, keyed and sorted by 
-     * the localized name in the tongue of the specified locale
-     * 
-     * It returns a map, sorted alphanumerically by the keys()
-     * 
-     * Key: The localized language name
-     * Value: The Language instance
-     *
-     * @param locale The Language we should localize the Language names with
-	 * @return A Map of all supported languages stored by their localized name.
-	 */
-        public static Map<String,Language> values(Language locale) throws Exception {
-            Map<String,Language>localizedMap = new TreeMap<String,Language>(); 
-            for(Language lang : Language.values()) {
-                if(lang==Language.AUTO_DETECT)
-                    localizedMap.put(Language.AUTO_DETECT.name(), lang);
-                else
-                    localizedMap.put(lang.getName(locale), lang);
-            }
-            return localizedMap;
-        }
-        
-        // Flushes the localized name cache for this language
-        private void flushCache() {
-            this.localizedCache.clear();
-        }
-        
-        // Flushes the localized name cache for all languages
-        public static void flushNameCache() {
-            for(Language lang : Language.values())
-                lang.flushCache();
-        }
-        
-      private final static class LanguageService extends MicrosoftTranslatorAPI {
-            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?";
-            
-        /**
-         * Detects the language of a supplied String.
-         * 
-         * @param text The String to detect the language of.
-         * @return A DetectResult object containing the language, confidence and reliability.
-         * @throws Exception on error.
-         */
-        public static String[] execute(final Language[] targets, final Language locale) throws Exception {
-                //Run the basic service validations first
-                validateServiceState(); 
-                String[] localizedNames = new String[0];
-                if(locale==Language.AUTO_DETECT) {
-                    return localizedNames;
-                }
-                
-                final String targetString = buildStringArrayParam(Language.values());
-                
-                final URL url = new URL(SERVICE_URL 
-                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
-                        +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
-                        +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
-                localizedNames = retrieveStringArr(url);
-                return localizedNames;
-        }
 
-    }
-        
-    private final static class GetLanguagesForTranslateService extends MicrosoftTranslatorAPI {
-            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguagesForTranslate?";
-            
-        /**
-         * Detects the language of a supplied String.
-         * 
-         * @param text The String to detect the language of.
-         * @return A DetectResult object containing the language, confidence and reliability.
-         * @throws Exception on error.
-         */
-        public static String[] execute() throws Exception {
-                //Run the basic service validations first
-                validateServiceState(); 
-                String[] codes = new String[0];
-                
-                final URL url = new URL(SERVICE_URL +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : ""));
-                codes = retrieveStringArr(url);
-                return codes;
-        }
-
-    }
+//        public static void setKey(String pKey) {
+//            LanguageService.setKey(pKey);
+//        }
+//        
+//        public static void setClientId(String pId) {
+//            LanguageService.setClientId(pId);
+//        }
+//        public static void setClientSecret(String pSecret) {
+//            LanguageService.setClientSecret(pSecret);
+//        }
+//        
+//		/**
+//		 * getName()
+//		 * 
+//		 * Returns the name for this language in the tongue of the specified locale
+//		 * 
+//		 * If the name is not cached, then it retrieves the name of ALL languages in this locale.
+//		 * This is not bad behavior for 2 reasons:
+//		 * 
+//		 *      1) We can make a reasonable assumption that the client will request the
+//		 *         name of another language in the same locale 
+//		 *      2) The GetLanguageNames service call expects an array and therefore we can 
+//		 *         retrieve ALL names in the same, single call anyway.
+//		 * 
+//		 * @return The String representation of this language's localized Name.
+//		 */
+//        public String getName(Language locale) throws Exception {
+//            String localizedName = null;
+//            if(this.localizedCache.containsKey(locale)) {
+//                localizedName = this.localizedCache.get(locale);
+//            } else {
+//                if(this==Language.AUTO_DETECT||locale==Language.AUTO_DETECT) {
+//                    localizedName = "Auto Detect";
+//                } else {
+//                    //If not in the cache, pre-load all the Language names for this locale
+//                    String[] names = LanguageService.execute(Language.values(), locale);
+//                    int i = 0;
+//                    for(Language lang : Language.values()) {
+//                        if(lang!=Language.AUTO_DETECT) {   
+//                            lang.localizedCache.put(locale,names[i]);
+//                            i++;
+//                        }
+//                    }
+//                    localizedName = this.localizedCache.get(locale);
+//                }
+//            }
+//            return localizedName;
+//        }
+//        
+//     public static List<String> getLanguageCodesForTranslation() throws Exception {
+//            String[] codes = GetLanguagesForTranslateService.execute();
+//            return Arrays.asList(codes);
+//        }
+//        
+//     /**
+//     * values(Language locale)
+//     * 
+//	 * Returns a map of all languages, keyed and sorted by 
+//     * the localized name in the tongue of the specified locale
+//     * 
+//     * It returns a map, sorted alphanumerically by the keys()
+//     * 
+//     * Key: The localized language name
+//     * Value: The Language instance
+//     *
+//     * @param locale The Language we should localize the Language names with
+//	 * @return A Map of all supported languages stored by their localized name.
+//	 */
+//        public static Map<String,Language> values(Language locale) throws Exception {
+//            Map<String,Language>localizedMap = new TreeMap<String,Language>(); 
+//            for(Language lang : Language.values()) {
+//                if(lang==Language.AUTO_DETECT)
+//                    localizedMap.put(Language.AUTO_DETECT.name(), lang);
+//                else
+//                    localizedMap.put(lang.getName(locale), lang);
+//            }
+//            return localizedMap;
+//        }
+//        
+//        // Flushes the localized name cache for this language
+//        private void flushCache() {
+//            this.localizedCache.clear();
+//        }
+//        
+//        // Flushes the localized name cache for all languages
+//        public static void flushNameCache() {
+//            for(Language lang : Language.values())
+//                lang.flushCache();
+//        }
+//        
+//      private final static class LanguageService extends MicrosoftTranslatorAPI {
+//            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguageNames?";
+//            
+//        /**
+//         * Detects the language of a supplied String.
+//         * 
+//         * @param text The String to detect the language of.
+//         * @return A DetectResult object containing the language, confidence and reliability.
+//         * @throws Exception on error.
+//         */
+//        public static String[] execute(final Language[] targets, final Language locale) throws Exception {
+//                //Run the basic service validations first
+//                validateServiceState(); 
+//                String[] localizedNames = new String[0];
+//                if(locale==Language.AUTO_DETECT) {
+//                    return localizedNames;
+//                }
+//                
+//                final String targetString = buildStringArrayParam(Language.values());
+//                
+//                final URL url = new URL(SERVICE_URL 
+//                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
+//                        +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
+//                        +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
+//                localizedNames = retrieveStringArr(url);
+//                return localizedNames;
+//        }
+//
+//    }
+//        
+//    private final static class GetLanguagesForTranslateService extends MicrosoftTranslatorAPI {
+//            private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguagesForTranslate?";
+//            
+//        /**
+//         * Detects the language of a supplied String.
+//         * 
+//         * @param text The String to detect the language of.
+//         * @return A DetectResult object containing the language, confidence and reliability.
+//         * @throws Exception on error.
+//         */
+//        public static String[] execute() throws Exception {
+//                //Run the basic service validations first
+//                validateServiceState(); 
+//                String[] codes = new String[0];
+//                
+//                final URL url = new URL(SERVICE_URL +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : ""));
+//                codes = retrieveStringArr(url);
+//                return codes;
+//        }
+//
+//    }
 }
