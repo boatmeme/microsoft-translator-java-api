@@ -166,7 +166,7 @@ public abstract class MicrosoftTranslatorAPI {
 			final String response = retrieveResponse(url);
 			return jsonToStringArr(response, jsonProperty);
 		} catch (Exception ex) {
-			throw new Exception("[microsoft-translator-api] Error retrieving translation.", ex);
+			throw new Exception("[microsoft-translator-api] Error retrieving translation  : " + ex.getMessage(), ex);
 		}
 	}
 

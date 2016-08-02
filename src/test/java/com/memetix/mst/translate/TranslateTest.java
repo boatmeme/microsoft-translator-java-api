@@ -355,7 +355,7 @@ public class TranslateTest {
 		assertEquals(3, translatedTexts.length);
 		assertEquals("Salut", translatedTexts[0]);
 		assertEquals("Je tiens à être traduit", translatedTexts[1]);
-		assertEquals("Comment allez-vous faire aujourd'hui ?", translatedTexts[2]);
+		assertEquals("Comment allez-vous faire aujourd'hui ?", translatedTexts[2]);
 	}
 
 	@Test
@@ -364,7 +364,7 @@ public class TranslateTest {
 		String[] translatedTexts = translate.execute(sourceTexts, Language.ENGLISH, Language.FRENCH);
 		assertEquals(3, translatedTexts.length);
 		assertEquals("Salut", translatedTexts[0]);
-		assertEquals("Je tiens à être « traduits »", translatedTexts[1]);
+		assertEquals("Je tiens à être « traduits »", translatedTexts[1]);
 		assertEquals("Comment allez-vous faire aujourd'hui ?", translatedTexts[2]);
 	}
 
@@ -375,7 +375,7 @@ public class TranslateTest {
 		assertEquals(3, translatedTexts.length);
 		assertEquals("Salut", translatedTexts[0]);
 		assertEquals("Je tiens à être traduit", translatedTexts[1]);
-		assertEquals("Comment allez-vous faire aujourd'hui ?", translatedTexts[2]);
+		assertEquals("Comment allez-vous faire aujourd'hui ?", translatedTexts[2]);
 	}
 
 	@Test
