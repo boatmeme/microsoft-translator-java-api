@@ -37,6 +37,7 @@ public enum Language {
     CATALAN("ca"),
     CHINESE_SIMPLIFIED("zh-CHS"),
     CHINESE_TRADITIONAL("zh-CHT"),
+    CROATIAN("hr"),
     CZECH("cs"),
     DANISH("da"),
     DUTCH("nl"),
