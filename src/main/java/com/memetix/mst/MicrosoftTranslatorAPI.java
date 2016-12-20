@@ -59,14 +59,11 @@ public abstract class MicrosoftTranslatorAPI {
     private static final long TOKEN_DURATION = 10 * 60 * 1000;
     
     /**
-     * Sets the API key.
-     * 
-     * Note: Should ONLY be used with API Keys generated prior to March 31, 2012. All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The API key.
+     * Sets the Http Content Type.
+     * @param pContentType The HTTP content type.
      */
-    public static void setContentType(final String pKey) {
-    	contentType = pKey;
+    public static void setContentType(final String pContentType) {
+    	contentType = pContentType;
     }
     
     /**
