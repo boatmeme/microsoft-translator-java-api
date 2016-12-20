@@ -11,9 +11,7 @@ is my goal to mimic the code structure, naming conventions, functionality, and u
 ## Requires
 
 * Java 1.5 or greater
-* A Windows Azure Marketplace Client ID and Client Secret - [Documentation](http://msdn.microsoft.com/en-us/library/hh454950.aspx)
-                                                          
-_Please note: If you signed up for a Bing Developer Key after March 31, 2012, you will not be able to use your App Id with this API. Please visit the aforementioned documentation link_
+* A Microsoft Translator Text Translation Subscription Key - [Documentation](http://docs.microsofttranslator.com/text-translate.html)
 
 Quickstart
 ===========
@@ -25,9 +23,8 @@ Download the latest [JAR with Dependencies](https://microsoft-translator-java-ap
 
     public class Main {
       public static void main(String[] args) throws Exception {
-        // Set your Windows Azure Marketplace client info - See http://msdn.microsoft.com/en-us/library/hh454950.aspx
-        Translate.setClientId(/* Enter your Windows Azure Client Id here */);
-        Translate.setClientSecret(/* Enter your Windows Azure Client Secret here */);
+        // Set your Microsoft Translator Text Translation Subscription Key - See http://docs.microsofttranslator.com/text-translate.html
+        Translate.setSubscriptionKey(/* Microsoft Translator Text Translation Subscription Key here */);
 
         String translatedText = Translate.execute("Bonjour le monde", Language.FRENCH, Language.ENGLISH);
 

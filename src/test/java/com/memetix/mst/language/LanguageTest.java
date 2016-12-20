@@ -47,21 +47,11 @@ public class LanguageTest {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
-        String apiKey = p.getProperty("microsoft.translator.api.key");
-        if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key").split(",")[0];
+        String subscriptionKey = p.getProperty("microsoft.translator.api.subscriptionKey");
+        if(System.getProperty("test.subscription.key")!=null) {
+            subscriptionKey = System.getProperty("test.subscription.key");
         }
-        String clientId = p.getProperty("microsoft.translator.api.clientId");
-        if(System.getProperty("test.api.key")!=null) {
-            clientId = System.getProperty("test.api.key").split(",")[1];
-        }
-        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-        if(System.getProperty("test.api.key")!=null) {
-            clientSecret = System.getProperty("test.api.key").split(",")[2];
-        }
-        Language.setClientId(clientId);
-        Language.setClientSecret(clientSecret);
-        Language.setKey(apiKey);
+        Language.setSubscriptionKey(subscriptionKey);
     }
     
     @After
@@ -93,34 +83,15 @@ public class LanguageTest {
     }
     
     @Test
-    public void testFromString_ClientIdOnly() {
-        String pLanguage = "en";
-        Language.setKey(null);
-        Language expResult = Language.ENGLISH;
-        Language result = Language.fromString(pLanguage);
-        assertEquals(expResult, result);
-    }
-    @Test
     public void testGetLanguage_NoKey() throws Exception {
-        Language.setKey(null);
-        Language.setClientId(null);
+        Language.setSubscriptionKey(null);
         Language locale = Language.PERSIAN;
         
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         Language.FRENCH.getName(locale);
     }
     
-    @Test
-    public void testGetLanguage_WrongKey() throws Exception {
-        Language.setKey("wrong_key");
-        Language locale = Language.PERSIAN;
-        
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-        Language.FRENCH.getName(locale);
-    }
-
     /**
      * Test of toString method, of class Language.
      */

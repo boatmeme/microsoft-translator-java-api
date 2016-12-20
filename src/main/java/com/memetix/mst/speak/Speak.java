@@ -50,7 +50,6 @@ public final class Speak extends MicrosoftTranslatorAPI {
                 //Run the basic service validations first
                 validateServiceState(text);             
 		final URL url = new URL(SERVICE_URL 
-                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
                         +PARAM_SPOKEN_LANGUAGE+URLEncoder.encode(language.toString(),ENCODING)
                         +PARAM_TEXT_SINGLE+URLEncoder.encode(text, ENCODING));
 		final String response = retrieveString(url);

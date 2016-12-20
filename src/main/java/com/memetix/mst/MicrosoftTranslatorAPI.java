@@ -20,10 +20,8 @@ package com.memetix.mst;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -35,7 +33,7 @@ import org.json.simple.JSONValue;
  * Makes the generic Microsoft Translator API calls. Different service classes then
  * extend this to make the specific service calls.
  * 
- * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512404.aspx
+ * Uses the AJAX Interface V2 - see: http://docs.microsofttranslator.com/text-translate.html
  * 
  * @author Jonathan Griggs
  */
@@ -43,17 +41,14 @@ public abstract class MicrosoftTranslatorAPI {
     //Encoding type
     protected static final String ENCODING = "UTF-8";
     
-    protected static String apiKey;
-    private static String DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+    private static String TokenServiceUri = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
     private static String referrer;
-    private static String clientId;
-    private static String clientSecret;
+    private static String subscriptionKey;
     private static String token;
     private static long tokenExpiration = 0;
     private static String contentType = "text/plain";
     
-    protected static final String PARAM_APP_ID = "appId=",
-                                  PARAM_TO_LANG = "&to=",
+    protected static final String PARAM_TO_LANG = "&to=",
                                   PARAM_FROM_LANG = "&from=",
                                   PARAM_TEXT_SINGLE = "&text=",
                                   PARAM_TEXT_ARRAY = "&texts=",
@@ -61,17 +56,7 @@ public abstract class MicrosoftTranslatorAPI {
                                   PARAM_SENTENCES_LANGUAGE = "&language=",
                                   PARAM_LOCALE = "&locale=",
                                   PARAM_LANGUAGE_CODES = "&languageCodes=";
-    
-    /**
-     * Sets the API key.
-     * 
-     * Note: Should ONLY be used with API Keys generated prior to March 31, 2012. All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The API key.
-     */
-    public static void setKey(final String pKey) {
-    	apiKey = pKey;
-    }
+    private static final long TOKEN_DURATION = 10 * 60 * 1000;
     
     /**
      * Sets the API key.
@@ -85,23 +70,13 @@ public abstract class MicrosoftTranslatorAPI {
     }
     
     /**
-     * Sets the Client ID.
-     * All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The Client Id.
+     * Sets the Subscription Key.
+     * All new applications should obtain a Subscription Key by following the 
+     * guide at: http://docs.microsofttranslator.com/text-translate.html
+     * @param pSubscriptionKey The Subscription Key.
      */
-    public static void setClientId(final String pClientId) {
-    	clientId = pClientId;
-    }
-    
-    /**
-     * Sets the Client Secret.
-     * All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The Client Secret.
-     */
-    public static void setClientSecret(final String pClientSecret) {
-    	clientSecret = pClientSecret;
+    public static void setSubscriptionKey(final String pSubscriptionKey) {
+        subscriptionKey = pSubscriptionKey;
     }
     
     /**
@@ -113,26 +88,18 @@ public abstract class MicrosoftTranslatorAPI {
     }
     /**
      * Gets the OAuth access token.
-     * @param clientId The Client key.
-     * @param clientSecret The Client Secret
+     * @param subscriptionKey The Subscription Key
      */
-    public static String getToken(final String clientId, final String clientSecret) throws Exception {
-       final String params = "grant_type=client_credentials&scope=http://api.microsofttranslator.com"
-               + "&client_id=" + URLEncoder.encode(clientId,ENCODING)
-               + "&client_secret=" + URLEncoder.encode(clientSecret,ENCODING) ;
-
-       final URL url = new URL(DatamarketAccessUri);
+    public static String getToken(final String subscriptionKey) throws Exception {
+       final URL url = new URL(TokenServiceUri);
        final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
        if(referrer!=null)
            uc.setRequestProperty("referer", referrer);
-       uc.setRequestProperty("Content-Type","application/x-www-form-urlencoded; charset=" + ENCODING);
        uc.setRequestProperty("Accept-Charset",ENCODING);
+       uc.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
        uc.setRequestMethod("POST");
+       uc.setFixedLengthStreamingMode(0);
        uc.setDoOutput(true);
-
-       OutputStreamWriter wr = new OutputStreamWriter(uc.getOutputStream());
-       wr.write(params);
-       wr.flush();
 
        try {
                final int responseCode = uc.getResponseCode();
@@ -156,11 +123,9 @@ public abstract class MicrosoftTranslatorAPI {
      * @throws Exception on error.
      */
     private static String retrieveResponse(final URL url) throws Exception {
-        if(clientId!=null&&clientSecret!=null&&System.currentTimeMillis()>tokenExpiration) {
-           String tokenJson = getToken(clientId,clientSecret);
-           Integer expiresIn = Integer.parseInt((String)((JSONObject)JSONValue.parse(tokenJson)).get("expires_in"));
-           tokenExpiration = System.currentTimeMillis()+((expiresIn*1000)-1);
-           token = "Bearer " + (String)((JSONObject)JSONValue.parse(tokenJson)).get("access_token");
+        if(subscriptionKey!=null&&System.currentTimeMillis()>tokenExpiration) {
+           token = "Bearer " + getToken(subscriptionKey);
+           tokenExpiration = System.currentTimeMillis()+TOKEN_DURATION-1;
         }
         final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
         if(referrer!=null)
@@ -305,7 +270,10 @@ public abstract class MicrosoftTranslatorAPI {
     			while (null != (string = reader.readLine())) {
                             // Need to strip the Unicode Zero-width Non-breaking Space. For some reason, the Microsoft AJAX
                             // services prepend this to every response
-                            outputBuilder.append(string.replaceAll("\uFEFF", ""));
+                            string = string.replaceAll("\uFEFF", "");
+                            // Need to replace the Non-breaking Space into simple space 
+                            string = string.replace('\u00A0', ' ');
+                            outputBuilder.append(string);
     			}
     		}
     	} catch (Exception ex) {
@@ -317,10 +285,8 @@ public abstract class MicrosoftTranslatorAPI {
     
     //Check if ready to make request, if not, throw a RuntimeException
     protected static void validateServiceState() throws Exception {
-        if(apiKey!=null&&apiKey.length()<16) {
-            throw new RuntimeException("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-        } else if (apiKey==null&&(clientId==null||clientSecret==null)) {
-            throw new RuntimeException("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        if (subscriptionKey==null) {
+            throw new RuntimeException("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         }
     }
     

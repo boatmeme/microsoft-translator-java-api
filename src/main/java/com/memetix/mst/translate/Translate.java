@@ -52,8 +52,7 @@ public final class Translate extends MicrosoftTranslatorAPI {
         //Run the basic service validations first
         validateServiceState(text); 
         final String params = 
-                (apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
-                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
+                PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
                 + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
                 + PARAM_TEXT_SINGLE + URLEncoder.encode(text,ENCODING);
         
@@ -92,8 +91,7 @@ public final class Translate extends MicrosoftTranslatorAPI {
         //Run the basic service validations first
         validateServiceState(texts); 
         final String params = 
-                (apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
-                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
+                PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
                 + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
                 + PARAM_TEXT_ARRAY + URLEncoder.encode(buildStringArrayParam(texts),ENCODING);
         

@@ -110,15 +110,8 @@ public enum Language {
 		return language;
 	}
         
-        public static void setKey(String pKey) {
-            LanguageService.setKey(pKey);
-        }
-        
-        public static void setClientId(String pId) {
-            LanguageService.setClientId(pId);
-        }
-        public static void setClientSecret(String pSecret) {
-            LanguageService.setClientSecret(pSecret);
+        public static void setSubscriptionKey(String pSubscriptionKey) {
+            LanguageService.setSubscriptionKey(pSubscriptionKey);
         }
         
 		/**
@@ -221,7 +214,6 @@ public enum Language {
                 final String targetString = buildStringArrayParam(Language.values());
                 
                 final URL url = new URL(SERVICE_URL 
-                        +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
                         +PARAM_LOCALE+URLEncoder.encode(locale.toString(), ENCODING)
                         +PARAM_LANGUAGE_CODES + URLEncoder.encode(targetString, ENCODING));
                 localizedNames = retrieveStringArr(url);
@@ -245,7 +237,7 @@ public enum Language {
                 validateServiceState(); 
                 String[] codes = new String[0];
                 
-                final URL url = new URL(SERVICE_URL +(apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : ""));
+                final URL url = new URL(SERVICE_URL);
                 codes = retrieveStringArr(url);
                 return codes;
         }

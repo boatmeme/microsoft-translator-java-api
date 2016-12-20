@@ -43,21 +43,11 @@ public class DetectTest {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
-        String apiKey = p.getProperty("microsoft.translator.api.key");
-        if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key").split(",")[0];
+        String subscriptionKey = p.getProperty("microsoft.translator.api.subscriptionKey");
+        if(System.getProperty("test.subscription.key")!=null) {
+            subscriptionKey = System.getProperty("test.subscription.key");
         }
-        String clientId = p.getProperty("microsoft.translator.api.clientId");
-        if(System.getProperty("test.api.key")!=null) {
-            clientId = System.getProperty("test.api.key").split(",")[1];
-        }
-        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-        if(System.getProperty("test.api.key")!=null) {
-            clientSecret = System.getProperty("test.api.key").split(",")[2];
-        }
-        Detect.setClientId(clientId);
-        Detect.setClientSecret(clientSecret);
-        Detect.setKey(apiKey);
+        Detect.setSubscriptionKey(subscriptionKey);
     }
     
     @After
@@ -74,11 +64,6 @@ public class DetectTest {
         assertEquals(Language.FRENCH,Detect.execute("Salut tout le monde"));
     }
     
-    @Test
-    public void testDetectFrench_ClientIdOnly() throws Exception {
-        Language.setKey(null);
-        assertEquals(Language.FRENCH,Detect.execute("Salut tout le monde"));
-    }
     @Test
     public void testDetectKorean() throws Exception {
         assertEquals(Language.KOREAN,Detect.execute("전 세계 여러분 안녕하세요"));
@@ -98,44 +83,22 @@ public class DetectTest {
          assertEquals(Language.ENGLISH.toString(),detections[0]);
     }
     
-    
-    @Test
-    public void testDetect_WrongKey() throws Exception {
-        Detect.setKey("wrong_key");
-        Detect.setClientId(null);
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-        Detect.execute("전 세계 여러분 안녕하세요");
-    }
-    
     @Test
     public void testDetect_NoKey() throws Exception {
-        Detect.setKey(null);
-        Detect.setClientId(null);
+        Detect.setSubscriptionKey(null);
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         Detect.execute("전 세계 여러분 안녕하세요");
     }
     @Test
     public void testDetectArray_NoKey() throws Exception {
-        Detect.setKey(null);
-        Detect.setClientId(null);
+        Detect.setSubscriptionKey(null);
         String[] texts = {"Hello world!"};
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         Detect.execute(texts);
     }
     
-    @Test
-    public void testDetectArray_WrongKey() throws Exception {
-        Detect.setKey("wrong_key");
-        Detect.setClientId(null);
-        String[] texts = {"Hello world!"};
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-        Detect.execute(texts);
-    }
-
     @Test
     public void testDetectEnglish_Large() throws Exception {
         assertEquals(Language.ENGLISH,Detect.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
