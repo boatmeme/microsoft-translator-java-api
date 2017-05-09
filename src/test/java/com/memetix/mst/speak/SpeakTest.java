@@ -44,21 +44,12 @@ public class SpeakTest {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
-        String apiKey = p.getProperty("microsoft.translator.api.key");
+        String apiKey = p.getProperty("microsoft.azure.subscription.key");
         if(System.getProperty("test.api.key")!=null) {
             apiKey = System.getProperty("test.api.key").split(",")[0];
         }
-        String clientId = p.getProperty("microsoft.translator.api.clientId");
-        if(System.getProperty("test.api.key")!=null) {
-            clientId = System.getProperty("test.api.key").split(",")[1];
-        }
-        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-        if(System.getProperty("test.api.key")!=null) {
-            clientSecret = System.getProperty("test.api.key").split(",")[2];
-        }
         Speak.setKey(apiKey);
-        Speak.setClientSecret(clientSecret);
-        Speak.setClientId(clientId);
+
     }
     
     @After
@@ -72,9 +63,8 @@ public class SpeakTest {
     @Test
     public void testGetSpeakUrl_NoKey() throws Exception {
         Speak.setKey(null);
-        Speak.setClientId(null);
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        exception.expectMessage("Must provide a Windows Azure Subscription Key - Please see https://www.microsoft.com/en-us/translator/getstarted.aspx for further documentation");
         String text = "Hello World!";
         SpokenDialect language = SpokenDialect.ENGLISH_INDIA;
         Speak.execute(text, language);

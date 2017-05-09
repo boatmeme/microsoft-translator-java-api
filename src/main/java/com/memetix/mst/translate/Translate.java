@@ -52,13 +52,12 @@ public final class Translate extends MicrosoftTranslatorAPI {
         //Run the basic service validations first
         validateServiceState(text); 
         final String params = 
-                (apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
-                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
+                PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING)
                 + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
                 + PARAM_TEXT_SINGLE + URLEncoder.encode(text,ENCODING);
         
         final URL url = new URL(SERVICE_URL + params);
-    	final String response = retrieveString(url);
+        final String response = retrieveString(url);
     	return response;
     }
     
@@ -92,8 +91,7 @@ public final class Translate extends MicrosoftTranslatorAPI {
         //Run the basic service validations first
         validateServiceState(texts); 
         final String params = 
-                (apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey,ENCODING) : "") 
-                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
+                  PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING)
                 + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
                 + PARAM_TEXT_ARRAY + URLEncoder.encode(buildStringArrayParam(texts),ENCODING);
         
@@ -112,7 +110,6 @@ public final class Translate extends MicrosoftTranslatorAPI {
      * execute(texts[],fromLang,toLang)
      * 
      * @param texts The Strings Array to translate.
-     * @param from The language code to translate from.
      * @param to The language code to translate to.
      * @return The translated Strings Array[].
      * @throws Exception on error.
