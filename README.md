@@ -1,4 +1,4 @@
-#microsoft-translator-java-api 
+# microsoft-translator-java-api 
 * * *
 
 Provides a Java wrapper around the Microsoft Translator API aka Bing Translator. 
@@ -74,6 +74,11 @@ The SNAPSHOT is hosted at the [Sonatype OSS Snapshot](https://oss.sonatype.org/c
         <name>Sonatype Open Source maven snapshot repo</name>
         <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
+    
+## Support on Beerpay
+Contributions to the :beers: fund are much appreciated!
+
+[![Beerpay](https://beerpay.io/boatmeme/microsoft-translator-java-api/badge.svg?style=beer-square)](https://beerpay.io/boatmeme/microsoft-translator-java-api) [![Beerpay](https://beerpay.io/boatmeme/microsoft-translator-java-api/make-wish.svg?style=flat-square)](https://beerpay.io/boatmeme/microsoft-translator-java-api?focus=wish)
 
 License
 =======
