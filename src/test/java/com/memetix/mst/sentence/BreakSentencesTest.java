@@ -42,21 +42,12 @@ public class BreakSentencesTest {
             p = new Properties();
             URL url = ClassLoader.getSystemResource("META-INF/config.properties");
             p.load(url.openStream());
-            String apiKey = p.getProperty("microsoft.translator.api.key");
+            String apiKey = p.getProperty("microsoft.azure.subscription.key");
             if(System.getProperty("test.api.key")!=null) {
                 apiKey = System.getProperty("test.api.key").split(",")[0];
             }
-            String clientId = p.getProperty("microsoft.translator.api.clientId");
-            if(System.getProperty("test.api.key")!=null) {
-                clientId = System.getProperty("test.api.key").split(",")[1];
-            }
-            String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-            if(System.getProperty("test.api.key")!=null) {
-                clientSecret = System.getProperty("test.api.key").split(",")[2];
-            }
             BreakSentences.setKey(apiKey);
-            BreakSentences.setClientSecret(clientSecret);
-            BreakSentences.setClientId(clientId);
+
         }
 
 	@After
@@ -82,18 +73,17 @@ public class BreakSentencesTest {
 	@Test
         public void testBreakSentences_NoKey() throws Exception {
             BreakSentences.setKey(null);
-            BreakSentences.setClientId(null);
             exception.expect(RuntimeException.class);
-            exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
-            BreakSentences.execute("This is a sentence. That is a sentence. There are hopefully 3 sentences detected.",Language.ENGLISH);
+			exception.expectMessage("Must provide a Windows Azure Subscription Key - Please see https://www.microsoft.com/en-us/translator/getstarted.aspx for further documentation");
+			BreakSentences.execute("This is a sentence. That is a sentence. There are hopefully 3 sentences detected.",Language.ENGLISH);
 	}
-        @Test
-        public void testBreakSentences_WrongKey() throws Exception {
-            BreakSentences.setKey("wrong");
-            exception.expect(RuntimeException.class);
-            exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-            BreakSentences.execute("This is a sentence. That is a sentence. There are hopefully 3 sentences detected.",Language.ENGLISH);
-        }
+	@Test
+	public void testBreakSentences_WrongKey() throws Exception {
+		BreakSentences.setKey("wrong");
+		exception.expect(RuntimeException.class);
+		exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Azure Subscription Key");
+		BreakSentences.execute("This is a sentence. That is a sentence. There are hopefully 3 sentences detected.",Language.ENGLISH);
+	}
 	
 	@Test
     public void testBreakSentencesEnglish_Large() throws Exception {

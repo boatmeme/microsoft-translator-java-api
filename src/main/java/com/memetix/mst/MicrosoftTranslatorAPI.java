@@ -35,24 +35,24 @@ import org.json.simple.JSONValue;
  * Makes the generic Microsoft Translator API calls. Different service classes then
  * extend this to make the specific service calls.
  * 
- * Uses the AJAX Interface V2 - see: http://msdn.microsoft.com/en-us/library/ff512404.aspx
+ * see: https://www.microsoft.com/en-us/translator/getstarted.aspx
  * 
  * @author Jonathan Griggs
  */
 public abstract class MicrosoftTranslatorAPI {
     //Encoding type
     protected static final String ENCODING = "UTF-8";
-    
+
+
+    private static String MicrosoftCognitiveServicesAuthTokenUri = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
+
     protected static String apiKey;
-    private static String DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
     private static String referrer;
-    private static String clientId;
-    private static String clientSecret;
     private static String token;
     private static long tokenExpiration = 0;
     private static String contentType = "text/plain";
     
-    protected static final String PARAM_APP_ID = "appId=",
+    protected static final String
                                   PARAM_TO_LANG = "&to=",
                                   PARAM_FROM_LANG = "&from=",
                                   PARAM_TEXT_SINGLE = "&text=",
@@ -64,46 +64,25 @@ public abstract class MicrosoftTranslatorAPI {
     
     /**
      * Sets the API key.
-     * 
-     * Note: Should ONLY be used with API Keys generated prior to March 31, 2012. All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
+     *
+     * Note: DataMarket and Data Services are being retired and will stop accepting new orders after 12/31/2016. Existing subscriptions will be retired and cancelled starting 3/31/2017.
+     * the guide at: https://www.microsoft.com/en-us/translator/getstarted.aspx
+     *
      * @param pKey The API key.
      */
     public static void setKey(final String pKey) {
     	apiKey = pKey;
     }
-    
+
     /**
-     * Sets the API key.
-     * 
-     * Note: Should ONLY be used with API Keys generated prior to March 31, 2012. All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The API key.
+     * Sets the content type.
+     *
+     * @param type The content type.
      */
-    public static void setContentType(final String pKey) {
-    	contentType = pKey;
+    public static void setContentType(final String type) {
+        contentType = type;
     }
-    
-    /**
-     * Sets the Client ID.
-     * All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The Client Id.
-     */
-    public static void setClientId(final String pClientId) {
-    	clientId = pClientId;
-    }
-    
-    /**
-     * Sets the Client Secret.
-     * All new applications should obtain a ClientId and Client Secret by following 
-     * the guide at: http://msdn.microsoft.com/en-us/library/hh454950.aspx
-     * @param pKey The Client Secret.
-     */
-    public static void setClientSecret(final String pClientSecret) {
-    	clientSecret = pClientSecret;
-    }
-    
+
     /**
      * Sets the Http Referrer.
      * @param pReferrer The HTTP client referrer.
@@ -111,42 +90,39 @@ public abstract class MicrosoftTranslatorAPI {
     public static void setHttpReferrer(final String pReferrer) {
     	referrer = pReferrer;
     }
+
     /**
      * Gets the OAuth access token.
-     * @param clientId The Client key.
-     * @param clientSecret The Client Secret
+     * @param key The Client key.
      */
-    public static String getToken(final String clientId, final String clientSecret) throws Exception {
-       final String params = "grant_type=client_credentials&scope=http://api.microsofttranslator.com"
-               + "&client_id=" + URLEncoder.encode(clientId,ENCODING)
-               + "&client_secret=" + URLEncoder.encode(clientSecret,ENCODING) ;
+    public static String getToken(final String key) throws Exception {
+        //final String params = "Subscription-Key=" + URLEncoder.encode(key,ENCODING);
 
-       final URL url = new URL(DatamarketAccessUri);
-       final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
-       if(referrer!=null)
-           uc.setRequestProperty("referer", referrer);
-       uc.setRequestProperty("Content-Type","application/x-www-form-urlencoded; charset=" + ENCODING);
-       uc.setRequestProperty("Accept-Charset",ENCODING);
-       uc.setRequestMethod("POST");
-       uc.setDoOutput(true);
+        final URL url = new URL(MicrosoftCognitiveServicesAuthTokenUri);
+        final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+        uc.setRequestProperty("Ocp-Apim-Subscription-Key", key);
+        uc.setRequestProperty("Content-Type","application/json");
+        uc.setRequestProperty("Accept","application/jwt");
+        uc.setRequestMethod("POST");
+        uc.setDoOutput(true);
 
-       OutputStreamWriter wr = new OutputStreamWriter(uc.getOutputStream());
-       wr.write(params);
-       wr.flush();
+        OutputStreamWriter wr = new OutputStreamWriter(uc.getOutputStream());
+        //wr.write(params);
+        wr.flush();
 
-       try {
-               final int responseCode = uc.getResponseCode();
-               final String result = inputStreamToString(uc.getInputStream());
-               if(responseCode!=200) {
-                   throw new Exception("Error from Microsoft Translator API: " + result);
-               }
-               return result;
-       } finally {
-               if(uc!=null) {
-                       uc.disconnect();
-               }
-       }
-   }
+        try {
+            final int responseCode = uc.getResponseCode();
+            final String result = inputStreamToString(uc.getInputStream());
+            if(responseCode!=200) {
+                throw new Exception("Error from Microsoft Translator API: " + result);
+            }
+            return result;
+        } finally {
+            if(uc!=null) {
+                uc.disconnect();
+            }
+        }
+    }
     
     /**
      * Forms an HTTP request, sends it using GET method and returns the result of the request as a String.
@@ -156,11 +132,12 @@ public abstract class MicrosoftTranslatorAPI {
      * @throws Exception on error.
      */
     private static String retrieveResponse(final URL url) throws Exception {
-        if(clientId!=null&&clientSecret!=null&&System.currentTimeMillis()>tokenExpiration) {
-           String tokenJson = getToken(clientId,clientSecret);
-           Integer expiresIn = Integer.parseInt((String)((JSONObject)JSONValue.parse(tokenJson)).get("expires_in"));
-           tokenExpiration = System.currentTimeMillis()+((expiresIn*1000)-1);
-           token = "Bearer " + (String)((JSONObject)JSONValue.parse(tokenJson)).get("access_token");
+
+        if(apiKey!=null&&System.currentTimeMillis()>tokenExpiration) {
+            String authToken = getToken(apiKey);
+            // set expiration time to 8 minutes
+           tokenExpiration = System.currentTimeMillis()+(8*60*1000);
+           token = "Bearer " + authToken;
         }
         final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
         if(referrer!=null)
@@ -196,7 +173,7 @@ public abstract class MicrosoftTranslatorAPI {
      */
     protected static String retrieveString(final URL url) throws Exception {
     	try {
-    		final String response = retrieveResponse(url);    		
+    		final String response = retrieveResponse(url);
             return jsonToString(response);
     	} catch (Exception ex) {
     		throw new Exception("[microsoft-translator-api] Error retrieving translation : " + ex.getMessage(), ex);
@@ -317,10 +294,8 @@ public abstract class MicrosoftTranslatorAPI {
     
     //Check if ready to make request, if not, throw a RuntimeException
     protected static void validateServiceState() throws Exception {
-        if(apiKey!=null&&apiKey.length()<16) {
-            throw new RuntimeException("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-        } else if (apiKey==null&&(clientId==null||clientSecret==null)) {
-            throw new RuntimeException("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        if(apiKey!=null&&apiKey.length()<32) {
+            throw new RuntimeException("INVALID_API_KEY - Please set the API Key with your Azure Cognitive Services Developer's Key - Please see https://www.microsoft.com/en-us/translator/getstarted.aspx");
         }
     }
     
