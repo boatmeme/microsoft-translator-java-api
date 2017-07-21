@@ -34,8 +34,10 @@ public final class Translate extends MicrosoftTranslatorAPI {
     
     private static final String SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?";
     private static final String ARRAY_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray?";
+    private static final String COLLABORATIVE_SERVICE_URL = "http://api.microsofttranslator.com/V2/Ajax.svc/GetTranslations?";
     private static final String ARRAY_JSON_OBJECT_PROPERTY = "TranslatedText";
-    
+    private static final String ARRAY_MANY_JSON_OBJECT_PROPERTY = "Translations";
+
     //prevent instantiation
     private Translate(){};
     
@@ -56,7 +58,6 @@ public final class Translate extends MicrosoftTranslatorAPI {
                 + PARAM_FROM_LANG + URLEncoder.encode(from.toString(),ENCODING) 
                 + PARAM_TO_LANG + URLEncoder.encode(to.toString(),ENCODING) 
                 + PARAM_TEXT_SINGLE + URLEncoder.encode(text,ENCODING);
-        
         final URL url = new URL(SERVICE_URL + params);
     	final String response = retrieveString(url);
     	return response;
@@ -141,6 +142,28 @@ public final class Translate extends MicrosoftTranslatorAPI {
         validateServiceState();
     }
     
-    
+    /**
+     * Translates text from a given Language to another given Language using Microsoft Translator.
+     * Returns many translated results.
+     *
+     * @param text The String to translate.
+     * @param from The language code to translate from.
+     * @param to The language code to translate to.
+     * @return The translated String[].
+     * @throws Exception on error.
+     */
+    public static String[] executeMany(final String text, final Language from, final Language to) throws Exception {
+        //Run the basic service validations first
+        validateServiceState(text);
+        final String params =
+                (apiKey != null ? PARAM_APP_ID + URLEncoder.encode(apiKey, ENCODING) : "")
+                + PARAM_FROM_LANG + URLEncoder.encode(from.toString(), ENCODING)
+                + PARAM_TO_LANG + URLEncoder.encode(to.toString(), ENCODING)
+                + PARAM_TEXT_SINGLE + URLEncoder.encode(text, ENCODING)
+                + MAX_TRANSLATIONS_PARAMETER + DEFAULT_MAX_TRANSLATIONS;
+        final URL url = new URL(COLLABORATIVE_SERVICE_URL + params);
+        final String[] response = retrieveManyStringArr(url, ARRAY_MANY_JSON_OBJECT_PROPERTY, ARRAY_JSON_OBJECT_PROPERTY);
+        return response;
+    }
     
 }

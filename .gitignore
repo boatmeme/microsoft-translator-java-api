@@ -3,3 +3,4 @@ src/test/resources/META-INF/config.properties
 .classpath
 .settings
 .project
+*.sublime*
