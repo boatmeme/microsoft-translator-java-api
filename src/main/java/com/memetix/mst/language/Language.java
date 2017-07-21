@@ -58,6 +58,7 @@ public enum Language {
     LATVIAN("lv"),
     LITHUANIAN("lt"),
     MALAY("ms"),
+    MALTESE("mt"),
     NORWEGIAN("no"),
     PERSIAN("fa"),
     POLISH("pl"),
@@ -72,7 +73,8 @@ public enum Language {
     TURKISH("tr"),
     UKRAINIAN("uk"),
     URDU("ur"),
-    VIETNAMESE("vi");
+    VIETNAMESE("vi"),
+    WELSH("cy");
 	
     /**
      * Microsoft's String representation of this language.
