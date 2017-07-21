@@ -44,21 +44,11 @@ public class SpeakTest {
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
-        String apiKey = p.getProperty("microsoft.translator.api.key");
-        if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key").split(",")[0];
+        String subscriptionKey = p.getProperty("microsoft.translator.api.subscriptionKey");
+        if(System.getProperty("test.subscription.key")!=null) {
+            subscriptionKey = System.getProperty("test.subscription.key");
         }
-        String clientId = p.getProperty("microsoft.translator.api.clientId");
-        if(System.getProperty("test.api.key")!=null) {
-            clientId = System.getProperty("test.api.key").split(",")[1];
-        }
-        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-        if(System.getProperty("test.api.key")!=null) {
-            clientSecret = System.getProperty("test.api.key").split(",")[2];
-        }
-        Speak.setKey(apiKey);
-        Speak.setClientSecret(clientSecret);
-        Speak.setClientId(clientId);
+        Speak.setSubscriptionKey(subscriptionKey);
     }
     
     @After
@@ -71,10 +61,9 @@ public class SpeakTest {
      */
     @Test
     public void testGetSpeakUrl_NoKey() throws Exception {
-        Speak.setKey(null);
-        Speak.setClientId(null);
+        Speak.setSubscriptionKey(null);
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         String text = "Hello World!";
         SpokenDialect language = SpokenDialect.ENGLISH_INDIA;
         Speak.execute(text, language);
@@ -85,16 +74,6 @@ public class SpeakTest {
      */
     @Test
     public void testGetSpeakUrl() throws Exception {
-        String text = "Hello World!";
-        SpokenDialect language = SpokenDialect.ENGLISH_INDIA;
-        String expResult = "http://api.microsofttranslator.com/V2/http.svc/Speak";
-        String result = Speak.execute(text, language);
-        assertEquals(true, result.contains(expResult));
-    }
-    
-    @Test
-    public void testGetSpeakUrl_NoAppId() throws Exception {
-        SpokenDialect.setKey(null);
         String text = "Hello World!";
         SpokenDialect language = SpokenDialect.ENGLISH_INDIA;
         String expResult = "http://api.microsofttranslator.com/V2/http.svc/Speak";

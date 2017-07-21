@@ -46,29 +46,17 @@ public class TranslateTest{
         p = new Properties();
         URL url = ClassLoader.getSystemResource("META-INF/config.properties");
         p.load(url.openStream());
-        String apiKey = p.getProperty("microsoft.translator.api.key");
-        if(System.getProperty("test.api.key")!=null) {
-            apiKey = System.getProperty("test.api.key").split(",")[0];
+        String subscriptionKey = p.getProperty("microsoft.translator.api.subscriptionKey");
+        if(System.getProperty("test.subscription.key")!=null) {
+            subscriptionKey = System.getProperty("test.subscription.key");
         }
-        String clientId = p.getProperty("microsoft.translator.api.clientId");
-        if(System.getProperty("test.api.key")!=null) {
-            clientId = System.getProperty("test.api.key").split(",")[1];
-        }
-        String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-        if(System.getProperty("test.api.key")!=null) {
-            clientSecret = System.getProperty("test.api.key").split(",")[2];
-        }
-        Translate.setKey(apiKey);
-        Translate.setClientSecret(clientSecret);
-        Translate.setClientId(clientId);
+        Translate.setSubscriptionKey(subscriptionKey);
     }
     
     @After
     public void tearDown() throws Exception {
-        Translate.setKey(null);
         Translate.setContentType("text/plain");
-        Translate.setClientId(null);
-        Translate.setClientSecret(null);
+        Translate.setSubscriptionKey(null);
         Translate.setHttpReferrer(null);
     }
 
@@ -83,9 +71,11 @@ public class TranslateTest{
     }
     
     @Test
-    public void testTranslate_NoApiKey() throws Exception {
+    public void testTranslate_NoSubscriptionKey() throws Exception {
         Translate.setHttpReferrer("http://localhost:8080");
-        Translate.setKey(null);
+        Translate.setSubscriptionKey(null);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         assertEquals("Salut",Translate.execute("Hello", Language.ENGLISH, Language.FRENCH));
     }
     @Test
@@ -161,39 +151,12 @@ public class TranslateTest{
     
     @Test
      public void testTranslate_NoKey() throws Exception {
-        Translate.setKey(null);
-        Translate.setClientId(null);
-        Translate.setClientSecret(null);
+        Translate.setSubscriptionKey(null);
         exception.expect(RuntimeException.class);
-        exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
-        Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
-    }
-    @Test
-     public void testTranslate_WrongKey() throws Exception {
-        Translate.setKey("lessthan16");
-        Translate.setClientId(null);
-        Translate.setClientSecret(null);
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
     }
     
-    @Test
-     public void testTranslate_SetKeyNoClientIdAndSecret() throws Exception {
-        Translate.setClientId(null);
-        Translate.setClientSecret(null);
-        String translate = Translate.execute("ハローワールド", Language.AUTO_DETECT, Language.ENGLISH);
-        assertNotNull(translate);
-    }
-    /*
-    @Test
-    public void testTranslate_Exception() throws Exception {
-       exception.expect(Exception.class);
-       //exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-       String result = Translate.execute("\"test\" red", Language.AUTO_DETECT, Language.ENGLISH);
-       System.out.println(result);
-   }
-    */
     @Test
      public void testLarge() throws Exception {
                 String largeText = "Figures from the Office for National Statistics (ONS) show that between December and April, "

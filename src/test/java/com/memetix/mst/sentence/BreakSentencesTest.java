@@ -42,21 +42,11 @@ public class BreakSentencesTest {
             p = new Properties();
             URL url = ClassLoader.getSystemResource("META-INF/config.properties");
             p.load(url.openStream());
-            String apiKey = p.getProperty("microsoft.translator.api.key");
-            if(System.getProperty("test.api.key")!=null) {
-                apiKey = System.getProperty("test.api.key").split(",")[0];
+            String subscriptionKey = p.getProperty("microsoft.translator.api.subscriptionKey");
+            if(System.getProperty("test.subscription.key")!=null) {
+                subscriptionKey = System.getProperty("test.subscription.key");
             }
-            String clientId = p.getProperty("microsoft.translator.api.clientId");
-            if(System.getProperty("test.api.key")!=null) {
-                clientId = System.getProperty("test.api.key").split(",")[1];
-            }
-            String clientSecret = p.getProperty("microsoft.translator.api.clientSecret");
-            if(System.getProperty("test.api.key")!=null) {
-                clientSecret = System.getProperty("test.api.key").split(",")[2];
-            }
-            BreakSentences.setKey(apiKey);
-            BreakSentences.setClientSecret(clientSecret);
-            BreakSentences.setClientId(clientId);
+            BreakSentences.setSubscriptionKey(subscriptionKey);
         }
 
 	@After
@@ -81,19 +71,11 @@ public class BreakSentencesTest {
 
 	@Test
         public void testBreakSentences_NoKey() throws Exception {
-            BreakSentences.setKey(null);
-            BreakSentences.setClientId(null);
+            BreakSentences.setSubscriptionKey(null);
             exception.expect(RuntimeException.class);
-            exception.expectMessage("Must provide a Windows Azure Marketplace Client Id and Client Secret - Please see http://msdn.microsoft.com/en-us/library/hh454950.aspx for further documentation");
+            exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
             BreakSentences.execute("This is a sentence. That is a sentence. There are hopefully 3 sentences detected.",Language.ENGLISH);
 	}
-        @Test
-        public void testBreakSentences_WrongKey() throws Exception {
-            BreakSentences.setKey("wrong");
-            exception.expect(RuntimeException.class);
-            exception.expectMessage("INVALID_API_KEY - Please set the API Key with your Bing Developer's Key");
-            BreakSentences.execute("This is a sentence. That is a sentence. There are hopefully 3 sentences detected.",Language.ENGLISH);
-        }
 	
 	@Test
     public void testBreakSentencesEnglish_Large() throws Exception {
@@ -143,7 +125,9 @@ public class BreakSentencesTest {
         
         @Test
     public void testBreakSentencesEnglish_LargeNoKey() throws Exception {
-        BreakSentences.setKey(null);
+        BreakSentences.setSubscriptionKey(null);
+        exception.expect(RuntimeException.class);
+        exception.expectMessage("Must provide a Microsoft Translator Text Translation Subscription Key - Please see http://docs.microsofttranslator.com/text-translate.html for further documentation");
         Integer[] results = BreakSentences.execute("Figures from the Office for National Statistics (ONS) show that between December and April, "
 				+ "the five-month period typically regarded as peak bonus season, those working in the financial "
 				+ "intermediation sector received bonuses worth ¬¨¬£7.6bn. The figure is more than 40pc lower than last"
